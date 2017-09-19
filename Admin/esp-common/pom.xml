@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.cnpc</groupId>
-	<artifactId>esp-admin</artifactId>
+	<artifactId>common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>esp-admin</name>
-	<description>Enterprise Service Platform</description>
+	<name>common</name>
+	<description>Demo project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -23,13 +23,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
-
-	<modules>
-		<module>esp-registry</module>
-		<module>esp-config</module>
-		<module>esp-admin</module>
-		<module>esp-common</module>
-	</modules>
 
 	<dependencies>
 		<dependency>
