@@ -25,5 +25,8 @@ mybatis:
   type-aliases-package: com.cnpc.admin.entity
 server:
   port: 8888
+pagehelper:
+  dialect: com.github.pagehelper.dialect.helper.MySqlDialect #配置拦截器
+
 
 

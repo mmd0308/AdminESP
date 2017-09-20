@@ -5,6 +5,9 @@ import com.cnpc.admin.dictionary.service.IDictionaryService;
 import com.cnpc.admin.entity.PageData;
 import com.cnpc.admin.utils.JsonJackUtil;
 import com.cnpc.admin.utils.NotNUllUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,16 +28,12 @@ public class DictionaryController extends BaseController{
      * @throws Exception
      */
     @RequestMapping("/list")
-    public String list() {
+    public String list() throws Exception {
         PageData pd  = this.getPageData();
-        List<PageData> lists = null;
-        try {
-            lists = dictionaryService.find(pd);
-        } catch (Exception e) {
-            pd.put("res","error");
-            return JsonJackUtil.ObjectToJson(pd);
-        }
-        return JsonJackUtil.ObjectToJson(lists);
+        PageHelper.startPage(1, 10);
+        List<PageData> lists = dictionaryService.find(pd);
+        PageInfo pageInfo = new PageInfo(lists);
+        return JsonJackUtil.ObjectToJson(pageInfo);
     }
 
     /**
@@ -42,17 +41,14 @@ public class DictionaryController extends BaseController{
      * @return
      */
     @RequestMapping("/findOnlyCode")
-    public String findOnlyCode()  {
+    public String findOnlyCode() throws Exception {
         PageData pd = this.getPageData();
         String code = pd.getString("code");
+        PageInfo pageInfo = null;
         if(NotNUllUtil.notNull(code)){
-            List<PageData> dataList = null;
-            try {
-                dataList = dictionaryService.find(pd);
-            } catch (Exception e) {
-                pd.put("res","error");
-                return JsonJackUtil.ObjectToJson(pd);
-            }
+            PageHelper.startPage(1, 10);
+            List<PageData> dataList = dictionaryService.find(pd);
+            pageInfo = new PageInfo(dataList);
             if (dataList != null && dataList.size()==0){
                 pd.put("res","success");
             }else {
@@ -63,7 +59,7 @@ public class DictionaryController extends BaseController{
             pd.put("res","error");
             pd.put("error","code不能为空");
         }
-        return  JsonJackUtil.ObjectToJson(pd);
+        return  JsonJackUtil.ObjectToJson(pageInfo);
     }
 
     /**
