@@ -1,4 +1,4 @@
-package com.cnpc.config;
+package com.cnpc.track;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EspConfigApplicationTests {
+public class TrackApplicationTests {
 
 	@Test
 	public void contextLoads() {
