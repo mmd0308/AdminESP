@@ -5,94 +5,47 @@
 
 	<!--表名 -->
 	<sql id="tableName">
-		SYS_LOG
+		admin_log
 	</sql>
-	<sql id="roleTableName">
-		SYS_ROLE
-	</sql>
-	
 	<!-- 字段 -->
 	<sql id="Field">
-		LOGNO,
-		USERNO,
-		OPERATER,
-		OPERATYPE,
-		OPERADATE,
-		MENU,
-		NOTE,
-		ISDELETED
+		id,
+		userid,
+		username,
+		opt_ip,
+		opt_time,
+		opt_type,
+		note,
+		menu
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{LOGNO},
-		#{USERNO},
-		#{OPERATER},
-		#{OPERATYPE},
-		#{OPERADATE},
-		#{MENU},
-		#{NOTE},
-		#{ISDELETED}
+		#{id},
+		#{userid},
+		#{username},
+		#{opt_ip},
+		#{opt_time},
+		#{opt_type},
+		#{note},
+		#{menu}
 	</sql>
 	
-	<!-- webservice存放方法 -->
-	<insert id="save" parameterType="java.util.Map">
-		insert into sys_handlog (handtime,handname,handState,resul) values(#{handtime},#{handname},#{handState},#{resul})
-	</insert>
-	
+
 	<!-- 新增日志 -->
-	<insert id="saveLog" parameterType="pd" >
+	<insert id="save" parameterType="pd" >
 		insert into <include refid="tableName"></include> (
 			<include refid="Field"></include>
 		) values (
 			<include refid="FieldValue"></include>
 		)
 	</insert>
-	
-	<!-- 通过日志序号获取数据 -->
-	<select id="findByLogno" parameterType="pd" resultType="pd" >
-		select 
-			<include refid="Field"></include>
-		from 
-			<include refid="tableName"></include>
-		where 
-			ISDELETED = 0
-		and	LOGNO = #{LOGNO}
-	</select>
-	
+
 	<!-- 日志列表 -->
-	<select id="loglistPage" parameterType="pd" resultType="pd" >
+	<select id="list" parameterType="pd" resultType="pd" >
 		select
 			  <include refid="Field"></include>
 		from <include refid="tableName"></include>
 	</select>
-	
-	
-	<!-- 修改 -->
-	<update id="editL" parameterType="pd" >
-		update  <include refid="tableName"></include>
-			set	OPERATER 		= #{OPERATER},
-				USERNO 			= #{USERNO},
-				OPERATYPE 		= #{OPERATYPE},
-				OPERADATE		= #{OPERADATE},
-				MENU			= #{MENU},
-				NOTE			= #{NOTE},
-				ISDELETED		= #{ISDELETED}
-			where 
-				LOGNO 			= #{LOGNO}
-	</update>
-	<!-- 逻辑删除日志-->
-	<update id="deleteL" parameterType="pd" >
-		update  
-			<include refid="tableName"></include>
-		set	
-			ISDELETED	= 1
-		where 
-			LOGNO = #{LOGNO}
-	</update>
 
-	<select id="findAll" resultType="pd">
-		SELECT  * from sys_log
-	</select>
-	
 </mapper>

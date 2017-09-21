@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sys/dictionary")
+@RequestMapping("/admin/dictionary")
 public class DictionaryController extends BaseController{
     @Resource(name="dictionaryService")
     private IDictionaryService dictionaryService;
@@ -90,13 +90,9 @@ public class DictionaryController extends BaseController{
      * @return
      */
     @RequestMapping("/deleted")
-    public String deleted(){
+    public String deleted() throws Exception {
         PageData pd = this.getPageData();
-        try {
-            dictionaryService.deletedById(pd);
-        } catch (Exception e) {
-
-        }
+        dictionaryService.deletedById(pd);
         pd.put("res","success");
         pd.put("success","删除成功！");
         return JsonJackUtil.ObjectToJson(pd);

@@ -13,9 +13,14 @@ public class LogServiceImpl implements ILogService {
     @Resource(name = "daoSupport")
     private DAO dao;
 
+
     @Override
-    public List<PageData> findAll() throws Exception {
-        List<PageData> list = (List<PageData>) dao.findForList("LogMapper.findAll", null);
-        return list;
+    public List<PageData> find(PageData pd) throws Exception {
+        return (List<PageData>) dao.findForList("LogMapper.list",pd);
+    }
+
+    @Override
+    public void save(PageData pd) throws Exception {
+        dao.save("LogMapper.save",pd);
     }
 }

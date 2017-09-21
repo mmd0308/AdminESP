@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="DictionaryMapper">
+<mapper namespace="OrgAdminMapper">
 
 	<!--表名 -->
 	<sql id="tableName">
-		admin_dictionary
+		admin_org_admin
 	</sql>
 
 	
@@ -16,7 +16,9 @@
 		  code,
 		  level_code,
 		  deleted,
-		  parentid
+		  parentid,
+		  org_type,
+		  note
 	</sql>
 	
 	<!-- 字段值 -->
@@ -26,7 +28,9 @@
 		  #{code},
 		  #{level_code},
 		  #{deleted},
-		  #{parentid}
+		  #{parentid},
+		  #{org_type},
+		  #{note}
 	</sql>
 	<!--新增-->
 	<insert id="save" parameterType="pd">
@@ -56,7 +60,9 @@
 			name = 	#{name},
 			code = 	#{code},
 			level_code = #{level_code},
-			parentid = #{parentid}
+			parentid = #{parentid},
+			note = #{note},
+			org_type = #{org_type}
 		WHERE
 			id = #{id}
 	</update>
