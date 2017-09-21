@@ -76,13 +76,24 @@
 			AND  parentid = #{parentid}
 		</if>
 		<if test="id != null and id != ''">
+			AND id = #{id}
+		</if>
+	</select>
+
+	<!--列表显示-->
+	<select id="findOnlyCode" resultType="pd" parameterType="pd">
+		SELECT
+		<include refid="Field"></include>
+		FROM
+		<include refid="tableName"></include>
+		WHERE
+		deleted = 'N'
+		<if test="code != null and code !='' ">
+			AND code = #{code}
+		</if>
+		<if test="id != null and id != ''">
 			AND id != #{id}
 		</if>
 	</select>
 
-	
-
-
-
-	
 </mapper>

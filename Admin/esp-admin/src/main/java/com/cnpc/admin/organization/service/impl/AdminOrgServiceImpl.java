@@ -57,4 +57,15 @@ public class AdminOrgServiceImpl implements IAdminOrgService {
     public void deletedById(PageData pd) throws Exception {
         dao.update("OrgAdminMapper.deleted",pd);
     }
+
+    /**
+     * 唯一编码校验
+     * @param pd
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<PageData> findOnlyCode(PageData pd) throws Exception {
+        return (List<PageData>) dao.findForList("OrgAdminMapper,findOnlyCode",pd);
+    }
 }

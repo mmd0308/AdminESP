@@ -36,4 +36,9 @@ public class DictionaryServiceImpl implements IDictionaryService {
     public void save(PageData pd) throws Exception {
         dao.save("DictionaryMapper.save",pd);
     }
+
+    @Override
+    public List<PageData> findOnlyCode(PageData pd) throws Exception {
+        return (List<PageData>) dao.findForList("DictionaryMapper.findOnlyCode",pd);
+    }
 }

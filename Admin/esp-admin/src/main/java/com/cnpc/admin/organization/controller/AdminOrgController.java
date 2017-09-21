@@ -47,7 +47,7 @@ public class AdminOrgController extends BaseController{
         PageInfo pageInfo = null;
         if(NotNUllUtil.notNull(code)){
             PageHelper.startPage(1, 10);
-            List<PageData> dataList = adminOrgService.find(pd);
+            List<PageData> dataList = adminOrgService.findOnlyCode(pd);
             pageInfo = new PageInfo(dataList);
             if (dataList != null && dataList.size()==0){
                 pd.put("res","success");

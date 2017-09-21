@@ -12,4 +12,6 @@ public interface IAdminOrgService   {
     void update(PageData pd) throws Exception;
 
     void deletedById(PageData pd) throws Exception;
+
+    List<PageData> findOnlyCode(PageData pd) throws Exception;
 }

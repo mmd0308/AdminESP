@@ -33,4 +33,11 @@ public interface IDictionaryService {
      * @throws Exception
      */
     void save(PageData pd) throws Exception;
+
+    /**
+     * 唯一编码校验
+     * @param pd
+     * @return
+     */
+    List<PageData> findOnlyCode(PageData pd) throws Exception;
 }
