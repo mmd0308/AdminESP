@@ -1,3 +1,6 @@
+spring:
+  application:
+    name: registry
 server:
   port: 8761
 eureka:
@@ -8,6 +11,7 @@ eureka:
     register-with-eureka: false
     service-url:
       default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
 ---
 spring:
   profiles: docker

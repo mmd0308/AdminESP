@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    config:
+      uri: http://user:123456@localhost:8090/
+      profile: dev
+      label: master
+      name: gateway
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+
