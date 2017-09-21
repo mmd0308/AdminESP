@@ -4,6 +4,7 @@ import com.cnpc.admin.dao.DAO;
 import com.cnpc.admin.dictionary.service.IDictionaryService;
 import com.cnpc.admin.entity.PageData;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,16 +20,19 @@ public class DictionaryServiceImpl implements IDictionaryService {
     }
 
     @Override
+    @Transactional
     public void deletedById(PageData pd) throws Exception {
         dao.delete("DictionaryMapper.deleted",pd);
     }
 
     @Override
+    @Transactional
     public void update(PageData pd) throws Exception {
         dao.update("DictionaryMapper.update",pd);
     }
 
     @Override
+    @Transactional
     public void save(PageData pd) throws Exception {
         dao.save("DictionaryMapper.save",pd);
     }
