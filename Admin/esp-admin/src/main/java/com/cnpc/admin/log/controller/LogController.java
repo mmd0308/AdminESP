@@ -2,7 +2,7 @@ package com.cnpc.admin.log.controller;
 
 import com.cnpc.admin.basic.controller.BaseController;
 import com.cnpc.admin.entity.PageData;
-import com.cnpc.admin.log.service.ILogService;
+import com.cnpc.admin.log.service.LogService;
 import com.cnpc.admin.utils.JsonJackUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/admin/log")
 public class LogController extends BaseController{
     @Resource(name="logService")
-    private ILogService logService;
+    private LogService logService;
 
     /**
      * 根据条件查询，条件为空，查询所有数据

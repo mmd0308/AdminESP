@@ -1,15 +1,11 @@
-package com.cnpc.admin.dictionary.service;
+package com.cnpc.admin.org.service;
 
 import com.cnpc.admin.basic.service.IBaseService;
 import com.cnpc.admin.entity.PageData;
 
 import java.util.List;
 
-public interface IDictionaryService extends IBaseService {
-    /**
-     * 唯一编码校验
-     * @param pd
-     * @return
-     */
+public interface OrgService extends IBaseService {
+
     List<PageData> findOnlyCode(PageData pd) throws Exception;
 }

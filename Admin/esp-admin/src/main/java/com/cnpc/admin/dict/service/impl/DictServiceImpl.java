@@ -1,7 +1,7 @@
-package com.cnpc.admin.dictionary.service.impl;
+package com.cnpc.admin.dict.service.impl;
 
-import com.cnpc.admin.basic.dao.DAO;
-import com.cnpc.admin.dictionary.service.IDictionaryService;
+import com.cnpc.admin.basic.dao.BaseDao;
+import com.cnpc.admin.dict.service.DictService;
 import com.cnpc.admin.entity.PageData;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("dictionaryService")
-public class DictionaryServiceImpl implements IDictionaryService {
+@Service("dictService")
+public class DictServiceImpl implements DictService {
     @Resource(name = "daoSupport")
-    private DAO dao;
+    private BaseDao dao;
 
     @Override
     public List<PageData> find(PageData pd) throws Exception {

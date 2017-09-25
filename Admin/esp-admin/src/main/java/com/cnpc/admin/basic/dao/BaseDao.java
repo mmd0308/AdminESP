@@ -1,9 +1,6 @@
 package com.cnpc.admin.basic.dao;
-/**
- * @author    
- * 修改时间：2015、12、11
- */
-public interface DAO {
+
+public interface BaseDao {
 	
 	/**
 	 * 保存对象

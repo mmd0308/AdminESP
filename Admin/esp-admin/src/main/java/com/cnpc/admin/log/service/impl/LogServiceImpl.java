@@ -1,17 +1,17 @@
 package com.cnpc.admin.log.service.impl;
 
-import com.cnpc.admin.basic.dao.DAO;
+import com.cnpc.admin.basic.dao.BaseDao;
 import com.cnpc.admin.entity.PageData;
-import com.cnpc.admin.log.service.ILogService;
+import com.cnpc.admin.log.service.LogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service("logService")
-public class LogServiceImpl implements ILogService {
+public class LogServiceImpl implements LogService {
     @Resource(name = "daoSupport")
-    private DAO dao;
+    private BaseDao dao;
 
 
     @Override

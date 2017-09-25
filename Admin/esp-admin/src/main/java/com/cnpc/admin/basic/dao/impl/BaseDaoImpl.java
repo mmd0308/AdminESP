@@ -1,5 +1,6 @@
-package com.cnpc.admin.basic.dao;
+package com.cnpc.admin.basic.dao.impl;
 
+import com.cnpc.admin.basic.dao.BaseDao;
 import com.cnpc.admin.entity.PageData;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -10,12 +11,9 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @author    
- * 修改时间：2015、12、11
- */
+
 @Repository("daoSupport")
-public class DaoSupport implements DAO {
+public class BaseDaoImpl implements BaseDao {
 
 	@Resource(name = "sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;

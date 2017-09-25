@@ -1,4 +1,4 @@
-package com.cnpc.admin.organization;
+package com.cnpc.admin.org;
 
 import net.minidev.json.JSONObject;
 import org.junit.Before;

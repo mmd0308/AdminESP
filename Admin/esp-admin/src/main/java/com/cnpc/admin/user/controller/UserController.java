@@ -2,7 +2,7 @@ package com.cnpc.admin.user.controller;
 
 import com.cnpc.admin.basic.controller.BaseController;
 import com.cnpc.admin.entity.PageData;
-import com.cnpc.admin.user.service.IUserService;
+import com.cnpc.admin.user.service.UserService;
 import com.cnpc.admin.utils.JsonJackUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/admin/user")
 public class UserController extends BaseController{
     @Resource(name="userService")
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * 根据条件查询，条件为空，查询所有数据

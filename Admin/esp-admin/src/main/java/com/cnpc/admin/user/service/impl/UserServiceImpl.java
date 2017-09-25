@@ -1,8 +1,8 @@
 package com.cnpc.admin.user.service.impl;
 
-import com.cnpc.admin.basic.dao.DAO;
+import com.cnpc.admin.basic.dao.BaseDao;
 import com.cnpc.admin.entity.PageData;
-import com.cnpc.admin.user.service.IUserService;
+import com.cnpc.admin.user.service.UserService;
 import com.cnpc.admin.utils.UUIDUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userService")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Resource(name = "daoSupport")
-    private DAO dao;
+    private BaseDao dao;
 
     @Override
     public List<PageData> find(PageData pd) throws Exception {

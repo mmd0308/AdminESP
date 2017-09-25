@@ -1,18 +1,18 @@
-package com.cnpc.admin.organization.service.impl;
+package com.cnpc.admin.org.service.impl;
 
-import com.cnpc.admin.basic.dao.DAO;
+import com.cnpc.admin.basic.dao.BaseDao;
 import com.cnpc.admin.entity.PageData;
-import com.cnpc.admin.organization.service.IAdminOrgService;
+import com.cnpc.admin.org.service.OrgService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("adminOrgService")
-public class AdminOrgServiceImpl implements IAdminOrgService {
+@Service("orgService")
+public class OrgServiceImpl implements OrgService {
     @Resource(name = "daoSupport")
-    private DAO dao;
+    private BaseDao dao;
 
     /**
      * 参数为空，查询所有
