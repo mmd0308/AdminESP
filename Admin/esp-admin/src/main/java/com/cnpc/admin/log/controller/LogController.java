@@ -27,8 +27,7 @@ public class LogController extends BaseController{
     public String list() throws Exception {
         PageData pd  = this.getPageData();
         PageHelper.startPage(1, 10);
-        List<PageData> lists = logService.find(pd);
-        PageInfo pageInfo = new PageInfo(lists);
+        PageInfo pageInfo = new PageInfo(logService.find(pd));
         return JsonJackUtil.ObjectToJson(pageInfo);
     }
     /**

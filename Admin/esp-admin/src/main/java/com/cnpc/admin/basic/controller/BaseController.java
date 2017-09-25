@@ -53,5 +53,16 @@ public class BaseController {
 
     }
 
+    public PageData resSuccess(PageData pd){
+        pd.put("res","success");
+        pd.put("success","删除成功！");
+        return pd;
+    }
+
+    public PageData resError(PageData pd){
+        pd.put("res","error");
+        pd.put("error","失败！");
+        return pd;
+    }
 
 }

@@ -28,8 +28,7 @@ public class OrgController extends BaseController{
     public String list() throws Exception {
         PageData pd  = this.getPageData();
         PageHelper.startPage(1, 10);
-        List<PageData> lists = orgService.find(pd);
-        PageInfo pageInfo = new PageInfo(lists);
+        PageInfo pageInfo = new PageInfo(orgService.find(pd));
         return JsonJackUtil.ObjectToJson(pageInfo);
     }
 
@@ -41,22 +40,19 @@ public class OrgController extends BaseController{
     public String findOnlyCode() throws Exception {
         PageData pd = this.getPageData();
         String code = pd.getString("code");
-        PageInfo pageInfo = null;
+        PageData res = new PageData();
+        res = resError(res);
         if(NotNUllUtil.notNull(code)){
             PageHelper.startPage(1, 10);
             List<PageData> dataList = orgService.findOnlyCode(pd);
-            pageInfo = new PageInfo(dataList);
+            PageInfo pageInfo  = new PageInfo(dataList);
             if (dataList != null && dataList.size()==0){
-                pd.put("res","success");
-            }else {
-                pd.put("res","error");
-                pd.put("error","code不能唯一");
+                res.clear();
+                res = resError(res);
+                res.put("pageInfo",pageInfo);
             }
-        }else{
-            pd.put("res","error");
-            pd.put("error","code不能为空");
         }
-        return  JsonJackUtil.ObjectToJson(pageInfo);
+        return  JsonJackUtil.ObjectToJson(res);
     }
 
     /**
@@ -90,8 +86,7 @@ public class OrgController extends BaseController{
     public String deleted() throws Exception {
         PageData pd = this.getPageData();
         orgService.deletedById(pd);
-        pd.put("res","success");
-        pd.put("success","删除成功！");
+        pd = resSuccess(pd);
         return JsonJackUtil.ObjectToJson(pd);
     }
 }
