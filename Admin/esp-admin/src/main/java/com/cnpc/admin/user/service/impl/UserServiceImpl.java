@@ -1,6 +1,6 @@
 package com.cnpc.admin.user.service.impl;
 
-import com.cnpc.admin.dao.DAO;
+import com.cnpc.admin.basic.dao.DAO;
 import com.cnpc.admin.entity.PageData;
 import com.cnpc.admin.user.service.IUserService;
 import com.cnpc.admin.utils.UUIDUtil;

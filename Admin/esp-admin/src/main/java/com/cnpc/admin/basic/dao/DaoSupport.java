@@ -1,4 +1,4 @@
-package com.cnpc.admin.dao;
+package com.cnpc.admin.basic.dao;
 
 import com.cnpc.admin.entity.PageData;
 import org.apache.ibatis.session.ExecutorType;

@@ -1,4 +1,4 @@
-package com.cnpc.admin.basic;
+package com.cnpc.admin.basic.controller;
 
 import com.cnpc.admin.entity.PageData;
 import org.springframework.web.context.request.RequestContextHolder;

@@ -1,4 +1,4 @@
-package com.cnpc.admin.dao;
+package com.cnpc.admin.basic.dao;
 /**
  * @author    
  * 修改时间：2015、12、11

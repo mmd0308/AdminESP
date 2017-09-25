@@ -1,6 +1,6 @@
 package com.cnpc.admin.user.controller;
 
-import com.cnpc.admin.basic.BaseController;
+import com.cnpc.admin.basic.controller.BaseController;
 import com.cnpc.admin.entity.PageData;
 import com.cnpc.admin.user.service.IUserService;
 import com.cnpc.admin.utils.JsonJackUtil;

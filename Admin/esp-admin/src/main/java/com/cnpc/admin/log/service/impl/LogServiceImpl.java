@@ -1,6 +1,6 @@
 package com.cnpc.admin.log.service.impl;
 
-import com.cnpc.admin.dao.DAO;
+import com.cnpc.admin.basic.dao.DAO;
 import com.cnpc.admin.entity.PageData;
 import com.cnpc.admin.log.service.ILogService;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,16 @@ public class LogServiceImpl implements ILogService {
     @Override
     public List<PageData> find(PageData pd) throws Exception {
         return (List<PageData>) dao.findForList("LogMapper.list",pd);
+    }
+
+    @Override
+    public void deletedById(PageData pd) throws Exception {
+
+    }
+
+    @Override
+    public void update(PageData pd) throws Exception {
+
     }
 
     @Override

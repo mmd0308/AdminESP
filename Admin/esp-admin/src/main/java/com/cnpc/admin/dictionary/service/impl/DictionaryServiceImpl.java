@@ -1,6 +1,6 @@
 package com.cnpc.admin.dictionary.service.impl;
 
-import com.cnpc.admin.dao.DAO;
+import com.cnpc.admin.basic.dao.DAO;
 import com.cnpc.admin.dictionary.service.IDictionaryService;
 import com.cnpc.admin.entity.PageData;
 import org.springframework.stereotype.Service;

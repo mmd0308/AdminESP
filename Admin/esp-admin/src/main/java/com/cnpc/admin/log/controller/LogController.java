@@ -1,15 +1,12 @@
 package com.cnpc.admin.log.controller;
 
-import com.cnpc.admin.basic.BaseController;
+import com.cnpc.admin.basic.controller.BaseController;
 import com.cnpc.admin.entity.PageData;
 import com.cnpc.admin.log.service.ILogService;
 import com.cnpc.admin.utils.JsonJackUtil;
-import com.cnpc.admin.utils.NotNUllUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
