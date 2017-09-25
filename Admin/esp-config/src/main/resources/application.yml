@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: config
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost/billjiang/spring-cloud-config.git
+          search-paths: config
+          username: billjiang
+          password: '{cipher}18a53c2c7157f17aa3d5a72dc77b4c31a023570c61186605efa3928ea4b343fd'
+
+security:
+  basic:
+    enabled: true
+  user:
+    name: user
+    password: 123456
+endpoints:
+  bus:
+    enabled: true
+    sensitive: false
+
+encrypt:
+  key: billjiang
+
+server:
+  port: 8750
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
+
+
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://10.27.213.70/root/AdminESP-config.git
+          username: billjiang
+          password: '{cipher}2c50a112807ec405695dac19c15cc6da280d8d70e9998b82a9f11d202a6fb7b4'
+server:
+  port: ${SERVER_PORT}:8750}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_LIST}

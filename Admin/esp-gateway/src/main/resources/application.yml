@@ -26,11 +26,23 @@ spring:
     pool:
       max-active: 20
     password: redis-bill
-  zipkin:
-    base-url: http://localhost:9411
+  #已通过rabbitmq解耦
+  #zipkin:
+    #base-url: http://localhost:9411
   sleuth:
     sampler:
       percentage: 0.1
+  #sleuth+rabbitmq
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+feign:
+  hystrix:
+    enabled: true
 
 #服务路由
 zuul:

@@ -1,7 +1,7 @@
 spring:
   cloud:
     config:
-      uri: http://user:123456@localhost:8090/
+      uri: http://user:123456@localhost:8750/
       profile: dev
       label: master
       name: gateway
