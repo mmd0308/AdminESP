@@ -4,7 +4,7 @@ import com.cnpc.admin.entity.PageData;
 
 import java.util.List;
 
-public interface IBaseService {
+public interface BaseService {
     /**
      * 根据条件查找，条件为空，查询所有
      * @param pd 条件
