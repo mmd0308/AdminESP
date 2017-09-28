@@ -55,6 +55,10 @@
         <module>esp-track</module>
         <!--基于zuul的API网关-->
         <module>esp-gateway</module>
+        <!--基于spring boot admin 的监控-->
+        <module>esp-monitor</module>
+        <!--用户中心-->
+        <module>esp-ucenter</module>
     </modules>
 
     <dependencies>
@@ -65,6 +69,19 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
 
 

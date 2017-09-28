@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: monitor
+
+server:
+    port: 8770 #启动端口
+
+security:
+  user:
+    name: user
+    password: 123456
+    role: USER
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

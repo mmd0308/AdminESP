@@ -7,7 +7,6 @@
 	<sql id="tableName">
 		admin_dictionary
 	</sql>
-
 	
 	<!-- 字段 -->
 	<sql id="Field">

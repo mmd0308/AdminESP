@@ -13,16 +13,15 @@ public class UserInfo implements Serializable {
     public String password;
     public String name;
     private String description;
+    private Date updateTime;
 
-    public Date getUpdTime() {
-        return updTime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdTime(Date updTime) {
-        this.updTime = updTime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
-
-    private Date updTime;
 
     public String getId() {
         return id;
