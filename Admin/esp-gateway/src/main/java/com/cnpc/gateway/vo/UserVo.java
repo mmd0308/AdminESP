@@ -24,6 +24,16 @@ public class UserVo {
 
     private List<PermissionInfo> elements;
 
+    private List<String> roles;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public String getId() {
         return id;
     }

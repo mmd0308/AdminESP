@@ -15,12 +15,12 @@ import java.util.List;
  * @create 17-9-21
  */
 @FeignClient(value = "admin")
-@RequestMapping("/api")
+@RequestMapping("/user")
 public interface UserService {
-    @GetMapping(value = "/user/username/{username}")
+    @GetMapping(value = "/username/{username}")
     UserInfo getUserByUsername(@PathVariable("username") String username);
 
-    @GetMapping(value = "/user/un/{username}/permissions")
+    @GetMapping(value = "/{username}/permissions")
     List<PermissionInfo> getPermissionByUsername(@PathVariable("username") String username);
 
     @GetMapping(value = "/permissions")

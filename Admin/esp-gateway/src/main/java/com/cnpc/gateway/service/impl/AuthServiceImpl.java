@@ -1,6 +1,7 @@
 package com.cnpc.gateway.service.impl;
 
 import com.cnpc.common.constant.BaseConstants;
+import com.cnpc.common.constant.UserConstant;
 import com.cnpc.common.vo.PermissionInfo;
 import com.cnpc.common.vo.UserInfo;
 import com.cnpc.gateway.feign.UserService;
@@ -9,6 +10,7 @@ import com.cnpc.gateway.service.AuthService;
 import com.cnpc.gateway.vo.UserVo;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +43,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(String username, String password) {
         UserInfo info = userService.getUserByUsername(username);
+        if(info.getId().equals(UserConstant.USER_NOT_EXIST)){
+            return UserConstant.USER_NOT_EXIST;
+        }
         String token = "";
         if(encoder.matches(password,info.getPassword())) {
             token = jwtTokenUtil.generateToken(info);
@@ -52,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
     public String refresh(String token) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         UserInfo info = userService.getUserByUsername(username);
-        if (jwtTokenUtil.canTokenBeRefreshed(token,info.getUpdTime())){
+        if (jwtTokenUtil.canTokenBeRefreshed(token,info.getUpdateTime())){
             return jwtTokenUtil.refreshToken(token);
         }
         return null;

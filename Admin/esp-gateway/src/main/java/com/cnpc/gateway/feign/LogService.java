@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @create 17-9-21
  */
 @FeignClient(value = "admin")
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/log")
 public interface LogService {
-    @PostMapping(value = "/log/save")
+    @PostMapping(value = "/save")
     void saveLog(LogInfo info);
 }

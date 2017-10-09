@@ -1,9 +1,12 @@
 package com.cnpc.gateway.controller;
 
+import com.cnpc.common.constant.RestCodeConstants;
+import com.cnpc.common.constant.UserConstant;
 import com.cnpc.gateway.security.JwtAuthenticationRequest;
 import com.cnpc.gateway.security.JwtAuthenticationResponse;
 import com.cnpc.gateway.service.AuthService;
 import com.cnpc.gateway.vo.UserVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -27,9 +30,22 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @RequestMapping(value = "hello")
+    @ResponseBody
+    public String sayHello(){
+        return "hello world";
+    }
+
     @RequestMapping(value = "token",method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest){
         final String token=authService.login(authenticationRequest.getUsername(),authenticationRequest.getPassword());
+        if(StringUtils.isEmpty(token)){
+            //密码错误
+            return ResponseEntity.ok(new JwtAuthenticationResponse(false,"密码错误", RestCodeConstants.USER_PASSWORD_ERROR));
+        }else if(token.equals(UserConstant.USER_NOT_EXIST)){
+            //登录名错误
+            return ResponseEntity.ok(new JwtAuthenticationResponse(false,"登录名不存在", RestCodeConstants.USER_NOT_EXIST));
+        }
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
