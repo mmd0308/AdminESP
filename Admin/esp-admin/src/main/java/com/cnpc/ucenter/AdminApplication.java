@@ -10,9 +10,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @EnableDiscoveryClient
 @EnableHystrix
 @ServletComponentScan("com.cnpc.ucenter.config.druid")
-public class UcenterApplication {
+public class AdminApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UcenterApplication.class, args);
+		SpringApplication.run(AdminApplication.class, args);
 	}
 }
