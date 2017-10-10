@@ -53,7 +53,7 @@ export const constantRouterMap = [
       }, {
         path: 'org',
         // component: _import('admin/org'),
-        component: _import('dashboard/index'),
+        component: _import('admin/org/index'),
         name: '组织机构管理',
         icon: 'people'
       }, {
