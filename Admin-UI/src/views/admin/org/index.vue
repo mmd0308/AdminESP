@@ -4,7 +4,7 @@
       <el-col :span="4">
         <el-input placeholder="输入关键字进行过滤" v-model="filterText">
         </el-input>
-        <el-tree class="filter-tree" :data="data2" :props="defaultProps"  :filter-node-method="filterNode" ref="tree2">
+        <el-tree class="filter-tree" :data="data2" :props="defaultProps"  :filter-node-method="filterNode" ref="tree2" @node-click="clickTree" @node-expand="expandTree">
         </el-tree>
       </el-col>
       <el-col :span="20">
@@ -16,20 +16,102 @@
           </div>
           <div class="tree-right-from">
             <el-form :model="orgFrom" :rules="rules" ref="orgFrom" label-width="120px" class="demo-ruleForm">
-              <el-col :span="11">
-                <el-form-item label="组织机构名称" prop="name">
-                  <el-input v-model="orgFrom.name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="2">
-                <div class="grid-content"></div>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="组织机构编码" prop="code">
-                  <el-input v-model="orgFrom.code"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-form-item label="备注" prop="note">
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="组织机构名称" prop="name">
+                    <el-input v-model="orgFrom.name"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <div class="grid-content"></div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="组织机构编码" prop="code">
+                    <el-input v-model="orgFrom.code"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="上级组织机构" prop="porg">
+                    <el-input v-model="orgFrom.porg"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <div class="grid-content"></div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="单位简称" prop="unitA">
+                    <el-input v-model="orgFrom.unitA"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="机构类别" prop="orgType">
+                    <el-select v-model="orgFrom.orgType" placeholder="请选择机构类别">
+                      <el-option label="区域一" value="shanghai"></el-option>
+                      <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <div class="grid-content"></div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="考核类别" prop="checkType">
+                     <el-select v-model="orgFrom.checkType" placeholder="请选择考核类别">
+                      <el-option label="区域一" value="shanghai"></el-option>
+                      <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+               <el-row>
+                <el-col :span="11">
+                  <el-form-item label="部门类别" prop="departType">
+                    <el-select v-model="orgFrom.departType" placeholder="请选择部门类别">
+                      <el-option label="区域一" value="shanghai"></el-option>
+                      <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <div class="grid-content"></div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="业务类别" prop="businessType">
+                     <el-select v-model="orgFrom.businessType" placeholder="请选择业务类别">
+                      <el-option label="区域一" value="shanghai"></el-option>
+                      <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="11">
+                  <el-form-item label="分院管领导" prop="leader">
+                      <el-radio-group v-model="orgFrom.leader">
+                        <el-radio label="张三"></el-radio>
+                        <el-radio label="李四"></el-radio>
+                        <el-radio label="王五"></el-radio>
+                      </el-radio-group>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <div class="grid-content"></div>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item label="机构编码" prop="orgCodeP">
+                    <el-input v-model="orgFrom.orgCodeP"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-form-item label="单位地址" prop="address">
+                <el-input type="textarea" v-model="orgFrom.address"></el-input>
+              </el-form-item>  
+
+              <el-form-item label="机构说明" prop="note">
                 <el-input type="textarea" v-model="orgFrom.note"></el-input>
               </el-form-item>
             </el-form>
@@ -51,6 +133,12 @@
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
+      clickTree(data) {
+        console.log(data)
+      },
+      expandTree(data) {
+        console.log(data)
+      },
       createOrg(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
@@ -69,18 +157,7 @@
         filterText: '',
         data2: [{
           id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
+          label: '一级 1'
         }, {
           id: 2,
           label: '一级 2',
@@ -109,7 +186,16 @@
         orgFrom: {
           name: '',
           code: '',
-          note: ''
+          note: '',
+          porg: '',
+          unitA: '', // 单位简称
+          orgType: '', // 机构类别
+          checkType: '', // 考核类别
+          businessType: '', // 业务类别
+          departType: '', // 部门类别
+          address: '', // 单位地址
+          orgCodeP: '',  // 机构编码
+          leader: '' // 分管院领导
         },
         rules: {
           name: [

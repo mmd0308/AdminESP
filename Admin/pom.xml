@@ -57,8 +57,6 @@
         <module>esp-gateway</module>
         <!--基于spring boot admin 的监控-->
         <module>esp-monitor</module>
-        <!--用户中心-->
-        <module>esp-ucenter</module>
     </modules>
 
     <dependencies>
