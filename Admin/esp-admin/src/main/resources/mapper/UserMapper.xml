@@ -1,91 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="UserMapper">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cnpc.ucenter.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.cnpc.ucenter.entity.User" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="tel_phone" property="telPhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_host" property="createHost" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+    <result column="update_host" property="updateHost" jdbcType="VARCHAR" />
+  </resultMap>
 
-	<!--表名 -->
-	<sql id="tableName">
-		admin_user
-	</sql>
+  <select id="selectMemberByGroupId" resultMap="BaseResultMap">
+    select u.* from base_user u
+    left join  base_group_member gm
+    on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
 
-	
-	<!-- 字段 -->
-	<sql id="Field">
-		  id,
-		  username,
-		  password,
-		  real_name,
-		  deleted,
-		  birthday,
-		  email,
-		  telphone,
-		  office_phone,
-		  qq
-	</sql>
-	
-	<!-- 字段值 -->
-	<sql id="FieldValue">
-		  #{id},
-		  #{username},
-		  #{password},
-		  #{real_name},
-		  #{deleted},
-		  #{birthday},
-		  #{email},
-		  #{telphone},
-		  #{office_phone},
-		  #{qq}
-	</sql>
-	<!--新增-->
-	<insert id="save" parameterType="pd">
-	INSERT INTO
-		<include refid="tableName"></include>
-	(
-		<include refid="Field"></include>
-	)
- 	 VALUES
-	(
-		<include refid="FieldValue"></include>
-	)
-	</insert>
-	<!--删除-->
-	<update id="deleted" parameterType="pd">
-		UPDATE
-			<include refid="tableName"></include>
-		SET 
-			deleted = 'Y'
-		WHERE  id = #{id}
-	</update>
-	<!--修改-->
-	<update id="update" parameterType="pd">
-		UPDATE
-			<include refid="tableName"></include>
-		SET
-			username = #{username},
-			password = #{password},
-			real_name = #{real_name},
-			deleted = #{deleted},
-			birthday = #{birthday},
-			email = #{email},
-			telphone = #{telphone},
-			office_phone = #{office_phone},
-			qq = #{qq}
-		WHERE
-			id = #{id}
-	</update>
-
-	<!--列表显示-->
-	<select id="find" resultType="pd" parameterType="pd">
-		SELECT
-			<include refid="Field"></include>
-		FROM
-			<include refid="tableName"></include>
-		WHERE
-			deleted = 'N'
-		<if test="id != null and id != ''">
-			AND id = #{id}
-		</if>
-	</select>
-
-
+  <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
+    select u.* from base_user u
+    left join  base_group_leader gm
+    on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
 </mapper>
