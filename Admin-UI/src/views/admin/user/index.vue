@@ -4,19 +4,19 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名或账户"
                 v-model="listQuery.name"></el-input>
-      <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"></el-button>
-      <el-button class="filter-item" type="primary" icon="edit" v-if="userManager_btn_add"
-                 style="margin-left:10px;" @click="handleCreate"></el-button>
+      <el-button class="filter-item" type="primary" icon="search" @click="handleFilter" title="搜索">搜索</el-button>
+      <el-button class="filter-item" type="primary" icon="edit" v-if="userManager_btn_add" title="新增"
+                 style="margin-left:10px;" @click="handleCreate">新增</el-button>
     </div>
     <!--列表-->
-    <el-table :key="tableKey" :data="list" v-loading.body="listLoading" border fit highlight-current-row
+    <el-table :key="tableKey" :data="list" stripe v-loading.body="listLoading" fit highlight-current-row
               style="width: 100%">
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="姓名" width="200">
+      <el-table-column align="center" label="姓名" sortable prop="name" width="140">
         <template scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
@@ -26,14 +26,24 @@
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="性别" width="110">
+      <el-table-column align="center" label="性别" width="80">
         <template scope="scope">
           <span>{{scope.row.sex}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="备注" width="300">
+      <el-table-column align="center" label="生日" width="140" prop="birthday">
         <template scope="scope">
-          <span>{{scope.row.description}}</span>
+          <span>{{scope.row.birthday | formatDate('yyyy-MM-dd')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="邮箱" width="180">
+        <template scope="scope">
+          <span>{{scope.row.email}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="手机" width="180">
+        <template scope="scope">
+          <span>{{scope.row.mobilePhone}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="最近更新时间" width="180">
@@ -44,6 +54,16 @@
       <el-table-column align="center" label="最后更新人" width="110">
         <template scope="scope">
           <span>{{scope.row.updateName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="left" label="联系地址">
+        <template scope="scope">
+          <span>{{scope.row.address}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="left" label="备注">
+        <template scope="scope">
+          <span>{{scope.row.description}}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" align="center" label="操作" width="150">
@@ -64,8 +84,8 @@
       </el-pagination>
     </div>
     <!--编辑框-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :before-close="handleClose">
+      <el-form :model="form" :inline="true" :rules="rules" ref="form" label-width="90px">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -77,12 +97,27 @@
           <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item label="性别">
-          <el-select class="filter-item" v-model="form.sex" placeholder="请选择">
-            <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item"> </el-option>
+          <el-select class="filter-item" v-model="form.sex" style="width:340px" placeholder="请选择">
+            <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="生日" aria-placeholder="请输入生日" prop="birthday">
+          <el-date-picker v-model="form.birthday" type="date" placeholder="请选择日期"
+                          :picker-options="birthdayOptions" style="width: 340px"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码" prop="mobilePhone">
+          <el-input v-model="form.mobilePhone" placeholder="请输入手机号码"></el-input>
+        </el-form-item>
+        <el-form-item label="联系地址">
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" style="width: 340px;" placeholder="请输入联系地址"
+                    v-model="form.address"></el-input>
+        </el-form-item>
         <el-form-item label="备注">
-          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" placeholder="请输入备注" v-model="form.description"> </el-input>
+          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" style="width: 340px;" placeholder="请输入备注"
+                    v-model="form.description"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,19 +132,27 @@
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj } from 'api/admin/user/index'
-  import { mapGetters } from 'vuex'
+  import {
+    page, addObj, getObj, delObj, putObj} from 'api/admin/user/index'
+  import {mapGetters} from 'vuex'
+  import {isvalidDate} from '@/utils/validate'
 
   export default {
     name: 'user',
     data() {
+      const validateBirthday = (rule, value, callback) => {
+        if (!isvalidDate(value)) {
+          callback(new Error('请输入正确的日期格式'))
+        } else {
+          callback()
+        }
+      };
       return {
-        form: {
-          username: undefined,
-          name: undefined,
-          sex: '男',
-          password: undefined,
-          description: undefined
+        form: this.initObj(),
+        birthdayOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now() - 8.64e7;
+          }
         },
         rules: {
           name: [
@@ -143,7 +186,21 @@
               message: '长度在 5 到 20 个字符',
               trigger: 'blur'
             }
-          ]
+          ],
+          email: [{
+            type: 'email',
+            message: '请输入有效的邮箱格式',
+            trigger: 'blur'
+          }],
+          birthday: [{
+            // required: true,
+            // message: '请输入有效日期格式',
+            trigger: 'blur',
+            validator: validateBirthday
+          }],
+          mobilePhone: [{
+            pattern: /^1[34578]\d{9}$/, message: '目前只支持中国大陆的手机号码', trigger: 'blur'
+          }]
         },
         list: null,
         total: null,
@@ -181,6 +238,23 @@
       ])
     },
     methods: {
+      initObj() {
+        return {
+          username: undefined,
+          name: undefined,
+          sex: '男',
+          password: undefined,
+          email: undefined,
+          birthday: '',
+          address: '',
+          mobilePhone: undefined,
+          description: undefined
+        }
+      },
+      handleClose(done) {
+        this.cancel('form');
+        done();
+      },
       getList() {
         this.listLoading = true
         page(this.listQuery).then(response => {
@@ -189,6 +263,14 @@
           this.listLoading = false
         })
       },
+      /* birthdayFormat(row, column) {
+        var date = row[column.property];
+        if (date === undefined || date === '') {
+          return '';
+        } else {
+          return formatDate(date, 'yyyy-MM-dd');
+        }
+      }, */
       handleFilter() {
         this.getList()
       },
@@ -264,7 +346,7 @@
               this.getList()
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '更新成功',
                 type: 'success',
                 duration: 2000
               })
@@ -275,13 +357,7 @@
         })
       },
       resetTemp() {
-        this.form = {
-          username: undefined,
-          name: undefined,
-          sex: '男',
-          password: undefined,
-          description: undefined
-        }
+        this.form = this.initObj();
       }
     }
   }

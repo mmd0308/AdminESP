@@ -102,10 +102,17 @@ public class SessionAccessFilter extends ZuulFilter {
             ctx.addZuulRequestHeader("Authorization", Base64Utils.encodeToString(user.getUsername().getBytes()));
         } else {
             setFailedRequest(JSON.toJSONString(new TokenForbiddenResponse("Token Forbidden")), 200);
+            return null;
         }
         List<PermissionInfo> permissionInfos = userService.getAllPermissionInfo();
         //判断资源是否启用权限约束
         Collection<PermissionInfo> result = getPermissionInfos(requestUri, method, permissionInfos);
+
+        String host = ClientUtil.getClientIp(ctx.getRequest());
+        ctx.addZuulRequestHeader("userId", user.getId());
+        ctx.addZuulRequestHeader("userName", URLEncoder.encode(user.getName()));
+        ctx.addZuulRequestHeader("userHost", host);
+
         if (!result.isEmpty()) {
             if (username != null) {
                 checkAllow(requestUri, method, ctx, username);
@@ -181,9 +188,7 @@ public class SessionAccessFilter extends ZuulFilter {
     private void setCurrentUserInfoAndLog(RequestContext ctx, String username, PermissionInfo pm) {
         UserInfo info = userService.getUserByUsername(username);
         String host = ClientUtil.getClientIp(ctx.getRequest());
-        ctx.addZuulRequestHeader("userId", info.getId());
-        ctx.addZuulRequestHeader("userName", URLEncoder.encode(info.getName()));
-        ctx.addZuulRequestHeader("userHost", host);
+
         LogInfo logInfo = new LogInfo(pm.getMenu(), pm.getName(), pm.getUri(), new Date(), info.getId(), info.getName(), host);
         DBLog.getInstance().setLogService(logService).offerQueue(logInfo);
     }
@@ -266,7 +271,7 @@ public class SessionAccessFilter extends ZuulFilter {
         if (ctx.getResponseBody() == null) {
             ctx.setResponseBody(body);
             ctx.setSendZuulResponse(false);
-            throw new RuntimeException("Code: " + code + ", " + body); //optional
+            // throw new RuntimeException("Code: " + code + ", " + body); //optional
         }
     }
 }

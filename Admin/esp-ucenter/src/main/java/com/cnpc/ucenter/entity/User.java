@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "base_user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
     private String id;
 
     private String username;
@@ -57,7 +58,6 @@ public class User {
 
     @Column(name = "update_host")
     private String updateHost;
-
 
     /**
      * @return id

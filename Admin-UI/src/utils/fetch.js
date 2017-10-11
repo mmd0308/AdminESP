@@ -31,8 +31,13 @@ service.interceptors.response.use(
      */
     const res = response.data
     // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
+    console.log('-------------------')
+    console.log(res);
+    console.log('=======================')
+    console.log(response)
+
     if (response.status === 401 || res.status === 40101 || res.status === 40301) {
-      MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+      MessageBox.confirm('会话超时，请重新登录，或者取消继续留在该页面', '确定退出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
         type: 'warning'

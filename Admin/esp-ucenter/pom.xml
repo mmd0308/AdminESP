@@ -45,6 +45,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.cnpc</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!--增加eureka-server的依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -69,11 +76,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.github.wxiaoqi</groupId>
-            <artifactId>ace-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -153,11 +156,7 @@
             <version>20.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.cnpc</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <build>

@@ -51,6 +51,7 @@ zuul:
     admin:
       path: /admin/**
 
+
 #服务调用
 ribbon:
   eureka:

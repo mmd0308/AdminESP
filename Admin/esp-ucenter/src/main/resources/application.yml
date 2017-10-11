@@ -33,17 +33,20 @@ spring:
 mybatis:
     basepackage: com.cnpc.ucenter.mapper
     xmlLocation: classpath:mapper/**/*.xml
+    mappers: tk.mybatis.mapper.common.Mapper
+    order: BEFORE
 
 server:
     port: 8085
 
 eureka:
     instance:
-        statusPageUrlPath: /info
-        healthCheckUrlPath: /health
+        #statusPageUrlPath: /info
+        #healthCheckUrlPath: /health
         # docker 部署开启
 #        prefer-ip-address: true
 #        ip-address: 127.0.0.1
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
     client:
         registerWithEureka: true
         fetchRegistry: true

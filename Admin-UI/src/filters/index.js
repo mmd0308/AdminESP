@@ -4,6 +4,7 @@ function pluralize(time, label) {
   }
   return time + label + 's'
 }
+
 export function timeAgo(time) {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
@@ -74,15 +75,36 @@ export function formatTime(time, option) {
   }
 }
 
+export function formatDate(dateStr, fmt) {
+  if (!dateStr) {
+    return '';
+  }
+  var date = new Date(dateStr);
+  var o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
+    'S': date.getMilliseconds()
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  for (var k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+  }
+  return fmt;
+}
+
 /* 数字 格式化*/
 export function nFormatter(num, digits) {
   const si = [
-        { value: 1E18, symbol: 'E' },
-        { value: 1E15, symbol: 'P' },
-        { value: 1E12, symbol: 'T' },
-        { value: 1E9, symbol: 'G' },
-        { value: 1E6, symbol: 'M' },
-        { value: 1E3, symbol: 'k' }
+    {value: 1E18, symbol: 'E'},
+    {value: 1E15, symbol: 'P'},
+    {value: 1E12, symbol: 'T'},
+    {value: 1E9, symbol: 'G'},
+    {value: 1E6, symbol: 'M'},
+    {value: 1E3, symbol: 'k'}
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {

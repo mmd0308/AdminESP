@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
+import java.util.Properties;
+
 
 @Configuration
 @AutoConfigureAfter(MybatisConfiguration.class)
@@ -24,6 +26,12 @@ public class MapperConfiguration implements EnvironmentAware {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage(basePackage);
+
+        Properties properties=new Properties();
+        properties.setProperty("mapper",propertyResolver.getProperty("mybatis.mappers"));
+        properties.setProperty("notEmpty","false");
+        properties.setProperty("ORDER",propertyResolver.getProperty("mybatis.order"));
+        mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
     }
 
@@ -31,5 +39,7 @@ public class MapperConfiguration implements EnvironmentAware {
     public void setEnvironment(Environment environment) {
         this.propertyResolver = new RelaxedPropertyResolver(environment, null);
         this.basePackage = propertyResolver.getProperty("mybatis.basepackage");
+
     }
+
 }

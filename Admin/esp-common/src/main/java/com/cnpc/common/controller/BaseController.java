@@ -57,7 +57,7 @@ public class BaseController<Service extends BaseService,Entity> {
         Query query = new Query(params);
         return baseService.selectByQuery(query);
     }
-    
+
     public String getCurrentUserName(){
         String authorization = request.getHeader("Authorization");
         return new String(Base64Utils.decodeFromString(authorization));
