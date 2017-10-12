@@ -20,7 +20,12 @@
         SELECT  * from admin_org_admin
         where 1 = 1
         <if test="parentid != '' and parentid != null ">
-          AND parentid = #{parentid}
+            AND parentid = #{parentid}
         </if>
+    </select>
+
+    <select id="getOrgByPIDToMap" parameterType="string" resultType="map">
+        SELECT  * from admin_org_admin
+        where parentid = #{pid}
     </select>
 </mapper>
