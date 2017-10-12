@@ -53,8 +53,11 @@ spring:
           username: billjiang
           password: '{cipher}2c50a112807ec405695dac19c15cc6da280d8d70e9998b82a9f11d202a6fb7b4'
 server:
-  port: ${SERVER_PORT}:8750}
+  port: ${{SERVER_PORT}:8750}
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVER_LIST}
+
+
+
