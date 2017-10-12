@@ -11,8 +11,8 @@
 
     <packaging>jar</packaging>
 
-    <artifactId>monitor</artifactId>
-    <name>monitor</name>
+    <artifactId>esp-monitor</artifactId>
+    <name>esp-monitor</name>
     <description>基于spring boot admin的监控</description>
 
 

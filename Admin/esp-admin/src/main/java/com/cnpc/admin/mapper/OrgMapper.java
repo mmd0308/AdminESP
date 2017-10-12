@@ -1,8 +1,6 @@
-package com.cnpc.ucenter.mapper;
+package com.cnpc.admin.mapper;
 
-import com.cnpc.ucenter.entity.Org;
-import com.cnpc.ucenter.entity.User;
-import org.apache.ibatis.annotations.Param;
+import com.cnpc.admin.entity.Org;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;

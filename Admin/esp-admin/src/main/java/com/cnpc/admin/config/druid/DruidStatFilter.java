@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.config.druid;
+package com.cnpc.admin.config.druid;
 
 import com.alibaba.druid.support.http.WebStatFilter;
 

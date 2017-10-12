@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.entity;
+package com.cnpc.admin.entity;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "base_user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String username;

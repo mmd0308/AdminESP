@@ -1,9 +1,9 @@
-package com.cnpc.ucenter.service;
+package com.cnpc.admin.service;
 
 import com.cnpc.common.constant.UserConstant;
 import com.cnpc.common.service.BaseService;
-import com.cnpc.ucenter.entity.User;
-import com.cnpc.ucenter.mapper.UserMapper;
+import com.cnpc.admin.entity.User;
+import com.cnpc.admin.mapper.UserMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +29,8 @@ public class UserService extends BaseService<UserMapper,User> {
     public void insertSelective(User entity) {
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
         entity.setPassword(password);
-        this.insertSelective(entity);
+        super.insertSelective(entity);
     }
-
-
-
 
 
 

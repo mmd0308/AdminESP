@@ -12,7 +12,7 @@ eureka:
 #服务跟踪
 spring:
   application:
-    name: gateway
+    name: esp-gateway
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
@@ -48,7 +48,7 @@ feign:
 zuul:
   prefix: /api
   routes:
-    admin:
+    esp-admin:
       path: /admin/**
 
 

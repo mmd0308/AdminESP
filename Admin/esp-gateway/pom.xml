@@ -8,6 +8,7 @@
         <artifactId>admin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>esp-gateway</artifactId>
     <packaging>jar</packaging>
     <description>API Gateway by Zuul</description>
@@ -114,7 +115,7 @@
 
         <dependency>
             <groupId>com.cnpc</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>esp-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

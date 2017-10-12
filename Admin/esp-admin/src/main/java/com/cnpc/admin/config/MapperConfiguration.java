@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.config;
+package com.cnpc.admin.config;
 
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -29,7 +29,7 @@ public class MapperConfiguration implements EnvironmentAware {
 
         Properties properties=new Properties();
         properties.setProperty("mapper",propertyResolver.getProperty("mybatis.mappers"));
-        properties.setProperty("notEmpty","false");
+        properties.setProperty("IDENTITY",propertyResolver.getProperty("mybatis.identity"));
         properties.setProperty("ORDER",propertyResolver.getProperty("mybatis.order"));
         mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;

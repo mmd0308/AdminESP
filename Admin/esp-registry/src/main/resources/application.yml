@@ -1,6 +1,6 @@
 spring:
   application:
-    name: registry
+    name: esp-registry
 server:
   port: 8761
 eureka:

@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.user;
+package com.cnpc.admin.user;
 
 import org.junit.Before;
 import org.junit.Test;

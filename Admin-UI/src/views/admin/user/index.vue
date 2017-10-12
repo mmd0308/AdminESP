@@ -11,10 +11,10 @@
     <!--列表-->
     <el-table :key="tableKey" :data="list" stripe v-loading.body="listLoading" fit highlight-current-row
               style="width: 100%">
-      <el-table-column align="center" label="序号" width="65">
-        <template scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
+      <el-table-column align="center" label="序号" type="index" width="65">
+     <!--   <template scope="scope">
+          <span>{{scope}}</span>
+        </template>-->
       </el-table-column>
       <el-table-column align="center" label="姓名" sortable prop="name" width="140">
         <template scope="scope">

@@ -1,4 +1,4 @@
-package com.cnpc.ucenter;
+package com.cnpc.admin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -9,10 +9,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ucenter</artifactId>
+    <artifactId>esp-admin</artifactId>
     <packaging>jar</packaging>
-    <name>ucenter</name>
-    <description>user center</description>
+    <name>esp-admin</name>
+    <description>the admin</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,8 +25,8 @@
 
         <!--mybatis generator 反向工程参数-->
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
-        <targetMapperPackage>com.cnpc.ucenter.mapper</targetMapperPackage>
-        <targetModelPackage>com.cnpc.ucenter.entity</targetModelPackage>
+        <targetMapperPackage>com.cnpc.admin.mapper</targetMapperPackage>
+        <targetModelPackage>com.cnpc.admin.entity</targetModelPackage>
         <!--mybatis xml生成路径-->
         <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
         <targetXMLPackage>mapper</targetXMLPackage>
@@ -69,11 +69,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.github.wxiaoqi</groupId>
-            <artifactId>ace-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -155,7 +151,7 @@
 
         <dependency>
             <groupId>com.cnpc</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>esp-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: config
+    name: esp-config
 
   rabbitmq:
     host: localhost

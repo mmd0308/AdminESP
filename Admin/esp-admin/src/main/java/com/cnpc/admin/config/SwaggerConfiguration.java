@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.config;
+package com.cnpc.admin.config;
 
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;

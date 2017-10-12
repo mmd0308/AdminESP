@@ -53,7 +53,7 @@ public abstract class BaseService<M extends Mapper<T>, T> {
 
 
     public void insertSelective(T entity) {
-        //EntityUtil.setCreatAndUpdatInfo(entity);
+        EntityUtil.setCreatAndUpdatInfo(entity);
         mapper.insertSelective(entity);
     }
 

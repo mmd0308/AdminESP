@@ -14,7 +14,7 @@ import java.util.List;
  * @author billjiang 475572229@qq.com
  * @create 17-9-21
  */
-@FeignClient(value = "admin")
+@FeignClient(value = "esp-admin")
 @RequestMapping("/user")
 public interface UserService {
     @GetMapping(value = "/username/{username}")

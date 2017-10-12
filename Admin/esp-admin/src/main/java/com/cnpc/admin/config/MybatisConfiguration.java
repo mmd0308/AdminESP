@@ -1,4 +1,4 @@
-package com.cnpc.ucenter.config;
+package com.cnpc.admin.config;
 
 
 import com.alibaba.druid.pool.DruidDataSource;

@@ -15,7 +15,7 @@
         </plugin>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/esp_ucenter?useUnicode=true&amp;characterEncoding=UTF8"
+                        connectionURL="jdbc:mysql://localhost:3306/esp-admin?useUnicode=true&amp;characterEncoding=UTF8"
                         userId="root"
                         password="billjiang">
         </jdbcConnection>
@@ -27,9 +27,13 @@
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
                              type="XMLMAPPER"/>
 
-        <table tableName="base_user" domainObjectName="User" />
-        <!--<generatedKey column="id" identity="false" sqlStatement="myql"/>-->
-        <!--</table>-->
+        <table tableName="base_user" domainObjectName="User" >
+            <generatedKey column="id" identity="true"  sqlStatement="MySql"/>
+        </table>
+
+        <table tableName="base_org" domainObjectName="Org" >
+           <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>
         <!--<table tableName="base_menu" domainObjectName="Menu" >-->
         <!--<generatedKey column="id" identity="false" sqlStatement="myql"/>-->
         <!--</table>-->

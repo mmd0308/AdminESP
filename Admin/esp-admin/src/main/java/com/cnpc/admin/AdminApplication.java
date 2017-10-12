@@ -1,4 +1,4 @@
-package com.cnpc.ucenter;
+package com.cnpc.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableHystrix
-@ServletComponentScan("com.cnpc.ucenter.config.druid")
+@ServletComponentScan("com.cnpc.admin.config.druid")
 public class AdminApplication {
 
 	public static void main(String[] args) {
