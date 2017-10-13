@@ -3,6 +3,7 @@ package com.cnpc.admin.controller;
 import com.cnpc.common.controller.BaseController;
 import com.cnpc.admin.entity.Org;
 import com.cnpc.admin.service.OrgService;
+import com.cnpc.common.message.ObjectRestResponse;
 import com.cnpc.common.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,10 @@ public class OrgController extends BaseController<OrgService, Org> {
     private OrgService orgService;
 
     @GetMapping("orgTree")
-    public String orgTree(Org org,String callback){
+    public ObjectRestResponse orgTree(Org org,String callback){
         List<Map> orgs = orgService.getTree(org);
-        return callback + "(" + JsonUtil.ObjectToJson(orgs).replaceAll("name","label") + ")";
+        String str = JsonUtil.ObjectToJson(orgs).replaceAll("name","label");
+        return new ObjectRestResponse<String>().rel(true).data(str);
     }
 
 }

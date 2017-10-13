@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnpc.admin.mapper.OrgMapper">
   <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.Org">
-    <!--
-      WARNING - @mbg.generated
-    -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -17,7 +14,7 @@
 
 
     <select id="getOrgTree" parameterType="org" resultType="org">
-        SELECT  * from admin_org_admin
+        SELECT  * from base_org
         where 1 = 1
         <if test="parentid != '' and parentid != null ">
             AND parentid = #{parentid}
@@ -25,7 +22,7 @@
     </select>
 
     <select id="getOrgByPIDToMap" parameterType="string" resultType="map">
-        SELECT  * from admin_org_admin
+        SELECT  * from base_org
         where parentid = #{pid}
     </select>
 </mapper>

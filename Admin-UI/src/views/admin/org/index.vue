@@ -59,16 +59,6 @@
                   <div class="grid-content"></div>
                 </el-col>
                 <el-col :span="11">
-                  <el-form-item label="考核类别" prop="checkType">
-                     <el-select v-model="orgFrom.checkType" placeholder="请选择考核类别">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-               <el-row>
-                <el-col :span="11">
                   <el-form-item label="部门类别" prop="departType">
                     <el-select v-model="orgFrom.departType" placeholder="请选择部门类别">
                       <el-option label="区域一" value="shanghai"></el-option>
@@ -76,41 +66,7 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="2">
-                  <div class="grid-content"></div>
-                </el-col>
-                <el-col :span="11">
-                  <el-form-item label="业务类别" prop="businessType">
-                     <el-select v-model="orgFrom.businessType" placeholder="请选择业务类别">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
               </el-row>
-              <el-row>
-                <el-col :span="11">
-                  <el-form-item label="分院管领导" prop="leader">
-                      <el-radio-group v-model="orgFrom.leader">
-                        <el-radio label="张三"></el-radio>
-                        <el-radio label="李四"></el-radio>
-                        <el-radio label="王五"></el-radio>
-                      </el-radio-group>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="2">
-                  <div class="grid-content"></div>
-                </el-col>
-                <el-col :span="11">
-                  <el-form-item label="机构编码" prop="orgCodeP">
-                    <el-input v-model="orgFrom.orgCodeP"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-form-item label="单位地址" prop="address">
-                <el-input type="textarea" v-model="orgFrom.address"></el-input>
-              </el-form-item>  
-
               <el-form-item label="机构说明" prop="note">
                 <el-input type="textarea" v-model="orgFrom.note"></el-input>
               </el-form-item>
@@ -122,18 +78,42 @@
   </div>
 </template>
 <script>
+  import { orgTree, getObj } from 'api/admin/org/index'
   export default {
     watch: {
       filterText(val) {
         this.$refs.tree2.filter(val);
       }
     },
+    created() {
+      // 初始化左侧树
+      this.getOrgTree()
+    },
     methods: {
+      getOrgTree() {
+        var that = this
+        orgTree(this.treeForm).then(response => {
+          debugger
+          console.log(response.data)
+          that.$set(that, 'data2', JSON.parse(response.data))
+           // 获取左侧树第一个节点，初始化页面
+          this.getObj()
+        })
+      },
+      getObj() {
+        var that = this
+        debugger
+        getObj(that.data2[0].id).then(response => {
+          console.log(response.data)
+          that.$set(that, 'orgFrom', response.data)
+        })
+      },
       filterNode(value, data) {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
       clickTree(data) {
+        debugger
         console.log(data)
       },
       expandTree(data) {
@@ -196,6 +176,9 @@
           address: '', // 单位地址
           orgCodeP: '',  // 机构编码
           leader: '' // 分管院领导
+        },
+        treeForm: {
+          parentid: 0
         },
         rules: {
           name: [
