@@ -33,17 +33,6 @@ public class OrgService extends BaseService<OrgMapper,Org> {
         }
         return  orgs;
     }
-
-    /**
-     * 根据父id，获取列表数据
-     * @param org
-     * @return
-     */
-    public List<Org> getOrgByPID(Org org){
-        List<Org> orgs = mapper.getOrgTree(org);
-        return orgs;
-    }
-
     /**
      * 根据父id，获取列表数据 返回List<map>
      * @param pid
