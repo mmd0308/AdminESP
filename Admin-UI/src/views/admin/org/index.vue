@@ -9,17 +9,23 @@
       </el-col>
       <el-col :span="20">
         <div class="right-layout-from">
-          <div class="top-button">
-            <el-button type="primary" size="small" native-type="submit"  @click="createOrg('orgFrom')">新增下级机构</el-button>
-            <el-button type="primary" size="small">编辑当前机构</el-button>
+          <div v-if="this.state == 'see'" class="top-button">
+            <el-button type="primary" size="small" native-type="submit"  @click="toCreate()">新增下级机构</el-button>
+            <el-button type="primary" size="small" @click="toUpdate()">编辑当前机构</el-button>
             <el-button type="primary" size="small" @click="resetOrg('orgFrom')">重置</el-button>
           </div>
+          <div  class="top-button">
+            <el-button v-if="this.state == 'add'" type="primary" size="small" native-type="submit"  @click="createOrg('orgFrom')">保存</el-button>
+            <el-button v-if="this.state == 'edit'" type="primary" size="small" native-type="submit"  @click="updateOrg('orgFrom')">保存</el-button>
+          </div>
+          
           <div class="tree-right-from">
             <el-form :model="orgFrom" :rules="rules" ref="orgFrom" label-width="120px" class="demo-ruleForm">
-              <el-row>
+              <el-row aria-disabled="">
                 <el-col :span="11">
-                  <el-form-item label="组织机构名称" prop="name">
-                    <el-input v-model="orgFrom.name"></el-input>
+                  <el-form-item  label="组织机构名称" prop="name">
+                    <el-input v-model="orgFrom.name" v-if="this.state == 'see'" :readonly="true" ></el-input>
+                    <el-input v-model="orgFrom.name" v-else ></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="2">
@@ -27,14 +33,15 @@
                 </el-col>
                 <el-col :span="11">
                   <el-form-item label="组织机构编码" prop="code">
-                    <el-input v-model="orgFrom.code"></el-input>
+                    <el-input v-model="orgFrom.code" v-if="this.state == 'see'" :readonly="true" ></el-input>
+                    <el-input v-model="orgFrom.code" v-else></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="11">
                   <el-form-item label="上级组织机构" prop="porg">
-                    <el-input v-model="orgFrom.porg"></el-input>
+                    <el-input v-model="orgFrom.porg" :readonly="true"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="2">
@@ -42,7 +49,8 @@
                 </el-col>
                 <el-col :span="11">
                   <el-form-item label="单位简称" prop="unitA">
-                    <el-input v-model="orgFrom.unitA"></el-input>
+                    <el-input v-model="orgFrom.unitA" v-if="this.state == 'see'" :readonly="true"></el-input>
+                    <el-input v-model="orgFrom.unitA" v-else></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -68,7 +76,8 @@
                 </el-col>
               </el-row>
               <el-form-item label="机构说明" prop="note">
-                <el-input type="textarea" v-model="orgFrom.note"></el-input>
+                <el-input type="textarea" v-model="orgFrom.note" v-if="this.state == 'see'" :readonly="true"></el-input>
+                <el-input type="textarea" v-model="orgFrom.note" v-else></el-input>
               </el-form-item>
             </el-form>
           </div>
@@ -78,7 +87,7 @@
   </div>
 </template>
 <script>
-  import { orgTree, getObj } from 'api/admin/org/index'
+  import { orgTree, getObj, addObj, putObj } from 'api/admin/org/index'
   export default {
     watch: {
       filterText(val) {
@@ -88,25 +97,44 @@
     created() {
       // 初始化左侧树
       this.getOrgTree()
+      debugger
     },
     methods: {
+      initObj() {
+        return {
+          name: '',
+          code: '',
+          levelCode: '',
+          orgType: '', // 机构类别
+          deleted: '',
+          note: '',
+          parentid: ''
+        }
+      },
       getOrgTree() {
         var that = this
         orgTree(this.treeForm).then(response => {
-          debugger
           console.log(response.data)
           that.$set(that, 'data2', JSON.parse(response.data))
            // 获取左侧树第一个节点，初始化页面
-          this.getObj()
+          this.getObj(JSON.parse(response.data)[0].id)
         })
       },
-      getObj() {
+      getObj(id) {
         var that = this
-        debugger
-        getObj(that.data2[0].id).then(response => {
+        getObj(id).then(response => {
           console.log(response.data)
           that.$set(that, 'orgFrom', response.data)
         })
+      },
+      toCreate() {
+        var yid = this.orgFrom.id
+        this.resetTemp()
+        this.orgFrom.parentid = yid
+        this.state = 'add'
+      },
+      toUpdate() {
+        this.state = 'edit'
       },
       filterNode(value, data) {
         if (!value) return true;
@@ -119,10 +147,37 @@
       expandTree(data) {
         console.log(data)
       },
+      updateOrg(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            putObj(this.orgFrom.id, this.orgFrom).then(() => {
+              this.getOrgTree()
+              this.state = 'see'
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          } else {
+            return false
+          }
+        })
+      },
       createOrg(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            alert('fj')
+            addObj(this.orgFrom).then(() => {
+              this.getOrgTree()
+              this.state = 'see'
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
           } else {
             return false
           }
@@ -130,11 +185,15 @@
       },
       resetOrg(formName) {
         this.$refs[formName].resetFields();
+      },
+      resetTemp() {
+        this.orgFrom = this.initObj();
       }
     },
     data() {
       return {
         filterText: '',
+        state: 'see',
         data2: [{
           id: 1,
           label: '一级 1'
@@ -164,18 +223,14 @@
           label: 'label'
         },
         orgFrom: {
+          id: '',
           name: '',
           code: '',
-          note: '',
-          porg: '',
-          unitA: '', // 单位简称
+          levelCode: '',
           orgType: '', // 机构类别
-          checkType: '', // 考核类别
-          businessType: '', // 业务类别
-          departType: '', // 部门类别
-          address: '', // 单位地址
-          orgCodeP: '',  // 机构编码
-          leader: '' // 分管院领导
+          deleted: '',
+          note: '',
+          parentid: ''
         },
         treeForm: {
           parentid: 0

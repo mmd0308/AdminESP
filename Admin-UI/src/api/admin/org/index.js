@@ -14,3 +14,19 @@ export function getObj(id) {
     method: 'get'
   })
 }
+
+export function addObj(obj) {
+  return fetch({
+    url: '/api/admin/org',
+    method: 'post',
+    data: obj
+  })
+}
+
+export function putObj(id, obj) {
+  return fetch({
+    url: '/api/admin/org/' + id,
+    method: 'put',
+    data: obj
+  })
+}
