@@ -80,7 +80,7 @@
         </el-card>
 
         <el-menu style="margin-bottom: 10px;">
-          <el-menu-item index="1"><i class="el-icon-menu">&nbsp;&nbsp;按钮或资源</i></el-menu-item>
+          <el-menu-item index="1"><i class="el-icon-menu">&nbsp;&nbsp;{{menuName}}</i></el-menu-item>
         </el-menu>
         <el-card class="box-card">
           <menu-element :menuId='currentId' ref="menuElement" style="padding: 0px;"></menu-element>
@@ -150,6 +150,7 @@
         form: this.init(),
         currentId: '-1',
         currentName: '根节点',
+        menuName: '按钮或资源',
         menuManager_btn_add: false,
         menuManager_btn_edit: false,
         menuManager_btn_del: false
@@ -207,7 +208,9 @@
         this.currentId = data.id;
         this.currentName = data.name;
         this.showElement = true;
+        this.menuName = '按钮或资源：' + data.name;
         this.$refs.menuElement.menuId = data.id;
+        this.$refs.menuElement.initObj(data);
         this.$refs.menuElement.getList();
       },
       handleEdit() {

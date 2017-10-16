@@ -41,4 +41,8 @@ public class Query extends LinkedHashMap<String, Object> {
     public void setLimit(int limit) {
         this.limit = limit;
     }
+
+    public Object getValue(String name){
+        return this.get(name);
+    }
 }
