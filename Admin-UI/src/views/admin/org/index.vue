@@ -18,7 +18,7 @@
             <el-button v-if="this.state == 'add'" type="primary" size="small" native-type="submit"  @click="createOrg('orgFrom')">保存</el-button>
             <el-button v-if="this.state == 'edit'" type="primary" size="small" native-type="submit"  @click="updateOrg('orgFrom')">保存</el-button>
           </div>
-          
+
           <div class="tree-right-from">
             <el-form :model="orgFrom" :rules="rules" ref="orgFrom" label-width="120px" class="demo-ruleForm">
               <el-row aria-disabled="">

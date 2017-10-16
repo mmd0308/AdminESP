@@ -46,20 +46,17 @@ export const constantRouterMap = [
     children: [
       {
         path: 'user',
-        // component: _import('admin/user'),
         component: _import('admin/user/index'),
         name: '用户管理',
         icon: 'people'
       }, {
         path: 'org',
-        // component: _import('admin/org'),
         component: _import('admin/org/index'),
         name: '组织机构管理',
         icon: 'people'
       }, {
         path: 'menu',
-        // component: _import('admin/menu'),
-        component: _import('dashboard/index'),
+        component: _import('admin/menu/index'),
         name: '菜单管理',
         icon: 'people'
       }

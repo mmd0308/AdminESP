@@ -16,12 +16,10 @@ import java.util.Map;
 @RequestMapping(value = "/org")
 public class OrgController extends BaseController<OrgService, Org> {
 
-    @Autowired
-    private OrgService orgService;
 
     @GetMapping("orgTree")
     public ObjectRestResponse orgTree(Org org,String callback){
-        List<Map> orgs = orgService.getTree(org);
+        List<Map> orgs = baseService.getTree(org);
         String str = JsonUtil.ObjectToJson(orgs).replaceAll("name","label");
         return new ObjectRestResponse<String>().rel(true).data(str);
     }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class BaseService<M extends Mapper<T>, T> {
+
     @Autowired
     protected M mapper;
 

@@ -21,14 +21,11 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController extends BaseController<UserService, User> {
 
-    @Autowired
-    private UserService userService;
-
     @RequestMapping(value = "/username/{username}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public UserInfo getUserByUsername(@PathVariable("username") String username) {
         UserInfo info = new UserInfo();
-        User user = userService.getUserByUsername(username);
+        User user = baseService.getUserByUsername(username);
         if(user==null){
             info.setId(UserConstant.USER_NOT_EXIST);
             return info;

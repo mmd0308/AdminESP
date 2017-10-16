@@ -27,16 +27,16 @@
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
                              type="XMLMAPPER"/>
 
-        <table tableName="base_user" domainObjectName="User" >
+        <!--<table tableName="base_user" domainObjectName="User" >
             <generatedKey column="id" identity="true"  sqlStatement="MySql"/>
         </table>
 
         <table tableName="base_org" domainObjectName="Org" >
            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>-->
+        <table tableName="base_menu" domainObjectName="Menu">
+            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
         </table>
-        <!--<table tableName="base_menu" domainObjectName="Menu" >-->
-        <!--<generatedKey column="id" identity="false" sqlStatement="myql"/>-->
-        <!--</table>-->
         <!--<table tableName="base_group" domainObjectName="Group" >
             &lt;!&ndash;<generatedKey column="id" identity="true"/>&ndash;&gt;
         </table>
@@ -48,7 +48,7 @@
         <!--</table>-->
         <!--<table tableName="gate_client" domainObjectName="GateClient">-->
         <!--</table>-->
-       <!-- <table tableName="gate_log" domainObjectName="GateLog">
-        </table>-->
+        <!-- <table tableName="gate_log" domainObjectName="GateLog">
+         </table>-->
     </context>
 </generatorConfiguration>
