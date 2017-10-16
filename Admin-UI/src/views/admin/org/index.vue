@@ -40,41 +40,28 @@
               </el-row>
               <el-row>
                 <el-col :span="11">
-                  <el-form-item label="上级组织机构" prop="porg">
-                    <el-input v-model="orgFrom.porg" :readonly="true"></el-input>
+                  <el-form-item label="上级组织机构" prop="parentname">
+                    <el-input v-model="orgFrom.parentname"  v-if="this.state == 'see'" :readonly="true"></el-input>
+                    <el-input v-model="orgFrom.parentname"  v-else></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="2">
                   <div class="grid-content"></div>
                 </el-col>
-                <el-col :span="11">
-                  <el-form-item label="单位简称" prop="unitA">
-                    <el-input v-model="orgFrom.unitA" v-if="this.state == 'see'" :readonly="true"></el-input>
-                    <el-input v-model="orgFrom.unitA" v-else></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
                 <el-col :span="11">
                   <el-form-item label="机构类别" prop="orgType">
-                    <el-select v-model="orgFrom.orgType" placeholder="请选择机构类别">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="2">
-                  <div class="grid-content"></div>
-                </el-col>
-                <el-col :span="11">
-                  <el-form-item label="部门类别" prop="departType">
-                    <el-select v-model="orgFrom.departType" placeholder="请选择部门类别">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
+                  <el-select v-model="orgFrom.orgType" placeholder="请选择机构类别">
+                    <el-option label="类别一" value="key_one"></el-option>
+                    <el-option label="类别二" value="key_two"></el-option>
+                    <el-option label="类别三" value="key_three"></el-option>
+                    <el-option label="类别四" value="key_four"></el-option>
+                  </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-form-item label="层级编码" prop="levelCode">
+                <el-input v-model="orgFrom.levelCode" :readonly="true"></el-input>
+              </el-form-item>
               <el-form-item label="机构说明" prop="note">
                 <el-input type="textarea" v-model="orgFrom.note" v-if="this.state == 'see'" :readonly="true"></el-input>
                 <el-input type="textarea" v-model="orgFrom.note" v-else></el-input>
@@ -87,7 +74,7 @@
   </div>
 </template>
 <script>
-  import { orgTree, getObj, addObj, putObj } from 'api/admin/org/index'
+  import { orgTree, getObj, addObj, putObj, getNextCode } from 'api/admin/org/index'
   export default {
     watch: {
       filterText(val) {
@@ -97,7 +84,6 @@
     created() {
       // 初始化左侧树
       this.getOrgTree()
-      debugger
     },
     methods: {
       initObj() {
@@ -125,13 +111,26 @@
         getObj(id).then(response => {
           console.log(response.data)
           that.$set(that, 'orgFrom', response.data)
+          that.state = 'see'
         })
       },
       toCreate() {
         var yid = this.orgFrom.id
+        var lCode = this.orgFrom.levelCode
         this.resetTemp()
         this.orgFrom.parentid = yid
+        this.nextFrom.parentId = yid
+        debugger
+        this.nextFrom.levelCode = lCode
+        this.getNextCode()
         this.state = 'add'
+      },
+      getNextCode() {
+        var that = this
+        getNextCode(this.nextFrom).then(response => {
+          console.log(response.data)
+          that.orgFrom.levelCode = response.data
+        })
       },
       toUpdate() {
         this.state = 'edit'
@@ -141,8 +140,9 @@
         return data.label.indexOf(value) !== -1;
       },
       clickTree(data) {
-        debugger
         console.log(data)
+        debugger
+        this.getObj(data.id)
       },
       expandTree(data) {
         console.log(data)
@@ -228,12 +228,16 @@
           code: '',
           levelCode: '',
           orgType: '', // 机构类别
-          deleted: '',
+          deleted: 'N',
           note: '',
           parentid: ''
         },
         treeForm: {
           parentid: 0
+        },
+        nextFrom: {
+          parentId: 0,
+          levelCode: ''
         },
         rules: {
           name: [

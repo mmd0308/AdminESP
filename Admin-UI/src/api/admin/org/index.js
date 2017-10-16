@@ -30,3 +30,11 @@ export function putObj(id, obj) {
     data: obj
   })
 }
+
+export function getNextCode(id) {
+  return fetch({
+    url: '/api/admin/org/getNextCode',
+    method: 'get',
+    params: id
+  })
+}

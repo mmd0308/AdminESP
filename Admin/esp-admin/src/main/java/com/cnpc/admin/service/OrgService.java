@@ -41,4 +41,24 @@ public class OrgService extends BaseService<OrgMapper,Org> {
     public List<Map> getOrgByPIDToMap(String pid){
         return mapper.getOrgByPIDToMap(pid);
     }
+
+    public String getNextLevelCode(String parentId,String levelCode) {
+        String lCode = mapper.getLevelCodeByParentId(parentId);
+        if(null != lCode && lCode != ""){
+            lCode = Integer.parseInt(lCode.substring(lCode.length()-6))+1+"";
+            String str = "";
+            int num = 6-lCode.length()%6;
+            for (int i=0;i<num;i++){
+                str = str + "0";
+            }
+            lCode = str + lCode;
+        }else {
+            lCode = "000001";
+        }
+
+
+        return  levelCode+lCode;
+    }
+
+
 }
