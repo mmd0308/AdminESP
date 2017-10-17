@@ -42,6 +42,16 @@ public class Org {
      */
     private String parentid;
 
+    private String spell;
+
+    public String getSpell() {
+        return spell;
+    }
+
+    public void setSpell(String spell) {
+        this.spell = spell;
+    }
+
     /**
      * @return id
      */

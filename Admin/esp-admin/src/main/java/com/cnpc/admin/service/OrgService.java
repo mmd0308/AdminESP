@@ -55,10 +55,6 @@ public class OrgService extends BaseService<OrgMapper,Org> {
         }else {
             lCode = "000001";
         }
-
-
         return  levelCode+lCode;
     }
-
-
 }

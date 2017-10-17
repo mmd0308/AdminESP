@@ -154,6 +154,13 @@
             <artifactId>esp-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--pinying-->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
