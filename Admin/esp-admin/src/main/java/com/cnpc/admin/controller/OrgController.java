@@ -50,4 +50,10 @@ public class OrgController extends BaseController<OrgService, Org> {
         return new ObjectRestResponse<String>().rel(true).data(res);
     }
 
+    @GetMapping(value = "/checkCode")
+    public Boolean checkCode(String id , String code){
+        Boolean res = orgService.checkCode(id,code);
+        return res;
+    }
+
 }

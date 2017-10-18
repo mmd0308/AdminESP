@@ -29,4 +29,10 @@
     <select id="getLevelCodeByParentId" parameterType="string" resultType="string">
         select max(level_code) from base_org where parentid = #{0}
     </select>
+    <select id="checkCode" parameterType="org" resultType="map">
+        SELECT * FROM base_org where  code = #{code}
+        <if test="id != null and id != ''">
+            and id != #{id}
+        </if>
+    </select>
 </mapper>

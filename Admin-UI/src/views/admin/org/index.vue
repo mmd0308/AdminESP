@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-  import { orgTree, getObj, addObj, putObj, getNextCode } from 'api/admin/org/index'
+  import { orgTree, getObj, addObj, putObj, getNextCode, checkCode } from 'api/admin/org/index'
   export default {
     watch: {
       filterText(val) {
@@ -212,6 +212,20 @@
       }
     },
     data() {
+      const validateCode = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请填写编码'))
+        }
+        this.codeFom.code = value
+        this.codeFom.id = this.orgFrom.id
+        checkCode(this.codeFom).then(result => {
+          if (!result) {
+            callback(new Error('该编码已存在'))
+          } else {
+            callback()
+          }
+        });
+      };
       return {
         filterText: '',
         state: 'see',
@@ -261,16 +275,19 @@
           parentId: 0,
           levelCode: ''
         },
+        codeFom: {
+          id: '',
+          code: ''
+        },
         rules: {
           name: [
-            { required: true, message: '请输入组织机构名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { required: true, message: '请输入组织机构名称', trigger: 'blur' }
           ],
           code: [
-            { required: true, message: '请输入编码', trigger: 'blur' }
+            { required: true, validator: validateCode, trigger: 'blur' }
           ],
-          note: [
-            { required: true, message: '备注', trigger: 'blur' }
+          orgType: [
+            { required: true, message: '请选择机构类别', trigger: 'blur' }
           ]
         }
       };

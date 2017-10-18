@@ -57,4 +57,15 @@ public class OrgService extends BaseService<OrgMapper,Org> {
         }
         return  levelCode+lCode;
     }
+
+    public Boolean checkCode(String id, String code) {
+        Org org = new Org();
+        org.setCode(code);
+        org.setId(id);
+        List<Map> maps = mapper.checkCode(org);
+        if (maps.size()>0){
+            return false;
+        }
+        return true;
+    }
 }

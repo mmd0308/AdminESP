@@ -12,4 +12,6 @@ public interface OrgMapper extends Mapper<Org> {
     List<Map> getOrgByPIDToMap(String pid);
 
     String getLevelCodeByParentId(String parentId);
+
+    List<Map> checkCode(Org org);
 }

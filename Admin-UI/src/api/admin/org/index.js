@@ -38,3 +38,11 @@ export function getNextCode(id) {
     params: id
   })
 }
+
+export function checkCode(id, code) {
+  return fetch({
+    url: '/api/admin/org/checkCode',
+    method: 'get',
+    params: id, code
+  })
+}
