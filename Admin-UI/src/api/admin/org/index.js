@@ -46,3 +46,12 @@ export function checkCode(id, code) {
     params: id, code
   })
 }
+
+export function delObj(id) {
+  return fetch({
+    url: '/api/admin/org/deleted',
+    method: 'delete',
+    params: id
+  })
+}
+

@@ -42,14 +42,32 @@ public class Org {
      */
     private String parentid;
 
-    private String spell;
+    private String lspell;
+    private String initials;
+    private String uspell;
 
-    public String getSpell() {
-        return spell;
+    public String getLspell() {
+        return lspell;
     }
 
-    public void setSpell(String spell) {
-        this.spell = spell;
+    public void setLspell(String lspell) {
+        this.lspell = lspell;
+    }
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
+    }
+
+    public String getUspell() {
+        return uspell;
+    }
+
+    public void setUspell(String uspell) {
+        this.uspell = uspell;
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
   <div id="org" class="app-container calendar-list-container">
-    <el-row>
+    <el-row  v-loading.body="listLoading">
       <el-col :span="4">
         <el-input placeholder="输入关键字进行过滤" v-model="filterText">
         </el-input>
@@ -10,8 +10,9 @@
       <el-col :span="20">
         <div class="right-layout-from">
           <div v-if="this.state == 'see'" class="top-button">
-            <el-button type="primary" size="small" native-type="submit"  @click="toCreate()">新增下级机构</el-button>
-            <el-button type="primary" size="small" @click="toUpdate()">编辑当前机构</el-button>
+            <el-button type="primary" size="small" native-type="submit"  @click="toCreate()" icon="plus">新增下级机构</el-button>
+            <el-button type="primary" size="small" @click="toUpdate()" icon="edit">编辑当前机构</el-button>
+            <el-button type="danger" size="small" @click="toDeleted()" icon="delete">删除</el-button>
             <el-button type="primary" size="small" @click="resetOrg('orgFrom')" hidden>重置</el-button>
           </div>
           <div  class="top-button">
@@ -19,7 +20,7 @@
             <el-button v-if="this.state == 'edit'" type="primary" size="small" native-type="submit"  @click="updateOrg('orgFrom')">保存</el-button>
           </div>
           <div class="tree-right-from">
-            <el-form :model="orgFrom" :rules="rules" ref="orgFrom" label-width="120px" class="demo-ruleForm">
+            <el-form :model="orgFrom" :rules="rules" ref="orgFrom" label-width="120px" class="demo-ruleForm" >
               <el-row aria-disabled="">
                 <el-col :span="11">
                   <el-form-item  label="组织机构名称" prop="name">
@@ -78,7 +79,7 @@
   </div>
 </template>
 <script>
-  import { orgTree, getObj, addObj, putObj, getNextCode, checkCode } from 'api/admin/org/index'
+  import { orgTree, getObj, addObj, putObj, getNextCode, checkCode, delObj } from 'api/admin/org/index'
   export default {
     watch: {
       filterText(val) {
@@ -102,6 +103,7 @@
         }
       },
       getOrgTree() {
+        this.listLoading = true
         var that = this
         orgTree(this.treeForm).then(response => {
           console.log(response.data)
@@ -109,6 +111,7 @@
            // 获取左侧树第一个节点，初始化页面
           // this.getObj(JSON.parse(response.data)[0].id)
           this.dataTOForm(JSON.parse(response.data)[0])
+          that.listLoading = false
         })
       },
       getObj(id) {
@@ -144,7 +147,7 @@
       filterNode(value, data) {
         debugger
         if (!value) return true;
-        return data.label.indexOf(value) !== -1 || data.spell.indexOf(value) !== -1;
+        return data.label.indexOf(value) !== -1 || data.lspell.indexOf(value) !== -1 || data.uspell.indexOf(value) !== -1 || data.initials.indexOf(value) !== -1;
       },
       clickTree(data) {
         console.log(data)
@@ -209,6 +212,33 @@
       },
       resetTemp() {
         this.orgFrom = this.initObj();
+      },
+      toDeleted() {
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.codeFom.id = this.orgFrom.id
+          delObj(this.codeFom).then(data => {
+            if (data) {
+              this.getOrgTree();
+              this.$notify({
+                title: '成功',
+                message: '删除成功',
+                type: 'success',
+                duration: 2000
+              });
+            } else {
+              this.$notify({
+                title: '失败',
+                message: '请先删除下级组织机构',
+                type: 'error',
+                duration: 2000
+              });
+            }
+          });
+        });
       }
     },
     data() {
@@ -289,7 +319,8 @@
           orgType: [
             { required: true, message: '请选择机构类别', trigger: 'blur' }
           ]
-        }
+        },
+        listLoading: false
       };
     }
   }

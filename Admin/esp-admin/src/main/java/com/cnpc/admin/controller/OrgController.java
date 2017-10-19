@@ -24,7 +24,10 @@ public class OrgController extends BaseController<OrgService, Org> {
     @ResponseBody
     public ObjectRestResponse<Org> add(@RequestBody Org org){
         String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
-        org.setSpell(spell);
+        String inital = PinYingUtil.convertHanzi2Pinyin(org.getName(),false);
+        org.setLspell(spell);
+        org.setUspell(spell.toUpperCase());
+        org.setInitials(inital+"_"+inital.toUpperCase());
         baseService.insertSelective(org);
         return new ObjectRestResponse<Org>().rel(true);
     }
@@ -32,7 +35,10 @@ public class OrgController extends BaseController<OrgService, Org> {
     @ResponseBody
     public ObjectRestResponse<Org> update(@RequestBody Org org){
         String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
-        org.setSpell(spell);
+        String inital = PinYingUtil.convertHanzi2Pinyin(org.getName(),false);
+        org.setLspell(spell);
+        org.setUspell(spell.toUpperCase());
+        org.setInitials(inital+"_"+inital.toUpperCase());
         baseService.updateSelectiveById(org);
         return new ObjectRestResponse<Org>().rel(true);
     }
@@ -53,6 +59,12 @@ public class OrgController extends BaseController<OrgService, Org> {
     @GetMapping(value = "/checkCode")
     public Boolean checkCode(String id , String code){
         Boolean res = orgService.checkCode(id,code);
+        return res;
+    }
+
+    @RequestMapping(value = "/deleted",method = RequestMethod.DELETE)
+    public Boolean deleted(String id){
+        Boolean res = orgService.deleteById(id);
         return res;
     }
 

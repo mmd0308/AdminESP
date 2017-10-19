@@ -12,10 +12,24 @@ import java.util.Map;
 @Service
 public class OrgService extends BaseService<OrgMapper,Org> {
 
-
     public List<Map> getTree(Org org) {
         List<Map> orgs = this.getOrgByPIDToMap(org.getParentid());
         return this.getTrees(orgs);
+    }
+
+    /**
+     * 删除组织机构
+     * @param id
+     */
+    public Boolean deleteById(String id) {
+        //是否有子集的机构
+        List<Map> maps = this.getOrgByPIDToMap(id);
+        if (maps.size()>0){
+            return false;
+        }else {
+            mapper.deleteByPrimaryKey(id);
+            return true;
+        }
     }
 
     /**
