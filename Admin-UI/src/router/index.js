@@ -20,7 +20,15 @@ export const constantRouterMap = [
     { path: '/login', component: _import('login/index'), hidden: true },
     { path: '/authredirect', component: _import('login/authredirect'), hidden: true },
     { path: '/404', component: _import('errorPage/404'), hidden: true },
-    { path: '/401', component: _import('errorPage/401'), hidden: true },
+    /* { path: '/401', component: _import('errorPage/401'), hidden: true },*/
+  {
+    path: '/401',
+    component: Layout,
+    redirect: '/401/index',
+    icon: 'people',
+    hidden: true,
+    children: [{ path: 'index', component: _import('errorPage/401'), name: '没有权限' }]
+  },
   {
     path: '/',
     component: Layout,
@@ -48,7 +56,7 @@ export const constantRouterMap = [
         path: 'user',
         component: _import('admin/user/index'),
         name: '用户管理',
-        icon: 'people'
+        icon: 'user'
       }, {
         path: 'org',
         component: _import('admin/org/index'),
@@ -59,8 +67,12 @@ export const constantRouterMap = [
         component: _import('admin/menu/index'),
         name: '菜单管理',
         icon: 'people'
+      }, {
+        path: 'role',
+        component: _import('admin/role/index'),
+        name: '角色管理',
+        icon: 'user'
       }
-
     ]
   }
 ]

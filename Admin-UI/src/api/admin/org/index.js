@@ -10,14 +10,14 @@ export function orgTree(query) {
 
 export function getObj(id) {
   return fetch({
-    url: '/api/admin/org/' + id,
+    url: '/api/admin/org/get/' + id,
     method: 'get'
   })
 }
 
 export function addObj(obj) {
   return fetch({
-    url: '/api/admin/org',
+    url: '/api/admin/org/add',
     method: 'post',
     data: obj
   })
@@ -25,7 +25,7 @@ export function addObj(obj) {
 
 export function putObj(id, obj) {
   return fetch({
-    url: '/api/admin/org/' + id,
+    url: '/api/admin/org/put/' + id,
     method: 'put',
     data: obj
   })

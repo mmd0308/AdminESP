@@ -2,102 +2,84 @@
   <div class="app-container calendar-list-container">
     <el-row :gutter="15">
       <el-col :span="6">
-        <el-input
-          placeholder="输入关键字进行过滤"
-          v-model="filterText">
-        </el-input>
-        <el-tree
-          class="filter-tree"
-          style="margin-top:10px;"
-          :data="treeData"
-          node-key="id"
-          highlight-current
-          :props="defaultProps"
-          :filter-node-method="filterNode"
-          ref="menuTree"
-          @node-click="getNodeData"
-          default-expand-all>
-        </el-tree>
+        <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
+        <el-tree class="filter-tree" :data="treeData" node-key="id" highlight-current :props="defaultProps"
+                 :filter-node-method="filterNode" ref="roleTree" @node-click="getNodeData"
+                 default-expand-all style="margin-top:10px;"></el-tree>
       </el-col>
       <el-col :span="18">
-        <div class="filter-container">
+        <div style="margin-bottom: 10px">
           <el-button-group>
-            <el-button type="primary" v-if="menuManager_btn_add" icon="plus" @click="handleAdd">添加</el-button>
-            <el-button type="primary" v-if="menuManager_btn_edit" icon="edit" @click="handleEdit">编辑</el-button>
-            <el-button type="danger" v-if="menuManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
+            <el-button type="primary" v-if="roleManager_btn_add" icon="plus" @click="handleAdd">添加</el-button>
+            <el-button type="primary" v-if="roleManager_btn_edit" icon="edit" @click="handleEdit">编辑</el-button>
+            <el-button type="danger" v-if="roleManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
           </el-button-group>
 
-          <el-button-group v-if="formStatus == 'update'" style="float: right">
-            <el-button type="primary" @click="update">更 新</el-button>
-            <el-button @click="onCancel">取 消</el-button>
+          <el-button type="primary" v-if="roleManager_btn_resourceManager" icon="menu" @click="handleResource">
+            权限分配
+          </el-button>
+          <!-- <el-button-group>
+           <el-button type="primary" v-if="roleManager_btn_userManager"  @click="handlerUser">
+             <icon-svg icon-class="users"></icon-svg>
+             关联用户
+           </el-button>
+           </el-button->-->
+          <el-button-group v-if="formStatus == 'update'" style="float:right">
+            <el-button type="primary" v-if="roleManager_btn_edit" @click="update">更新</el-button>
+            <el-button @click="onCancel">取消</el-button>
           </el-button-group>
-
           <el-button-group v-if="formStatus == 'create'" style="float:right">
-            <el-button type="primary" @click="create">保 存</el-button>
-            <el-button @click="onCancel">取 消</el-button>
+            <el-button type="primary" v-if="roleManager_btn_add" @click="create">保存</el-button>
+            <el-button @click="onCancel">取消</el-button>
           </el-button-group>
         </div>
-        <el-card class="box-card" style="margin-bottom: 10px;">
-          <el-form :label-position="labelPosition" label-width="140px" :rules="rules" :inline="true" :model="form"
+        <el-card style="margin-bottom:10px;">
+          <el-form :label-position="labelPosition" :rules="rules" label-width="140px" :inline="true" :model="form"
                    ref="form">
             <el-form-item label="名称" prop="name">
-              <el-input v-model="form.name" :disabled="formEdit" placeholder="请输入标题"></el-input>
+              <el-input v-model="form.name" :disabled="formEdit"></el-input>
             </el-form-item>
             <el-form-item label="编码" prop="code">
-              <el-input v-model="form.code" :disabled="formEdit" placeholder="请输入编码"></el-input>
+              <el-input v-model="form.code" :disabled="formEdit"></el-input>
             </el-form-item>
-            <el-form-item label="父级节点" prop="parentName">
-              <el-input v-model="form.parentName" :disabled="formEdit" placeholder="请输入父级节点" disabled></el-input>
+            <el-form-item label="父级节点">
+              <el-input v-model="form.parentName" disabled></el-input>
             </el-form-item>
             <el-form-item label="层级编码" prop="levelcode">
-              <el-input v-model="form.levelcode" :disabled="formEdit" placeholder="请输入层级编码"></el-input>
+              <el-input v-model="form.levelcode" :disabled="formEdit"></el-input>
             </el-form-item>
-            <el-form-item label="图标" prop="icon">
-              <el-input v-model="form.icon" :disabled="formEdit" style="width: 320px;" placeholder="请输入图标"></el-input>
-              <icon-svg :iconClass="form.icon"></icon-svg>
+            <el-form-item label="描述">
+              <el-input v-model="form.description" :disabled="formEdit"></el-input>
             </el-form-item>
-            <el-form-item label="资源路径" prop="href">
-              <el-input v-model="form.href" :disabled="formEdit" placeholder="请输入资源路径"></el-input>
+            <el-form-item label="是否可用">
+              <el-switch on-text="可用" off-text="禁用" on-value="1" off-value="0" v-model="form.enabled"></el-switch>
             </el-form-item>
-            <el-form-item label="类型" prop="type">
-              <el-select class="filter-item" v-model="form.type" :disabled="formEdit" style="width: 340px;"
-                         placeholder="请输入资源请求类型">
-                <el-option v-for="item in  typeOptions" :key="item" :label="item" :value="item"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="前端组件" prop="component">
-              <el-input v-model="form.component" :disabled="formEdit" placeholder="请输入描述"></el-input>
-            </el-form-item>
-            <el-form-item label="描述" prop="description">
-              <el-input v-model="form.description" :disabled="formEdit" placeholder="请输入描述"></el-input>
-            </el-form-item>
-            <el-form-item label="是否启用" prop="enabled">
-              <el-switch on-text="启用" off-text="禁用" on-value="1" off-value="0" v-model="form.enabled"></el-switch>
-            </el-form-item>
-
           </el-form>
         </el-card>
-
         <el-menu style="margin-bottom: 10px;">
-          <el-menu-item index="1"><i class="el-icon-menu">&nbsp;&nbsp;{{menuName}}</i></el-menu-item>
+          <el-menu-item index="1"><i class="el-icon-menu">&nbsp;&nbsp;{{roleName}}</i></el-menu-item>
         </el-menu>
         <el-card class="box-card">
-          <menu-element :menuId='currentId' ref="menuElement" style="padding: 0px;"></menu-element>
+          <user-role :roleId="currentId" :roleName="form.name" ref="userRole"></user-role>
         </el-card>
       </el-col>
+
+      <el-dialog :title="dialogResourceName" size="large" :visible.sync="dialogResourceVisible">
+        <role-resource :roleId="currentId" @closeDialog="closeResourceDialog" ref="roleResource"></role-resource>
+      </el-dialog>
     </el-row>
   </div>
 </template>
 
 <script>
-  import {fetchTree, getObj, addObj, delObj, putObj, checkCode, getNextCode} from 'api/admin/menu/index';
+  import {fetchTree, getObj, addObj, delObj, putObj, checkCode, getNextCode} from 'api/admin/role/index';
   import {mapGetters} from 'vuex';
-  import MenuElement from './element'
 
   export default {
-    name: 'menu',
+    name: 'role',
     components: {
-      MenuElement
+      'user-role': () => import('./user'),
+      'role-resource': () => import('./resource')
     },
     data() {
       const validateCode = (rule, value, callback) => {
@@ -117,12 +99,28 @@
         list: null,
         total: null,
         formEdit: true,
+        formAdd: true,
         formStatus: '',
-        showElement: false,
-        typeOptions: ['menu', 'dirt'],
+        dialogResourceVisible: false,
+        dialogResourceName: '关联资源',
         listQuery: {
+          groupType: this.type,
           name: undefined
         },
+        treeData: [],
+        defaultProps: {
+          children: 'children',
+          label: 'name'
+        },
+        labelPosition: 'right',
+        roleManager_btn_edit: false,
+        roleManager_btn_del: false,
+        roleManager_btn_add: false,
+        roleManager_btn_userManager: false,
+        roleManager_btn_resourceManager: false,
+        form: this.init(),
+        currentId: '-1',
+        currentName: '根节点',
         rules: {
           name: [{
             required: true,
@@ -140,53 +138,36 @@
             trigger: 'blur'
           }]
         },
-        treeData: [],
-        defaultProps: {
-          children: 'children',
-          label: 'name'
-        },
-        labelPosition: 'right',
-        form: this.init(),
-        currentId: '-1',
-        currentName: '根节点',
-        menuName: '按钮或资源',
-        menuManager_btn_add: false,
-        menuManager_btn_edit: false,
-        menuManager_btn_del: false
+        roleName: '关联用户'
       }
     },
     watch: {
       filterText(val) {
-        this.$refs.menuTree.filter(val);
+        this.$refs.roleTree.filter(val);
       }
     },
     created() {
       this.getList();
-      this.menuManager_btn_add = true;  // this.elements['menuManager:btn_add'];
-      this.menuManager_btn_del = true;  // this.elements['menuManager:btn_del'];
-      this.menuManager_btn_edit = true; // this.elements['menuManager:btn_edit'];
+      this.roleManager_btn_edit = true; // this.elements['roleManager:btn_edit'];
+      this.roleManager_btn_del = true; // this.elements['roleManager:btn_del'];
+      this.roleManager_btn_add = true; // this.elements['roleManager:btn_add'];
+      this.roleManager_btn_userManager = true; // this.elements['roleManager:btn_userManager'];
+      // this.roleManager_btn_resourceManager = false;  this.elements['roleManager:btn_resourceManager'];
     },
     computed: {
       ...mapGetters([
         'elements'
-      ])/*,
-      iconCls: function() {
-        return 'el-icon-' + this.form.icon;
-      }*/
+      ])
     },
     methods: {
       init() {
         return {
           code: undefined,
           name: undefined,
-          parentId: this.currentId,
-          href: undefined,
-          icon: undefined,
-          component: undefined,
-          levelcode: undefined,
           description: undefined,
           enabled: '1',
-          type: undefined,
+          levelcode: undefined,
+          parentId: this.currentId,
           parentName: this.currentName
         }
       },
@@ -208,13 +189,15 @@
         });
         this.currentId = data.id;
         this.currentName = data.name;
-        this.showElement = true;
-        this.menuName = '【' + data.name + '】按钮或资源';
-        if (this.$refs.menuElement) {
-          this.$refs.menuElement.menuId = data.id;
-          this.$refs.menuElement.initObj(data);
-          this.$refs.menuElement.getList();
+        this.roleName = '【' + data.name + '】关联用户';
+        this.dialogResourceName = '【' + data.name + '】关联资源';
+
+        if (this.$refs.userRole) {
+          this.$refs.userRole.roleId = data.id;
+          this.$refs.userRole.roleManager_btn_user_add = true;
+          this.$refs.userRole.getList();
         }
+        this.roleManager_btn_resourceManager = true; // this.elements['roleManager:btn_resourceManager'];
       },
       handleEdit() {
         if (this.form.id) {
@@ -237,7 +220,6 @@
           this.form.levelcode = nextCode;
         });
       },
-
       handleDelete() {
         if (this.form.id) {
           this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -305,13 +287,20 @@
       onCancel() {
         this.formEdit = true;
         this.formStatus = '';
-        this.$refs['form'].resetFields();
       },
       resetForm() {
-        this.$refs['form'].resetFields();
         this.form = this.init();
+      },
+      handleResource() {
+        this.dialogResourceVisible = true;
+        if (this.$refs.roleResource !== undefined) {
+          this.$refs.roleResource.roleId = this.currentId;
+          this.$refs.roleResource.initResources();
+        }
+      },
+      closeResourceDialog() {
+        this.dialogResourceVisible = false;
       }
     }
   }
 </script>
-

@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface UserMapper extends Mapper<User> {
 
-     List<User> selectMemberByGroupId(@Param("groupId") int groupId);
-     List<User> selectLeaderByGroupId(@Param("groupId") int groupId);
+    List<User> selectUsersWithRoleId(@Param("roleId") String roleId, @Param("name") String name);
+
+    List<User> selectUsersWithoutRoleId(@Param("roleId") String roleId, @Param("name") String name);
+
+
 }

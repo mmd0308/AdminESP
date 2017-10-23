@@ -29,4 +29,13 @@
   <select id="selectMaxLevelCodeByParentId" resultType="string">
     select max(levelcode) from base_menu where parent_id=#{parentId}
   </select>
+
+  <select id="selectMenusByUserId" resultMap="BaseResultMap">
+    select distinct e.* from  base_role_resource rr
+    left join base_menu e on rr.resource_id=e.id
+    left join base_role_user ru on ru.role_id=rr.role_id
+    left join base_role r on r.id=ru.role_id
+    where rr.resource_type='menu' and r.enabled='1' and ru.user_id= #{userId}
+  </select>
+
 </mapper>

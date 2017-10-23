@@ -25,10 +25,6 @@ import java.util.List;
 @RequestMapping(value = "/menu")
 public class MenuController extends BaseController<MenuService, Menu> {
 
-
-    @Autowired
-    private UserService userService;
-
     @GetMapping(value = "/list")
     @ResponseBody
     public List<Menu> list(String name){
@@ -111,12 +107,11 @@ public class MenuController extends BaseController<MenuService, Menu> {
                 parentId = this.getSystem().get(0).getId();
             }
         } catch (Exception e) {
-            return new ArrayList<MenuTree>();
+            return new ArrayList<>();
         }
-        List<MenuTree> trees = new ArrayList<MenuTree>();
         Example example = new Example(Menu.class);
-        Menu parent = (Menu) baseService.selectById(parentId);
-        example.createCriteria().andLike("path", parent.getLevelcode() + "%").
+        Menu parent =  baseService.selectById(parentId);
+        example.createCriteria().andLike("levelcode", parent.getLevelcode() + "%").
                 andNotEqualTo("id",parent.getId());
         return getMenuTree(baseService.selectByExample(example), parent.getId());
     }

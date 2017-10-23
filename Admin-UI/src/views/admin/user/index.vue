@@ -5,7 +5,7 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名或账户"
                 v-model="listQuery.name"></el-input>
       <el-button class="filter-item" type="primary" icon="search" @click="handleFilter" title="搜索">搜索</el-button>
-      <el-button class="filter-item" type="primary" icon="edit" v-if="userManager_btn_add" title="新增"
+      <el-button class="filter-item" type="primary" icon="plus" v-if="userManager_btn_add" title="新增"
                  style="margin-left:10px;" @click="handleCreate">新增</el-button>
     </div>
     <!--列表-->

@@ -5,12 +5,12 @@
                 v-model="listQuery.name"></el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="menuManager_btn_element_add && menuId!='-1'" style="margin-left: 10px;" @click="handleCreate"
-                 type="primary" icon="edit">添加
+                 type="primary" icon="plus">添加
       </el-button>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading"  fit highlight-current-row
               style="width: 100%">
-      <el-table-column align="center" label="序号" type="index" width="65">
+      <el-table-column align="center" label="序号" type="index" width="100px">
       </el-table-column>
       <el-table-column width="200px" align="center" label="资源编码">
         <template scope="scope">
@@ -26,7 +26,7 @@
         </template>
 
       </el-table-column>
-      <el-table-column width="200px" align="center" label="资源名称">
+      <el-table-column width="160px" align="center" label="资源名称">
         <template scope="scope">
   <span>
     {{scope.row.name}}</span>
@@ -39,7 +39,7 @@
     {{scope.row.uri}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="资源请求类型">
+      <el-table-column width="150px" align="center" label="请求类型">
         <template scope="scope">
   <span>
     {{scope.row.method}}</span>
@@ -98,7 +98,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
-        <el-button v-else type="primary" @click="update('form')">确 定</el-button>
+        <el-button v-else type="primary" @click="update('form')">更 新</el-button>
       </div>
     </el-dialog>
   </div>
@@ -132,18 +132,13 @@
             trigger: 'blur'
           }, {
             min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
+            max: 60,
+            message: '长度在 3 到 60 个字符',
             trigger: 'blur'
           }],
           type: [{
             required: true,
             message: '请输入资源类型',
-            trigger: 'blur'
-          }, {
-            min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
             trigger: 'blur'
           }],
           name: [{
@@ -157,18 +152,13 @@
             trigger: 'blur'
           }, {
             min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
+            max: 60,
+            message: '长度在 3 到 60 个字符',
             trigger: 'blur'
           }],
           method: [{
             required: true,
             message: '请输入资源请求类型',
-            trigger: 'blur'
-          }, {
-            min: 3,
-            max: 20,
-            message: '长度在 3 到 20 个字符',
             trigger: 'blur'
           }]
         },
@@ -229,9 +219,9 @@
         this.listLoading = true;
         this.listQuery.menuId = this.menuId;
         page(this.listQuery).then(response => {
+          this.listLoading = false;
           this.list = response.data.rows;
           this.total = response.data.total;
-          this.listLoading = false;
         })
       },
       handleFilter() {
@@ -316,7 +306,7 @@
               this.getList();
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '更新成功',
                 type: 'success',
                 duration: 2000
               });

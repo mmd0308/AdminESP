@@ -36,8 +36,15 @@
         </table>
         <table tableName="base_menu" domainObjectName="Menu">
             <generatedKey column="id" identity="true" sqlStatement="MySql"/>
-        </table>-->
+        </table>
         <table tableName="base_element" domainObjectName="Element">
+            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>
+        <table tableName="base_role" domainObjectName="Role">
+            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>
+        -->
+        <table tableName="base_role_user" domainObjectName="RoleUser">
             <generatedKey column="id" identity="true" sqlStatement="MySql"/>
         </table>
         <!--

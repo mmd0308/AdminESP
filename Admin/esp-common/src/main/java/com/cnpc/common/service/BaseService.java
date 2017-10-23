@@ -22,6 +22,10 @@ public abstract class BaseService<M extends Mapper<T>, T> {
         this.mapper = mapper;
     }
 
+    public M getMapper(){
+        return this.mapper;
+    }
+
     public T selectOne(T entity) {
         return mapper.selectOne(entity);
     }

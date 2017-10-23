@@ -5,8 +5,11 @@ import com.cnpc.admin.entity.Menu;
 import com.cnpc.admin.mapper.MenuMapper;
 import com.cnpc.common.service.BaseService;
 import com.cnpc.common.util.CodeUtil;
+import com.cnpc.common.vo.PermissionInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author billjiang 475572229@qq.com
@@ -39,4 +42,22 @@ public class MenuService extends BaseService<MenuMapper, Menu> {
     }
 
 
+    public void menuToPermissionInfo(List<Menu> menus, List<PermissionInfo> permissionInfos) {
+        for (Menu menu : menus) {
+            if(StringUtils.isBlank(menu.getHref())){
+                menu.setHref("/"+menu.getCode());
+            }
+            PermissionInfo info =new PermissionInfo();
+            info.setCode(menu.getCode());
+            info.setType(CommonConstant.RESOURCE_TYPE_MENU);
+            info.setName(menu.getName());
+            String uri=menu.getHref();
+            if(!uri.startsWith("/"))
+                uri="/"+uri;
+            info.setUri(uri);
+            info.setMethod(CommonConstant.RESOURCE_REQUEST_METHOD_GET);
+            info.setMenu(menu.getId());
+            permissionInfos.add(info);
+        }
+    }
 }

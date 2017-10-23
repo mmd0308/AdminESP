@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnpc.admin.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.User">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
-    <result column="tel_phone" jdbcType="VARCHAR" property="telPhone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="sex" jdbcType="CHAR" property="sex" />
-    <result column="type" jdbcType="CHAR" property="type" />
-    <result column="status" jdbcType="CHAR" property="status" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="create_name" jdbcType="VARCHAR" property="createName" />
-    <result column="create_host" jdbcType="VARCHAR" property="createHost" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
-    <result column="update_host" jdbcType="VARCHAR" property="updateHost" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="birthday" jdbcType="VARCHAR" property="birthday"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone"/>
+        <result column="tel_phone" jdbcType="VARCHAR" property="telPhone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_host" jdbcType="VARCHAR" property="createHost"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_host" jdbcType="VARCHAR" property="updateHost"/>
+    </resultMap>
+
+    <!--角色关联的用户-->
+    <select id="selectUsersWithRoleId" resultMap="BaseResultMap">
+        select u.* from base_user u
+        left join base_role_user ru on ru.user_id = u.id
+        where ru.role_id = #{roleId}
+        <if test="name!=null">
+            and (u.name like CONCAT(CONCAT('%', #{name}),'%') or u.username like CONCAT(CONCAT('%', #{name}),'%'))
+        </if>
+    </select>
+
+    <!-- 未关联角色的用户-->
+    <select id="selectUsersWithoutRoleId" resultMap="BaseResultMap">
+        select u.* from base_user u
+        left join (select * from base_role_user where role_id=#{roleId}) ru on u.id=ru.user_id
+        where ru.user_id is null
+        <if test="name!=null">
+            and (u.name like CONCAT(CONCAT('%', #{name}),'%') or u.username like CONCAT(CONCAT('%', #{name}),'%'))
+        </if>
+    </select>
 
 
 
-  <select id="selectMemberByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_group_member gm
-    on gm.user_id = u.id where gm.group_id = #{groupId}
-  </select>
-
-  <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_group_leader gm
-    on gm.user_id = u.id where gm.group_id = #{groupId}
-  </select>
 </mapper>

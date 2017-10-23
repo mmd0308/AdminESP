@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import {Message, MessageBox} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
+import router from '@/router'
 
 // 创建axios实例
 const service = axios.create({
-   // baseURL: process.env.BASE_API, // api的base_url
+  // baseURL: process.env.BASE_API, // api的base_url
   timeout: 5000                  // 请求超时时间
 })
 
@@ -31,12 +32,8 @@ service.interceptors.response.use(
      */
     const res = response.data
     // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-    console.log('-------------------')
-    console.log(res);
-    console.log('=======================')
-    console.log(response)
 
-    if (response.status === 401 || res.status === 40101 || res.status === 40301) {
+    if (response.status === 401) {
       MessageBox.confirm('会话超时，请重新登录，或者取消继续留在该页面', '确定退出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
@@ -47,6 +44,9 @@ service.interceptors.response.use(
         })
       })
       return Promise.reject('error')
+    }
+    if (response.status === 200 && (res.status === 40101 || res.status === 40301)) {
+      router.push({path: '/401'})
     }
     if (response.status !== 200 && res.status !== 200) {
       Message({

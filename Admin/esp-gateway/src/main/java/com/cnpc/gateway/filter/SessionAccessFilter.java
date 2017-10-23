@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -141,6 +142,7 @@ public class SessionAccessFilter extends ZuulFilter {
                         && method.equals(permissionInfo.getMethod());
             }
         });
+        //return Collections.EMPTY_LIST;
     }
 
 

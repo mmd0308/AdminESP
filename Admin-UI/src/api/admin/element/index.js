@@ -8,9 +8,16 @@ export function page(query) {
   });
 }
 
+export function list(query) {
+  return fetch({
+    url: '/api/admin/element/list',
+    method: 'get',
+    params: query
+  })
+}
 export function addObj(obj) {
   return fetch({
-    url: '/api/admin/element',
+    url: '/api/admin/element/add',
     method: 'post',
     data: obj
   });
@@ -18,21 +25,21 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return fetch({
-    url: '/api/admin/element/' + id,
+    url: '/api/admin/element/get/' + id,
     method: 'get'
   })
 }
 
 export function delObj(id) {
   return fetch({
-    url: '/api/admin/element/' + id,
+    url: '/api/admin/element/delete/' + id,
     method: 'delete'
   })
 }
 
 export function putObj(id, obj) {
   return fetch({
-    url: '/api/admin/element/' + id,
+    url: '/api/admin/element/put/' + id,
     method: 'put',
     data: obj
   })
