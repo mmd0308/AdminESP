@@ -30,3 +30,28 @@ export function putObj(id, obj) {
     data: obj
   })
 }
+
+export function getNextCode(id) {
+  return fetch({
+    url: '/api/admin/org/getNextCode',
+    method: 'get',
+    params: id
+  })
+}
+
+export function checkCode(id, code) {
+  return fetch({
+    url: '/api/admin/org/checkCode',
+    method: 'get',
+    params: id, code
+  })
+}
+
+export function delObj(id) {
+  return fetch({
+    url: '/api/admin/org/deleted',
+    method: 'delete',
+    params: id
+  })
+}
+

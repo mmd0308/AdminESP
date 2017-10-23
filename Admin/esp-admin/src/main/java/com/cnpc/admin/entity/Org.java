@@ -42,6 +42,34 @@ public class Org {
      */
     private String parentid;
 
+    private String lspell;
+    private String initials;
+    private String uspell;
+
+    public String getLspell() {
+        return lspell;
+    }
+
+    public void setLspell(String lspell) {
+        this.lspell = lspell;
+    }
+
+    public String getInitials() {
+        return initials;
+    }
+
+    public void setInitials(String initials) {
+        this.initials = initials;
+    }
+
+    public String getUspell() {
+        return uspell;
+    }
+
+    public void setUspell(String uspell) {
+        this.uspell = uspell;
+    }
+
     /**
      * @return id
      */

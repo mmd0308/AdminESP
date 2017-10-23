@@ -12,10 +12,24 @@ import java.util.Map;
 @Service
 public class OrgService extends BaseService<OrgMapper,Org> {
 
-
     public List<Map> getTree(Org org) {
         List<Map> orgs = this.getOrgByPIDToMap(org.getParentid());
         return this.getTrees(orgs);
+    }
+
+    /**
+     * 删除组织机构
+     * @param id
+     */
+    public Boolean deleteById(String id) {
+        //是否有子集的机构
+        List<Map> maps = this.getOrgByPIDToMap(id);
+        if (maps.size()>0){
+            return false;
+        }else {
+            mapper.deleteByPrimaryKey(id);
+            return true;
+        }
     }
 
     /**
@@ -40,5 +54,32 @@ public class OrgService extends BaseService<OrgMapper,Org> {
      */
     public List<Map> getOrgByPIDToMap(String pid){
         return mapper.getOrgByPIDToMap(pid);
+    }
+
+    public String getNextLevelCode(String parentId,String levelCode) {
+        String lCode = mapper.getLevelCodeByParentId(parentId);
+        if(null != lCode && lCode != ""){
+            lCode = Integer.parseInt(lCode.substring(lCode.length()-6))+1+"";
+            String str = "";
+            int num = 6-lCode.length()%6;
+            for (int i=0;i<num;i++){
+                str = str + "0";
+            }
+            lCode = str + lCode;
+        }else {
+            lCode = "000001";
+        }
+        return  levelCode+lCode;
+    }
+
+    public Boolean checkCode(String id, String code) {
+        Org org = new Org();
+        org.setCode(code);
+        org.setId(id);
+        List<Map> maps = mapper.checkCode(org);
+        if (maps.size()>0){
+            return false;
+        }
+        return true;
     }
 }
