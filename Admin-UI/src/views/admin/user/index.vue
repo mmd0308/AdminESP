@@ -140,16 +140,10 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-row>
-              <el-col :span="20">
-                <el-form-item label="组织机构" prop="corg">
-                  <el-input v-model="form.corg" placeholder="请选择组织机构" :readonly="true" style="width:260px;"></el-input>
-                </el-form-item>   
-              </el-col>
-              <el-col :span="4">
-                <el-button type="primary" @click="checkOrg()">选 择</el-button>
-              </el-col>
-            </el-row>
+            <el-form-item label="组织机构" prop="corg">
+              <el-input v-model="form.corg" placeholder="请选择组织机构" :readonly="true" style="width:270px;"></el-input>
+              <el-button type="primary" @click="checkOrg()" >选 择</el-button>
+            </el-form-item>   
           </el-col>
           <el-col :span="12">
           </el-col>
@@ -175,8 +169,10 @@
         <el-button v-else type="primary" @click="update('form')">确 定</el-button>
       </div>
     </el-dialog>
-
-
+        <!-- 组织机构管理选择树 -->
+    <el-dialog :visible.sync="dialogOrgTreeVisible" ref="diaog_tree" size="tiny">
+      <org-tree @org_tree="getTreeNodes" @org_tree_cancel="orgCancelTree"></org-tree>
+    </el-dialog>
   </div>
 </template>
 
@@ -185,9 +181,12 @@
     page, addObj, getObj, delObj, putObj} from 'api/admin/user/index'
   import {mapGetters} from 'vuex'
   import {isvalidDate} from '@/utils/validate'
-
+  import OrgTree from '@/views/admin/org/checkOrg'
   export default {
     name: 'user',
+    components: {
+      OrgTree
+    },
     data() {
       const validateBirthday = (rule, value, callback) => {
         if (!isvalidDate(value)) {
@@ -254,6 +253,7 @@
         list: null,
         total: null,
         listLoading: true,
+        dialogOrgTreeVisible: false,
         listQuery: {
           page: 1,
           limit: 20,
@@ -269,7 +269,8 @@
           update: '更新',
           create: '创建'
         },
-        tableKey: 0
+        tableKey: 0,
+        treeNodes: ''
       }
     },
     created() {
@@ -297,7 +298,9 @@
           birthday: '',
           address: '',
           mobilePhone: undefined,
-          description: undefined
+          description: undefined,
+          corg: '',
+          corgId: ''
         }
       },
       handleClose(done) {
@@ -407,6 +410,32 @@
       },
       resetTemp() {
         this.form = this.initObj();
+      },
+      checkOrg() {
+        this.dialogOrgTreeVisible = true
+      },
+      getTreeNodes(msg) {
+        var cid = '';
+        var corg = '';
+        var num = msg.length;
+        debugger
+        msg.forEach(function(item,index) {
+          console.log(item)
+          if(index == num -1){
+            cid = cid + item.id;
+            corg = corg + item.label;
+          }else{
+            cid = cid + item.id + ", ";
+            corg = corg + item.label + ", ";
+          }
+        });
+        this.treeNodes = msg
+        this.form.corg = corg
+        this.form.corgId = cid
+        this.dialogOrgTreeVisible = false
+      },
+      orgCancelTree(){
+        this.dialogOrgTreeVisible = false
       }
     }
   }
