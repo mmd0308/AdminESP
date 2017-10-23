@@ -86,39 +86,88 @@
     <!--编辑框-->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :before-close="handleClose">
       <el-form :model="form" :inline="true" :rules="rules" ref="form" label-width="90px">
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="账户" prop="username">
-          <el-input v-if="dialogStatus=='create'" v-model="form.username" placeholder="请输入账户"></el-input>
-          <el-input v-else v-model="form.username" placeholder="请输入账户" readonly></el-input>
-        </el-form-item>
-        <el-form-item v-if="dialogStatus=='create'" label="密码" placeholder="请输入密码" prop="password">
-          <el-input type="password" v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-select class="filter-item" v-model="form.sex" style="width:340px" placeholder="请选择">
-            <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="生日" aria-placeholder="请输入生日" prop="birthday">
-          <el-date-picker v-model="form.birthday" type="date" placeholder="请选择日期"
-                          :picker-options="birthdayOptions" style="width: 340px"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号码" prop="mobilePhone">
-          <el-input v-model="form.mobilePhone" placeholder="请输入手机号码"></el-input>
-        </el-form-item>
-        <el-form-item label="联系地址">
-          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" style="width: 340px;" placeholder="请输入联系地址"
-                    v-model="form.address"></el-input>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" style="width: 340px;" placeholder="请输入备注"
-                    v-model="form.description"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="form.name" placeholder="请输入姓名" class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="账户" prop="username">
+              <el-input v-if="dialogStatus=='create'" v-model="form.username" placeholder="请输入账户" class="input-selects-width"></el-input>
+              <el-input v-else v-model="form.username" placeholder="请输入账户" readonly class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item v-if="dialogStatus=='create'" label="密码" placeholder="请输入密码" prop="password">
+              <el-input type="password" v-model="form.password" class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="dialogStatus=='create'" label="确认密码" placeholder="请输入密码" prop="password">
+              <el-input type="password" v-model="form.password" class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="性别">
+              <el-select class="filter-item input-selects-width" v-model="form.sex"  placeholder="请选择">
+                <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="生日" aria-placeholder="请输入生日" prop="birthday">
+              <el-date-picker v-model="form.birthday" type="date" placeholder="请选择日期" class="input-selects-width"
+                              :picker-options="birthdayOptions" style="width: 340px"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="form.email" placeholder="请输入邮箱" class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="手机号码" prop="mobilePhone">
+              <el-input v-model="form.mobilePhone" placeholder="请输入手机号码" class="input-selects-width"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-row>
+              <el-col :span="20">
+                <el-form-item label="组织机构" prop="corg">
+                  <el-input v-model="form.corg" placeholder="请选择组织机构" :readonly="true" style="width:260px;"></el-input>
+                </el-form-item>   
+              </el-col>
+              <el-col :span="4">
+                <el-button type="primary" @click="checkOrg()">选 择</el-button>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="12">
+          </el-col>
+        </el-row>.
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="联系地址">
+              <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" class="input-selects-width" placeholder="请输入联系地址"
+                        v-model="form.address"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="备注">
+              <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 5}" class="input-selects-width" placeholder="请输入备注"
+                        v-model="form.description"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
@@ -362,3 +411,8 @@
     }
   }
 </script>
+<style>
+.input-selects-width{
+  width: 340px;
+}
+</style>
