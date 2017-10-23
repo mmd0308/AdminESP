@@ -88,7 +88,6 @@ public class SessionAccessFilter extends ZuulFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        HttpSession httpSession = ctx.getRequest().getSession();
         HttpServletRequest request = ctx.getRequest();
         final String requestUri = request.getRequestURI().substring(zuulPrefix.length());
         final String method = request.getMethod();
@@ -105,7 +104,7 @@ public class SessionAccessFilter extends ZuulFilter {
             setFailedRequest(JSON.toJSONString(new TokenForbiddenResponse("Token Forbidden")), 200);
             return null;
         }
-        List<PermissionInfo> permissionInfos = userService.getAllPermissionInfo();
+        List<PermissionInfo> permissionInfos = this.getAllPermissionInfo(request);
         //判断资源是否启用权限约束
         Collection<PermissionInfo> result = getPermissionInfos(requestUri, method, permissionInfos);
 
@@ -155,13 +154,30 @@ public class SessionAccessFilter extends ZuulFilter {
      */
     private List<PermissionInfo> getPermissionInfos(HttpServletRequest request, String username) {
         List<PermissionInfo> permissionInfos;
-        if (request.getSession().getAttribute("permission") == null) {
+        if (request.getSession().getAttribute("permission-user") == null) {
             permissionInfos = userService.getPermissionByUsername(username);
-            request.getSession().setAttribute("permission", permissionInfos);
+            request.getSession().setAttribute("permission-user", permissionInfos);
         } else {
-            permissionInfos = (List<PermissionInfo>) request.getSession().getAttribute("permission");
+            permissionInfos = (List<PermissionInfo>) request.getSession().getAttribute("permission-user");
         }
         return permissionInfos;
+    }
+
+    /**
+     * 系统所有权限缓存到session中
+     * @param request
+     * @return
+     */
+    private List<PermissionInfo> getAllPermissionInfo(HttpServletRequest request){
+        List<PermissionInfo> permissionInfos;
+        if (request.getSession().getAttribute("permission-all") == null) {
+            permissionInfos = userService.getAllPermissionInfo();
+            request.getSession().setAttribute("permission-all", permissionInfos);
+        } else {
+            permissionInfos = (List<PermissionInfo>) request.getSession().getAttribute("permission-all");
+        }
+        return permissionInfos;
+
     }
 
 

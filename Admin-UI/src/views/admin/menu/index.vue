@@ -54,7 +54,7 @@
             </el-form-item>
             <el-form-item label="图标" prop="icon">
               <el-input v-model="form.icon" :disabled="formEdit" style="width: 320px;" placeholder="请输入图标"></el-input>
-              <icon-svg :iconClass="form.icon"></icon-svg>
+              <icon-svg :iconClass="form.icon" color="grey"></icon-svg>
             </el-form-item>
             <el-form-item label="资源路径" prop="href">
               <el-input v-model="form.href" :disabled="formEdit" placeholder="请输入资源路径"></el-input>
