@@ -59,6 +59,27 @@ public class User {
     @Column(name = "update_host")
     private String updateHost;
 
+    @Transient
+    private String corgId;
+    @Transient
+    private String corg;
+
+    public String getCorg() {
+        return corg;
+    }
+
+    public void setCorg(String corg) {
+        this.corg = corg;
+    }
+
+    public String getCorgId() {
+        return corgId;
+    }
+
+    public void setCorgId(String corgId) {
+        this.corgId = corgId;
+    }
+
     /**
      * @return id
      */

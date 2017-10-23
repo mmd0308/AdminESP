@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper extends Mapper<User> {
 
@@ -13,4 +14,9 @@ public interface UserMapper extends Mapper<User> {
     List<User> selectUsersWithoutRoleId(@Param("roleId") String roleId, @Param("name") String name);
 
 
+    void insertOrgUser(Map<String, String> map);
+
+    User selectUserById(Object id);
+
+    void deleteRlOrgByUid(String id);
 }
