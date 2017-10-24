@@ -87,7 +87,7 @@ export const asyncRouterMap = [
         name: '角色管理',
         icon: 'user'
       }, {
-        path: 'dict',
+        path: '/admin/dict',
         component: _import('admin/dict/index'),
         name: '字典管理',
         icon: 'user'
