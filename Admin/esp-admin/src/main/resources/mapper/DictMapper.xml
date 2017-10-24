@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnpc.admin.mapper.DictMapper">
+
+
+
+    <select id="getDictByPIDToMap" parameterType="string" resultType="map">
+       select b.id,b.name,b.code,b.level_code as levelCode,b.parent_id as parentId, if(b.parent_id = '0', '无上级机构',o.name ) AS parentName,b.lspell,b.uspell,b.initials,b.enabled,b.value,b.description from base_dict b LEFT JOIN  base_dict o ON b.parent_id = o.id
+       where b.parent_id = #{pid}
+    </select>
+
+    <select id="getLevelCodeByParentId" parameterType="string" resultType="string">
+        select max(level_code) from base_dict where parent_id = #{0}
+    </select>
+    <select id="checkCode" parameterType="dict" resultType="map">
+        SELECT * FROM base_dict where  code = #{code}
+        <if test="id != null and id != ''">
+            and id != #{id}
+        </if>
+    </select>
+</mapper>

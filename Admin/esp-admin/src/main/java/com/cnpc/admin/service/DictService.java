@@ -1,8 +1,10 @@
 package com.cnpc.admin.service;
 
-import com.cnpc.common.service.BaseService;
+import com.cnpc.admin.entity.Dict;
 import com.cnpc.admin.entity.Org;
+import com.cnpc.admin.mapper.DictMapper;
 import com.cnpc.admin.mapper.OrgMapper;
+import com.cnpc.common.service.BaseService;
 import com.cnpc.common.util.LevelCodeUtil;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,10 @@ import java.util.Map;
 
 
 @Service
-public class OrgService extends BaseService<OrgMapper,Org> {
+public class DictService extends BaseService<DictMapper,Dict> {
 
-    public List<Map> getTree(Org org) {
-        List<Map> orgs = this.getOrgByPIDToMap(org.getParentid());
+    public List<Map> getTree(Dict org) {
+        List<Map> orgs = this.getDictByPIDToMap(org.getParentId());
         return this.getTrees(orgs);
     }
 
@@ -24,7 +26,7 @@ public class OrgService extends BaseService<OrgMapper,Org> {
      */
     public Boolean deleteById(String id) {
         //是否有子集的机构
-        List<Map> maps = this.getOrgByPIDToMap(id);
+        List<Map> maps = this.getDictByPIDToMap(id);
         if (maps.size()>0){
             return false;
         }else {
@@ -40,7 +42,7 @@ public class OrgService extends BaseService<OrgMapper,Org> {
      */
     public List<Map> getTrees(List<Map> orgs){
         for (Map o: orgs ) {
-            List<Map> orgByPID = this.getOrgByPIDToMap(o.get("id").toString());
+            List<Map> orgByPID = this.getDictByPIDToMap(o.get("id").toString());
             if (orgByPID.size()>0){
                 o.put("children",orgByPID);
                 getTrees(orgByPID);
@@ -53,8 +55,8 @@ public class OrgService extends BaseService<OrgMapper,Org> {
      * @param pid
      * @return
      */
-    public List<Map> getOrgByPIDToMap(String pid){
-        return mapper.getOrgByPIDToMap(pid);
+    public List<Map> getDictByPIDToMap(String pid){
+        return mapper.getDictByPIDToMap(pid);
     }
 
     public String getNextLevelCode(String parentId,String levelCode) {
@@ -63,7 +65,7 @@ public class OrgService extends BaseService<OrgMapper,Org> {
     }
 
     public Boolean checkCode(String id, String code) {
-        Org org = new Org();
+        Dict org = new Dict();
         org.setCode(code);
         org.setId(id);
         List<Map> maps = mapper.checkCode(org);

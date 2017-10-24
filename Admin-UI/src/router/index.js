@@ -86,6 +86,11 @@ export const asyncRouterMap = [
         component: _import('admin/role/index'),
         name: '角色管理',
         icon: 'user'
+      }, {
+        path: 'dict',
+        component: _import('admin/dict/index'),
+        name: '字典管理',
+        icon: 'user'
       }
     ]
   },
