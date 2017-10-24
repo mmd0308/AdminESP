@@ -419,14 +419,14 @@
         var corg = '';
         var num = msg.length;
         debugger
-        msg.forEach(function(item,index) {
+        msg.forEach(function(item, index) {
           console.log(item)
-          if(index == num -1){
+          if (index === (num - 1)) {
             cid = cid + item.id;
             corg = corg + item.label;
-          }else{
-            cid = cid + item.id + ", ";
-            corg = corg + item.label + ", ";
+          } else {
+            cid = cid + item.id + ', ';
+            corg = corg + item.label + ', ';
           }
         });
         this.treeNodes = msg
@@ -434,7 +434,7 @@
         this.form.corgId = cid
         this.dialogOrgTreeVisible = false
       },
-      orgCancelTree(){
+      orgCancelTree() {
         this.dialogOrgTreeVisible = false
       }
     }
