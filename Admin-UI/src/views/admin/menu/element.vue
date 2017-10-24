@@ -4,54 +4,44 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="资源名称"
                 v-model="listQuery.name"></el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="menuManager_btn_element_add && menuId!='-1'" style="margin-left: 10px;" @click="handleCreate"
+      <el-button class="filter-item" v-if="menuManager_btn_element_add && menuId!='-1'" style="margin-left: 10px;"
+                 @click="handleCreate"
                  type="primary" icon="plus">添加
       </el-button>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading"  fit highlight-current-row
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" fit highlight-current-row
               style="width: 100%">
       <el-table-column align="center" label="序号" type="index" width="100px">
       </el-table-column>
-      <el-table-column width="200px" align="center" label="资源编码">
+      <el-table-column width="200px" align="left" label="资源编码">
         <template scope="scope">
-          <span>
-    {{scope.row.code}}</span>
+          <span>{{scope.row.code}}</span>
         </template>
-
       </el-table-column>
       <el-table-column width="150px" align="center" label="资源类型">
         <template scope="scope">
-  <span>
-    {{scope.row.type}}</span>
+          <span> {{scope.row.type}}</span>
         </template>
-
       </el-table-column>
       <el-table-column width="160px" align="center" label="资源名称">
         <template scope="scope">
-  <span>
-    {{scope.row.name}}</span>
+          <span> {{scope.row.name}}</span>
         </template>
-
       </el-table-column>
       <el-table-column width="200px" align="center" label="资源地址">
         <template scope="scope">
-  <span>
-    {{scope.row.uri}}</span>
+          <span>{{scope.row.uri}}</span>
         </template>
       </el-table-column>
       <el-table-column width="150px" align="center" label="请求类型">
         <template scope="scope">
-  <span>
-    {{scope.row.method}}</span>
+          <span>{{scope.row.method}}</span>
         </template>
-
       </el-table-column>
       <el-table-column width="200px" align="center" label="描述">
         <template scope="scope">
-  <span>
-    {{scope.row.description}}</span>
+          <span>{{scope.row.description}}</span>
         </template>
-
       </el-table-column>
       <el-table-column fixed="right" align="center" label="操作" width="150">
         <template scope="scope">

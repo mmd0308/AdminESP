@@ -76,18 +76,19 @@ public class AuthServiceImpl implements AuthService {
         if(username==null)
             return null;
         UserInfo user = userService.getUserByUsername(username);
-        UserVo frontUser  = new UserVo();
-        BeanUtils.copyProperties(user,frontUser);
+        UserVo uservo  = new UserVo();
+        BeanUtils.copyProperties(user,uservo);
         List<PermissionInfo> permissionInfos = userService.getPermissionByUsername(username);
         Stream<PermissionInfo> menus = permissionInfos.parallelStream().filter((permission) -> {
             return permission.getType().equals(BaseConstants.RESOURCE_TYPE_MENU);
         });
-        frontUser.setMenus(menus.collect(Collectors.toList()));
+        uservo.setMenus(menus.collect(Collectors.toList()));
         Stream<PermissionInfo> elements = permissionInfos.parallelStream().filter((permission) -> {
             return !permission.getType().equals(BaseConstants.RESOURCE_TYPE_MENU);
         });
-        frontUser.setElements(elements.collect(Collectors.toList()));
-        return frontUser;
+        uservo.setElements(elements.collect(Collectors.toList()));
+        uservo.setRoles(userService.getRoleCodesByUsername(username));
+        return uservo;
     }
 
     @Override

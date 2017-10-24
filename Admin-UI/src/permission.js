@@ -24,7 +24,8 @@ router.beforeEach((to, from, next) => {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetUserInfo').then(res => { // 拉取user_info
           const roles = res.roles
-          store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
+          const menus = res.menus
+          store.dispatch('GenerateRoutes', { menus, roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to }) // hack方法 确保addRoutes已完成
           })

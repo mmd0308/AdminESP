@@ -1,13 +1,13 @@
 <template>
   <div class="app-container calendar-list-container">
     <el-row :gutter="15">
-      <el-col :span="6">
+      <el-col :span="4">
         <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
         <el-tree class="filter-tree" :data="treeData" node-key="id" highlight-current :props="defaultProps"
                  :filter-node-method="filterNode" ref="roleTree" @node-click="getNodeData"
                  default-expand-all style="margin-top:10px;"></el-tree>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="20">
         <div style="margin-bottom: 10px">
           <el-button-group>
             <el-button type="primary" v-if="roleManager_btn_add" icon="plus" @click="handleAdd">添加</el-button>

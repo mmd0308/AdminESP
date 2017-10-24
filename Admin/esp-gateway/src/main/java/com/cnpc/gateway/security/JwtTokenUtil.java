@@ -34,7 +34,7 @@ public class JwtTokenUtil implements Serializable {
     private String secret;
 
     @Value("${gateway.jwt.expiration}")
-    private Long expiration;
+    private Long expiration=300l;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -85,6 +85,7 @@ public class JwtTokenUtil implements Serializable {
         try {
             claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
+            logger.error("getClaimsFromToken exception occurs: {}", e.getMessage());
             claims = null;
         }
         return claims;
@@ -151,7 +152,7 @@ public class JwtTokenUtil implements Serializable {
         Object existToken = redisTemplate.opsForValue().get(info.getUsername());
         if (token.equals(existToken)) {
             final String username = getUsernameFromToken(token);
-            final Date created = getCreatedDateFromToken(token);
+            //final Date created = getCreatedDateFromToken(token);
             return (
                     username.equals(info.getUsername())
                             && !isTokenExpired(token));

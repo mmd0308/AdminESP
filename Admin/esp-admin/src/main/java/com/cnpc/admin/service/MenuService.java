@@ -44,15 +44,15 @@ public class MenuService extends BaseService<MenuMapper, Menu> {
 
     public void menuToPermissionInfo(List<Menu> menus, List<PermissionInfo> permissionInfos) {
         for (Menu menu : menus) {
-            if(StringUtils.isBlank(menu.getHref())){
+            /*if(StringUtils.isBlank(menu.getHref())){
                 menu.setHref("/"+menu.getCode());
-            }
+            }*/
             PermissionInfo info =new PermissionInfo();
             info.setCode(menu.getCode());
             info.setType(CommonConstant.RESOURCE_TYPE_MENU);
             info.setName(menu.getName());
             String uri=menu.getHref();
-            if(!uri.startsWith("/"))
+            if(StringUtils.isNotEmpty(uri)&&!uri.startsWith("/"))
                 uri="/"+uri;
             info.setUri(uri);
             info.setMethod(CommonConstant.RESOURCE_REQUEST_METHOD_GET);

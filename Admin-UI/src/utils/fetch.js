@@ -31,9 +31,9 @@ service.interceptors.response.use(
      * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中
      */
     const res = response.data
-    // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
+    // 40301:token forbidden/用户不存在; 40302:permission forbidden;  40101:Token 错误或过期了;
 
-    if (response.status === 401) {
+    if (response.status === 200 && (res.status === 40101 || res.status === 40301)) {
       MessageBox.confirm('会话超时，请重新登录，或者取消继续留在该页面', '确定退出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
@@ -45,8 +45,11 @@ service.interceptors.response.use(
       })
       return Promise.reject('error')
     }
-    if (response.status === 200 && (res.status === 40101 || res.status === 40301)) {
-      router.push({path: '/401'})
+    if (response.status === 401 || res.status === 40302) {
+      router.push({path: '/error/401'})
+    }
+    if (response.status === 404) {
+      router.push({path: '/error/404'})
     }
     if (response.status !== 200 && res.status !== 200) {
       Message({

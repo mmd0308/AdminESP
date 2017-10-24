@@ -36,4 +36,7 @@ public interface RoleMapper extends Mapper<Role> {
 
     void insertResourceMenus(@Param("roleId") String roleId, @Param("menuIds") String[] menuIds,
                                @Param("resourceType") String resourceType);
+
+    List<String> selectRoleCodesByUserId(@Param("userId") String userId);
+    List<String> selectRoleIdsByUserId(@Param("userId") String userId);
 }

@@ -25,4 +25,7 @@ public interface UserService {
 
     @GetMapping(value = "/permissions")
     List<PermissionInfo> getAllPermissionInfo();
+
+    @GetMapping(value = "/{username}/roles")
+    List<String> getRoleCodesByUsername(@PathVariable("username") String username);
 }

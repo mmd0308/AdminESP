@@ -53,7 +53,7 @@ public class RoleUserController extends BaseController<UserService, User> {
     }
 
 
-    @RequestMapping(value = "/delete/{roleId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{roleId}/delete", method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<Object> deleteRoleUser(@PathVariable String roleId, String userIds) {
         roleService.deleteRoleUser(roleId,userIds);
@@ -61,7 +61,7 @@ public class RoleUserController extends BaseController<UserService, User> {
     }
 
 
-    @RequestMapping(value = "/add/{roleId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{roleId}/add", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Object> addRoleUsers(@PathVariable String roleId, String userIds) {
         roleService.insertRoleUsers(roleId, userIds);

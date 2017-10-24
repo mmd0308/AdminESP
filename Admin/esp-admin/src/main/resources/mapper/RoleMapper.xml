@@ -55,6 +55,18 @@
         </foreach>
     </insert>
 
+    <select id="selectRoleCodesByUserId" resultType="string">
+      select distinct r.code from base_role_user ru
+      left join base_role r on ru.role_id=r.id
+      where  ru.user_id=#{userId} and r.enabled='1'
+    </select>
+
+    <select id="selectRoleIdsByUserId" resultType="string">
+      select distinct r.id from base_role_user ru
+      left join base_role r on ru.role_id=r.id
+      where  ru.user_id=#{userId} and r.enabled='1'
+    </select>
+
     <!--删除角色权限关联-->
     <delete id="deleteByRoleIdAndResourceType">
     delete from base_role_resource where role_id=#{roleId} and resource_type=#{resourceType}

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <el-row :gutter="15">
-      <el-col :span="6">
+      <el-col :span="4">
         <el-input
           placeholder="输入关键字进行过滤"
           v-model="filterText">
@@ -19,7 +19,7 @@
           default-expand-all>
         </el-tree>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="20">
         <div class="filter-container">
           <el-button-group>
             <el-button type="primary" v-if="menuManager_btn_add" icon="plus" @click="handleAdd">添加</el-button>
@@ -119,7 +119,7 @@
         formEdit: true,
         formStatus: '',
         showElement: false,
-        typeOptions: ['menu', 'dirt'],
+        typeOptions: ['menu', 'link'],
         listQuery: {
           name: undefined
         },

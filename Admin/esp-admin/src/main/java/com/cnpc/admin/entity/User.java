@@ -59,6 +59,7 @@ public class User {
     @Column(name = "update_host")
     private String updateHost;
 
+
     /**
      * @return id
      */

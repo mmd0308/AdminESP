@@ -4,6 +4,7 @@ import com.cnpc.admin.entity.Element;
 import com.cnpc.admin.entity.Menu;
 import com.cnpc.admin.service.ElementService;
 import com.cnpc.admin.service.MenuService;
+import com.cnpc.admin.service.RoleService;
 import com.cnpc.common.constant.UserConstant;
 import com.cnpc.common.controller.BaseController;
 import com.cnpc.common.message.TableResultResponse;
@@ -35,6 +36,9 @@ public class UserController extends BaseController<UserService, User> {
     @Autowired
     private ElementService elementService;
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping(value = "/username/{username}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public UserInfo getUserByUsername(@PathVariable("username") String username) {
@@ -49,6 +53,16 @@ public class UserController extends BaseController<UserService, User> {
         return info;
     }
 
+    @GetMapping(value = "/{username}/roles")
+    @ResponseBody
+    public List<String> getRoleCodesByUsername(@PathVariable("username") String username){
+        User user=baseService.getUserByUsername(username);
+        List<String> roleCodes=new ArrayList<>();
+        if(user!=null){
+            roleCodes=roleService.getMapper().selectRoleCodesByUserId(user.getId());
+        }
+        return roleCodes;
+    }
 
     @GetMapping(value = "/{username}/permissions")
     @ResponseBody

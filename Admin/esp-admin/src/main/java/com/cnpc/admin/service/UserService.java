@@ -8,10 +8,14 @@ import com.cnpc.admin.mapper.UserMapper;
 import com.cnpc.common.util.Query;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.RequestContext;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +33,20 @@ public class UserService extends BaseService<UserMapper, User> {
      * @param username
      * @return
      */
+
+    @Autowired
+    private HttpSession session;
+
     public User getUserByUsername(String username) {
-        User user = new User();
-        user.setUsername(username);
-        return this.selectOne(user);
+        if (session != null && session.getAttribute("user") != null) {
+            return (User) session.getAttribute("user");
+        } else {
+            User user = new User();
+            user.setUsername(username);
+            user = this.selectOne(user);
+            session.setAttribute("user", user);
+            return user;
+        }
     }
 
 
@@ -70,7 +84,6 @@ public class UserService extends BaseService<UserMapper, User> {
                 query.get("name") != null ? query.get("name").toString() : null);
         return new TableResultResponse<>(result.getTotal(), list);
     }
-
 
 
 }

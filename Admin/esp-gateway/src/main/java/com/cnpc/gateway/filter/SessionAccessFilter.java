@@ -1,6 +1,7 @@
 package com.cnpc.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.cnpc.common.message.PermissionForbiddenResponse;
 import com.cnpc.common.message.TokenErrorResponse;
 import com.cnpc.common.message.TokenForbiddenResponse;
 import com.cnpc.common.util.ClientUtil;
@@ -15,6 +16,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +137,9 @@ public class SessionAccessFilter extends ZuulFilter {
             @Override
             public boolean apply(PermissionInfo permissionInfo) {
                 String url = permissionInfo.getUri();
+                if(StringUtils.isBlank(url)){
+                    return false;
+                }
                 String uri = url.replaceAll("\\{\\*\\}", "[a-zA-Z\\\\d]+");
                 String regEx = "^" + uri + "$";
                 return (Pattern.compile(regEx).matcher(requestUri).find() || requestUri.startsWith(url + "/"))
@@ -180,7 +185,6 @@ public class SessionAccessFilter extends ZuulFilter {
 
     }
 
-
     /**
      * 权限校验
      *
@@ -191,8 +195,8 @@ public class SessionAccessFilter extends ZuulFilter {
         log.debug("uri：" + requestUri + "----method：" + method);
         List<PermissionInfo> permissionInfos = getPermissionInfos(ctx.getRequest(), username);
         Collection<PermissionInfo> result = getPermissionInfos(requestUri, method, permissionInfos);
-        if (result.size() <= 0) {
-            setFailedRequest(JSON.toJSONString(new TokenErrorResponse("Token Forbidden!")), 200);
+        if (result.isEmpty()) {
+            setFailedRequest(JSON.toJSONString(new PermissionForbiddenResponse("Permission Forbidden!")), 401);
         } else {
             PermissionInfo[] pms = result.toArray(new PermissionInfo[]{});
             PermissionInfo pm = pms[0];

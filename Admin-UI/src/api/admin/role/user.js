@@ -21,7 +21,7 @@ export function list(query) {
 // 新增用户角色关联
 export function addObj(roleId, userIds) {
   return fetch({
-    url: '/api/admin/role/user/add/' + roleId,
+    url: '/api/admin/role/user/' + roleId + '/add',
     method: 'post',
     params: {userIds: userIds}
   })
@@ -30,7 +30,7 @@ export function addObj(roleId, userIds) {
 // 移除角色关联
 export function delObj(roleId, userIds) {
   return fetch({
-    url: '/api/admin/role/user/delete/' + roleId,
+    url: '/api/admin/role/user/' + roleId + '/delete',
     method: 'delete',
     params: {userIds: userIds}
   })
