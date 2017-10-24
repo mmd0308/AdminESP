@@ -146,13 +146,11 @@
         this.state = 'edit'
       },
       filterNode(value, data) {
-        debugger
         if (!value) return true;
         return data.label.indexOf(value) !== -1 || data.lspell.indexOf(value) !== -1 || data.uspell.indexOf(value) !== -1 || data.initials.indexOf(value) !== -1;
       },
       clickTree(data) {
         console.log(data)
-        debugger
         this.dataTOForm(data)
         // this.getObj(data.id)
       },
