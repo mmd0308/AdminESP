@@ -88,7 +88,36 @@ export const asyncRouterMap = [
         icon: 'user'
       }
     ]
-  },
+  }, /* {
+    path: '',
+    component: Layout,
+    redirect: '/admin/user',
+    name: '系统监控',
+    icon: 'table',
+    children: [
+      {
+        path: '/admin/user',
+        component: _import('admin/user/index'),
+        name: '用户管理',
+        icon: 'user'
+      }, {
+        path: '/admin/org',
+        component: _import('admin/org/index'),
+        name: '组织机构管理',
+        icon: 'people'
+      }, {
+        path: '/admin/menu',
+        component: _import('admin/menu/index'),
+        name: '菜单管理',
+        icon: 'people'
+      }, {
+        path: '/admin/role',
+        component: _import('admin/role/index'),
+        name: '角色管理',
+        icon: 'user'
+      }
+    ]
+  },*/
   {
     path: '',
     component: Layout,
@@ -97,7 +126,12 @@ export const asyncRouterMap = [
     icon: 'lock',
     meta: {role: ['admin']},
     noDropdown: true,
-    children: [{path: '/permission/index', component: _import('permission/index'), name: '权限测试页', meta: {role: ['admin']}}]
+    children: [{
+      path: '/permission/index',
+      component: _import('permission/index'),
+      name: '权限测试页',
+      meta: {role: ['admin']}
+    }]
   },
   {
     path: '',
@@ -155,13 +189,27 @@ export const asyncRouterMap = [
         name: 'Table',
         icon: 'table',
         children: [
-          {path: '/example/table/dynamictable', component: _import('example/table/dynamictable/index'), name: '动态table'},
+          {
+            path: '/example/table/dynamictable',
+            component: _import('example/table/dynamictable/index'),
+            name: '动态table'
+          },
           {path: '/example/table/dragtable', component: _import('example/table/dragTable'), name: '拖拽table'},
-          {path: '/example/table/inline_edit_table', component: _import('example/table/inlineEditTable'), name: 'table内编辑'},
+          {
+            path: '/example/table/inline_edit_table',
+            component: _import('example/table/inlineEditTable'),
+            name: 'table内编辑'
+          },
           {path: '/example/table/table', component: _import('example/table/table'), name: '综合table'}
         ]
       },
-      {path: '/example/form/edit', icon: 'form', component: _import('example/form'), name: '编辑Form', meta: {isEdit: true}},
+      {
+        path: '/example/form/edit',
+        icon: 'form',
+        component: _import('example/form'),
+        name: '编辑Form',
+        meta: {isEdit: true}
+      },
       {path: '/example/form/create', icon: 'form', component: _import('example/form'), name: '创建Form'},
       {path: '/tab/index', icon: 'tab', component: _import('example/tab/index'), name: 'Tab'}
     ]
