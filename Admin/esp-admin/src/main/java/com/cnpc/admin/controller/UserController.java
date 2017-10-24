@@ -7,6 +7,7 @@ import com.cnpc.admin.service.MenuService;
 import com.cnpc.admin.service.RoleService;
 import com.cnpc.common.constant.UserConstant;
 import com.cnpc.common.controller.BaseController;
+import com.cnpc.common.message.ObjectRestResponse;
 import com.cnpc.common.message.TableResultResponse;
 import com.cnpc.common.util.Query;
 import com.cnpc.common.vo.PermissionInfo;
@@ -38,6 +39,7 @@ public class UserController extends BaseController<UserService, User> {
 
     @Autowired
     private RoleService roleService;
+
 
     @RequestMapping(value = "/username/{username}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody

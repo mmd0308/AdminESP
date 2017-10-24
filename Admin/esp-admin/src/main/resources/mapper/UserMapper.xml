@@ -48,6 +48,20 @@
         </if>
     </select>
 
+    <insert id="insertOrgUser" parameterType="map">
+        insert base_user_org (id,org_id,user_id ) VALUES (#{id},#{orgId},#{userId})
+    </insert>
+    <select id="selectUserById" parameterType="string" resultType="user">
+        SELECT u.*,group_concat(o.org_id) as corgId,group_concat(bo.name) as corg
+        FROM  base_user u
+        LEFT JOIN base_user_org o ON o.user_id = u.id
+        LEFT JOIN base_org bo on o.org_id = bo.id
+        where u.id = #{0}
+    </select>
+
+    <delete id="deleteRlOrgByUid" parameterType="string">
+      DELETE  FROM  base_user_org where user_id = #{0}
+    </delete>
 
 
 </mapper>
