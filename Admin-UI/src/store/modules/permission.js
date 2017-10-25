@@ -43,6 +43,22 @@ function filterAsyncRouter(asyncRouterMap, menus) {
   return accessedRouters
 }
 
+/**
+ * 设置route缺失的属性
+ * @param asyncRouterMap
+ * @param menus
+ */
+function filterAdminRouter(asyncRouterMap, menus) {
+  const adminRouter = asyncRouterMap.filter(route => {
+    hasPermission(menus, route);
+    if (route.children && route.children.length) {
+      route.children = filterAdminRouter(route.children, menus)
+    }
+    return true;
+  })
+  return adminRouter;
+}
+
 function filterEmptyRouter(accessedRouters) {
   const filterRouter = accessedRouters.filter(route => {
     if (route.path) {
@@ -77,7 +93,7 @@ const permission = {
       return new Promise(resolve => {
         let accessedRouters
         if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
+          accessedRouters = filterAdminRouter(asyncRouterMap, menus)
         } else {
           accessedRouters = filterAsyncRouter(asyncRouterMap, menus)
           accessedRouters = filterEmptyRouter(accessedRouters);
