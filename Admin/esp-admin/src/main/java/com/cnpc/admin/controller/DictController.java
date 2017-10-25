@@ -20,33 +20,22 @@ import java.util.Map;
 public class DictController extends BaseController<DictService, Dict> {
 
 
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<Dict> add(@RequestBody Dict org){
-      /*  String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
-        String inital = PinYingUtil.convertHanzi2Pinyin(org.getName(),false);
-        org.setLspell(spell);
-        org.setUspell(spell.toUpperCase());
-        org.setInitials(inital+"_"+inital.toUpperCase());*/
-        baseService.insertSelective(org);
+    public ObjectRestResponse<Dict> add(@RequestBody Dict dict){
+        baseService.insertSelective(setSpellAndInital(dict));
         return new ObjectRestResponse<Org>().rel(true);
     }
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/put/{id}",method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse<Dict> update(@RequestBody Dict org){
-       /* String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
-        String inital = PinYingUtil.convertHanzi2Pinyin(org.getName(),false);
-        org.setLspell(spell);
-        org.setUspell(spell.toUpperCase());
-        org.setInitials(inital+"_"+inital.toUpperCase());*/
-        baseService.updateSelectiveById(org);
+    public ObjectRestResponse<Dict> update(@RequestBody Dict dict){
+        baseService.updateSelectiveById(this.setSpellAndInital(dict));
         return new ObjectRestResponse<Org>().rel(true);
     }
 
     @GetMapping("dictTree")
     public ObjectRestResponse orgTree(Dict org){
         List<Map> orgs = baseService.getTree(org);
-
         String str = JsonUtil.ObjectToJson(orgs).replaceAll("name","label");
         return new ObjectRestResponse<String>().rel(true).data(str);
     }
@@ -69,4 +58,12 @@ public class DictController extends BaseController<DictService, Dict> {
         return res;
     }
 
+    public  Dict setSpellAndInital(Dict dict){
+        String spell = PinYingUtil.convertHanzi2Pinyin(dict.getName(), true);
+        String inital = PinYingUtil.convertHanzi2Pinyin(dict.getName(),false);
+        dict.setLspell(spell);
+        dict.setUspell(spell.toUpperCase());
+        dict.setInitials(inital+"_"+inital.toUpperCase());
+        return dict;
+    }
 }

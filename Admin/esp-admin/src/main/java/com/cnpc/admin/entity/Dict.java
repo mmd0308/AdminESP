@@ -14,7 +14,7 @@ public class Dict {
     private String lspell;
     private String initials;
     private String uspell;
-    @Column(name = "patent_id")
+    @Column(name = "parent_id")
     private String parentId;
     private String enabled;
     private String description;

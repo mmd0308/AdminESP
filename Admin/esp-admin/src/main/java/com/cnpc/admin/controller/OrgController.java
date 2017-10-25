@@ -20,7 +20,7 @@ public class OrgController extends BaseController<OrgService, Org> {
     @Autowired
     private OrgService orgService;
 
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<Org> add(@RequestBody Org org){
         String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
@@ -31,7 +31,7 @@ public class OrgController extends BaseController<OrgService, Org> {
         baseService.insertSelective(org);
         return new ObjectRestResponse<Org>().rel(true);
     }
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/put/{id}",method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse<Org> update(@RequestBody Org org){
         String spell = PinYingUtil.convertHanzi2Pinyin(org.getName(), true);
@@ -67,5 +67,6 @@ public class OrgController extends BaseController<OrgService, Org> {
         Boolean res = orgService.deleteById(id);
         return res;
     }
+
 
 }

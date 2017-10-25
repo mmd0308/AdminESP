@@ -10,14 +10,14 @@ export function dictTree(query) {
 
 export function getObj(id) {
   return fetch({
-    url: '/api/admin/org/get/' + id,
+    url: '/api/admin/dict/get/' + id,
     method: 'get'
   })
 }
 
 export function addObj(obj) {
   return fetch({
-    url: '/api/admin/org/add',
+    url: '/api/admin/dict/add',
     method: 'post',
     data: obj
   })
@@ -25,7 +25,7 @@ export function addObj(obj) {
 
 export function putObj(id, obj) {
   return fetch({
-    url: '/api/admin/org/put/' + id,
+    url: '/api/admin/dict/put/' + id,
     method: 'put',
     data: obj
   })
@@ -33,7 +33,7 @@ export function putObj(id, obj) {
 
 export function getNextCode(id) {
   return fetch({
-    url: '/api/admin/org/getNextCode',
+    url: '/api/admin/dict/getNextCode',
     method: 'get',
     params: id
   })
@@ -41,7 +41,7 @@ export function getNextCode(id) {
 
 export function checkCode(id, code) {
   return fetch({
-    url: '/api/admin/org/checkCode',
+    url: '/api/admin/dict/checkCode',
     method: 'get',
     params: id, code
   })
@@ -49,7 +49,7 @@ export function checkCode(id, code) {
 
 export function delObj(id) {
   return fetch({
-    url: '/api/admin/org/deleted',
+    url: '/api/admin/dict/deleted',
     method: 'delete',
     params: id
   })

@@ -57,8 +57,8 @@
               </el-row>
               <el-row>
                 <el-col :span="11">
-                  <el-form-item label="上级字典" prop="parentname">
-                    <el-input v-model="orgFrom.parentname" disabled="disabled"></el-input>
+                  <el-form-item label="上级字典" prop="parentName">
+                    <el-input v-model="orgFrom.parentName" disabled="disabled"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="2">
@@ -102,7 +102,8 @@
           value: '',
           enabled: '',
           description: '',
-          parentId: ''
+          parentId: '',
+          parentName: ''
         }
       },
       getDictTree() {
@@ -130,8 +131,8 @@
         var lCode = this.orgFrom.levelCode
         var pName = this.orgFrom.name
         this.resetTemp()
-        this.orgFrom.parentid = yid
-        this.orgFrom.parentname = pName
+        this.orgFrom.parentId = yid
+        this.orgFrom.parentName = pName
         this.nextFrom.parentId = yid
         this.nextFrom.levelCode = lCode
         this.getNextCode()
@@ -159,7 +160,7 @@
         // this.getObj(data.id)
       },
       dataTOForm(data) {
-        this.orgFrom.parentname = data.parentName
+        this.orgFrom.parentName = data.parentName
         this.orgFrom.parentId = data.parentId
         this.orgFrom.name = data.label
         this.orgFrom.levelCode = data.levelCode
@@ -177,7 +178,7 @@
         this.$refs[formName].validate(valid => {
           if (valid) {
             putObj(this.orgFrom.id, this.orgFrom).then(() => {
-              this.getOrgTree()
+              this.getDictTree()
               this.state = 'see'
               this.$notify({
                 title: '成功',
@@ -196,7 +197,7 @@
           if (valid) {
             this.orgFrom.deleted = 'N'
             addObj(this.orgFrom).then(() => {
-              this.getOrgTree()
+              this.getDictTree()
               this.state = 'see'
               this.$notify({
                 title: '成功',
@@ -225,7 +226,7 @@
           this.codeFom.id = this.orgFrom.id
           delObj(this.codeFom).then(data => {
             if (data) {
-              this.getOrgTree();
+              this.getDictTree();
               this.$notify({
                 title: '成功',
                 message: '删除成功',
@@ -235,7 +236,7 @@
             } else {
               this.$notify({
                 title: '失败',
-                message: '请先删除下级组织机构',
+                message: '请先删除下级字典',
                 type: 'error',
                 duration: 2000
               });
@@ -288,7 +289,8 @@
           value: '',
           enabled: '',
           description: '',
-          parentId: ''
+          parentId: '',
+          parentName: ''
         },
         treeForm: {
           parentId: 0
@@ -303,10 +305,13 @@
         },
         rules: {
           name: [
-            { required: true, message: '请输入组织机构名称', trigger: 'blur' }
+            { required: true, message: '请输入字典名称', trigger: 'blur' }
           ],
           code: [
             { required: true, validator: validateCode, trigger: 'blur' }
+          ],
+          value: [
+            { required: true, message: '请输入值', trigger: 'blur' }
           ]
         },
         listLoading: false
