@@ -417,18 +417,8 @@
       getTreeNodes(msg) {
         var cid = '';
         var corg = '';
-        var num = msg.length;
-        debugger
-        msg.forEach(function(item, index) {
-          console.log(item)
-          if (index === (num - 1)) {
-            cid = cid + item.id;
-            corg = corg + item.label;
-          } else {
-            cid = cid + item.id + ', ';
-            corg = corg + item.label + ', ';
-          }
-        });
+        cid = msg.map(item => item.id).join();
+        corg = msg.map(item => item.label).join();
         this.treeNodes = msg
         this.form.corg = corg
         this.form.corgId = cid
