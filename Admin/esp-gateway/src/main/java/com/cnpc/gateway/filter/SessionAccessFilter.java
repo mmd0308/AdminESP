@@ -27,6 +27,7 @@ import org.springframework.util.Base64Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Collections;
@@ -137,7 +138,7 @@ public class SessionAccessFilter extends ZuulFilter {
             @Override
             public boolean apply(PermissionInfo permissionInfo) {
                 String url = permissionInfo.getUri();
-                if(StringUtils.isBlank(url)){
+                if (StringUtils.isBlank(url)) {
                     return false;
                 }
                 String uri = url.replaceAll("\\{\\*\\}", "[a-zA-Z\\\\d]+");
@@ -170,10 +171,11 @@ public class SessionAccessFilter extends ZuulFilter {
 
     /**
      * 系统所有权限缓存到session中
+     *
      * @param request
      * @return
      */
-    private List<PermissionInfo> getAllPermissionInfo(HttpServletRequest request){
+    private List<PermissionInfo> getAllPermissionInfo(HttpServletRequest request) {
         List<PermissionInfo> permissionInfos;
         if (request.getSession().getAttribute("permission-all") == null) {
             permissionInfos = userService.getAllPermissionInfo();
@@ -196,7 +198,7 @@ public class SessionAccessFilter extends ZuulFilter {
         List<PermissionInfo> permissionInfos = getPermissionInfos(ctx.getRequest(), username);
         Collection<PermissionInfo> result = getPermissionInfos(requestUri, method, permissionInfos);
         if (result.isEmpty()) {
-            setFailedRequest(JSON.toJSONString(new PermissionForbiddenResponse("Permission Forbidden!")), 401);
+            setFailedRequest(JSON.toJSONString(new PermissionForbiddenResponse("您没有[" + requestUri + ":" + method + "]操作权限，请联系管理员授权!")), 200);
         } else {
             PermissionInfo[] pms = result.toArray(new PermissionInfo[]{});
             PermissionInfo pm = pms[0];
@@ -290,6 +292,7 @@ public class SessionAccessFilter extends ZuulFilter {
         log.debug("Reporting error ({}): {}", code, body);
         RequestContext ctx = RequestContext.getCurrentContext();
         ctx.setResponseStatusCode(code);
+        ctx.getResponse().setCharacterEncoding("UTF-8");
         if (ctx.getResponseBody() == null) {
             ctx.setResponseBody(body);
             ctx.setSendZuulResponse(false);

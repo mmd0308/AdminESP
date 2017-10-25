@@ -7,7 +7,7 @@
       </div>
       <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
       <!--check-strictly 各节点分离-->
-      <el-tree class="filter-tree" checkStrictly="true" :node-key="getTreeNodeKey" :data="treeData" show-checkbox
+      <el-tree class="filter-tree" checkStrictly :node-key="getTreeNodeKey" :data="treeData" show-checkbox
                node-key="id" highlight-current :props="defaultProps" :filter-node-method="filterNode" ref="menuTree"
                @node-click="getNodeData" default-expand-all style="margin-top:10px;">
       </el-tree>

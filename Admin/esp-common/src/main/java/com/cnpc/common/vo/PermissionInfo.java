@@ -14,6 +14,15 @@ public class PermissionInfo implements Serializable {
     private String method;
     private String name;
     private String menu;
+    private String component;
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
 
     public String getCode() {
         return code;

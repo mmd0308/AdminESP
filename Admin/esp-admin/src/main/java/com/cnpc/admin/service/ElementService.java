@@ -56,6 +56,7 @@ public class ElementService extends BaseService<ElementMapper,Element> {
             info.setMenu(element.getMenuId());
             info.setMethod(element.getMethod());
             info.setType(CommonConstant.RESOURCE_TYPE_ELEMENT);
+            info.setComponent(element.getUri());
             permissionInfos.add(info);
         }
     }

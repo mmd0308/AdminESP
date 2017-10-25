@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="资源名称"
                 v-model="listQuery.name"></el-input>
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="menuManager_btn_element_add && menuId!='-1'" style="margin-left: 10px;"
                  @click="handleCreate"
                  type="primary" icon="plus">添加

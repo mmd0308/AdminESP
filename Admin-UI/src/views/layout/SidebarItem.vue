@@ -16,17 +16,18 @@
 
           <sidebar-item class='nest-menu' v-if='child.children&&child.children.length>0' :routes='[child]'> </sidebar-item>
 
+          <a :href="child.uri" target="_blank" v-else-if="child.type=='link'">
+            <el-menu-item :index="item.path+child.path">
+              <icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg><span>{{child.name}}</span>
+            </el-menu-item>
+          </a>
           <router-link v-else :to="item.path+child.path">
             <el-menu-item :index="item.path+child.path">
               <icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg><span>{{child.name}}</span>
             </el-menu-item>
           </router-link>
 
-         <!-- <a href="http://localhost:8761" target="_blank">
-          <el-menu-item :index="item.path+'/'+child.path">
-            <icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg><span>{{child.name}}</span>
-          </el-menu-item>
-          </a>-->
+
         </template>
 
       </el-submenu>

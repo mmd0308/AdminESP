@@ -1,18 +1,25 @@
 import {asyncRouterMap, constantRouterMap} from '@/router'
 
+const _import = require('router/_import_' + process.env.NODE_ENV)
+
 /**
- * 通过meta.role判断是否与当前用户权限匹配
+ * 通过meta.role判断是否与当前用户权限匹配,根据路径匹配
  * @param roles
  * @param route
  */
 function hasPermission(menus, route) {
-  /* if (route.meta && route.meta.role) {
-    return roles.some(role => route.meta.role.indexOf(role) >= 0)
-  } else {
-    return false
-  }*/
   if (route.path) {
-    return menus.some(menu => menu.uri.length > 0 && route.path.indexOf(menu.uri) >= 0)
+    const menuArr = menus.filter(menu => menu.uri && menu.uri.length > 0 && route.path.indexOf(menu.uri) >= 0)
+    if (menuArr && menuArr.length > 0) {
+      route.type = menuArr[0].type;
+      if (route.type === 'link') {
+        route.uri = menuArr[0].component;
+      } else if (!route.component && menuArr[0].component) {
+        route.component = _import(menuArr[0].component);
+      }
+      return true;
+    }
+    return false;
   } else {
     return true;
   }

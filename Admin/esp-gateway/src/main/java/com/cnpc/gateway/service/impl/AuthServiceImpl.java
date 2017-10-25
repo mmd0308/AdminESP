@@ -31,23 +31,23 @@ public class AuthServiceImpl implements AuthService {
 
     private JwtTokenUtil jwtTokenUtil;
     private UserService userService;
-    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 
     @Autowired
-    public AuthServiceImpl(JwtTokenUtil jwtTokenUtil,UserService userService){
-        this.jwtTokenUtil=jwtTokenUtil;
-        this.userService=userService;
+    public AuthServiceImpl(JwtTokenUtil jwtTokenUtil, UserService userService) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userService = userService;
     }
 
     @Override
     public String login(String username, String password) {
         UserInfo info = userService.getUserByUsername(username);
-        if(info.getId().equals(UserConstant.USER_NOT_EXIST)){
+        if (info.getId().equals(UserConstant.USER_NOT_EXIST)) {
             return UserConstant.USER_NOT_EXIST;
         }
         String token = "";
-        if(encoder.matches(password,info.getPassword())) {
+        if (encoder.matches(password, info.getPassword())) {
             token = jwtTokenUtil.generateToken(info);
         }
         return token;
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
     public String refresh(String token) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         UserInfo info = userService.getUserByUsername(username);
-        if (jwtTokenUtil.canTokenBeRefreshed(token,info.getUpdateTime())){
+        if (jwtTokenUtil.canTokenBeRefreshed(token, info.getUpdateTime())) {
             return jwtTokenUtil.refreshToken(token);
         }
         return null;
@@ -67,24 +67,24 @@ public class AuthServiceImpl implements AuthService {
     public Boolean validate(String token, String resource) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         UserInfo info = userService.getUserByUsername(username);
-        return info.getUsername().equals(username)&&!jwtTokenUtil.isTokenExpired(token)&&validateResource(username,resource);
+        return info.getUsername().equals(username) && !jwtTokenUtil.isTokenExpired(token) && validateResource(username, resource);
     }
 
     @Override
     public UserVo getUserInfo(String token) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        if(username==null)
+        if (username == null)
             return null;
         UserInfo user = userService.getUserByUsername(username);
-        UserVo uservo  = new UserVo();
-        BeanUtils.copyProperties(user,uservo);
+        UserVo uservo = new UserVo();
+        BeanUtils.copyProperties(user, uservo);
         List<PermissionInfo> permissionInfos = userService.getPermissionByUsername(username);
         Stream<PermissionInfo> menus = permissionInfos.parallelStream().filter((permission) -> {
-            return permission.getType().equals(BaseConstants.RESOURCE_TYPE_MENU);
+            return !BaseConstants.RESOURCE_TYPE_ELEMENT.equals(permission.getType());
         });
         uservo.setMenus(menus.collect(Collectors.toList()));
         Stream<PermissionInfo> elements = permissionInfos.parallelStream().filter((permission) -> {
-            return !permission.getType().equals(BaseConstants.RESOURCE_TYPE_MENU);
+            return BaseConstants.RESOURCE_TYPE_ELEMENT.equals(permission.getType());
         });
         uservo.setElements(elements.collect(Collectors.toList()));
         uservo.setRoles(userService.getRoleCodesByUsername(username));
@@ -93,11 +93,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Boolean invalid(String token) {
-         return jwtTokenUtil.invalid(token);
+        return jwtTokenUtil.invalid(token);
     }
 
-    public Boolean validateResource(String username, String resource){
-        String [] res = resource.split(":");
+    public Boolean validateResource(String username, String resource) {
+        String[] res = resource.split(":");
         final String requestUri = res[0];
         final String method = res[1];
         List<PermissionInfo> clientPermissionInfo = userService.getPermissionByUsername(username);

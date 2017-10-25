@@ -7,6 +7,7 @@ package com.cnpc.common.constant;
 public class BaseConstants {
 
     public final static  String RESOURCE_TYPE_MENU="menu";
+    public final static  String RESOURCE_TYPE_MENU_LINK="link";
 
-    public final static String RESOURCE_TYPE_ELEMENT="button";
+    public final static String RESOURCE_TYPE_ELEMENT="element";
 }

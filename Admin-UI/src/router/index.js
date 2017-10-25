@@ -43,12 +43,12 @@ export const constantRouterMap = [
     children: [{path: 'dashboard', component: _import('dashboard/index')}]
   },
   {
-    path: '/introduction',
+    path: '',
     component: Layout,
     redirect: '/introduction/index',
     icon: 'people',
     noDropdown: true,
-    children: [{path: 'index', component: _import('introduction/index'), name: '简述'}]
+    children: [{path: '/introduction/index', component: _import('introduction/index'), name: '简述'}]
   }
 ]
 
@@ -62,13 +62,14 @@ export const asyncRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: '/admin/user',
+    redirect: 'noredirect',
     name: '系统管理',
     icon: 'table',
     children: [
       {
         path: '/admin/user',
-        component: _import('admin/user/index'),
+        // 如果不配置，则从后台读取
+        // component: _import('admin/user/index'),
         name: '用户管理',
         icon: 'user'
       }, {
@@ -93,36 +94,35 @@ export const asyncRouterMap = [
         icon: 'user'
       }
     ]
-  }, /* {
+  }, {
     path: '',
     component: Layout,
-    redirect: '/admin/user',
+    redirect: 'noredirect',
     name: '系统监控',
     icon: 'table',
     children: [
       {
-        path: '/admin/user',
-        component: _import('admin/user/index'),
-        name: '用户管理',
+        path: '/monitor/registry',
+        name: '服务注册中心',
         icon: 'user'
       }, {
-        path: '/admin/org',
+        path: '/monitor/org',
         component: _import('admin/org/index'),
         name: '组织机构管理',
         icon: 'people'
       }, {
-        path: '/admin/menu',
+        path: '/monitor/menu',
         component: _import('admin/menu/index'),
         name: '菜单管理',
         icon: 'people'
       }, {
-        path: '/admin/role',
+        path: '/monitor/role',
         component: _import('admin/role/index'),
         name: '角色管理',
         icon: 'user'
       }
     ]
-  },*/
+  },
   {
     path: '',
     component: Layout,

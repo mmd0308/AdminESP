@@ -33,23 +33,26 @@ service.interceptors.response.use(
     const res = response.data
     // 40301:token forbidden/用户不存在; 40302:permission forbidden;  40101:Token 错误或过期了;
 
-    if (response.status === 200 && (res.status === 40101 || res.status === 40301)) {
-      MessageBox.confirm('会话超时，请重新登录，或者取消继续留在该页面', '确定退出', {
-        confirmButtonText: '重新登录',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        store.dispatch('FedLogOut').then(() => {
-          location.reload() // 为了重新实例化vue-router对象 避免bug
+    if (response.status === 200) {
+      if (res.status === 40101 || res.status === 40301) {
+        MessageBox.confirm('会话超时，请重新登录，或者取消继续留在该页面', '确定退出', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('FedLogOut').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+          })
         })
-      })
-      return Promise.reject('error')
-    }
-    if (response.status === 401 || res.status === 40302) {
-      router.push({path: '/error/401'})
-    }
-    if (response.status === 404) {
-      router.push({path: '/error/404'})
+        return Promise.reject('error')
+      } else if (res.status === 40302) {
+        // router.push({path: '/error/401'})
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
     }
     if (response.status !== 200 && res.status !== 200) {
       Message({
@@ -63,13 +66,19 @@ service.interceptors.response.use(
   },
 
   error => {
-    console.log('err' + error)// for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+    const status = error.response.status;
+    if (status === 401) {
+      router.push({path: '/error/401'})
+    } else if (status === 404) {
+      router.push({path: '/error/404'})
+    } else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(error)
+    }
   }
 )
 
