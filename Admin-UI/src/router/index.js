@@ -92,6 +92,11 @@ export const asyncRouterMap = [
         component: _import('admin/dict/index'),
         name: '字典管理',
         icon: 'user'
+      }, {
+        path: '/admin/application',
+        component: _import('admin/application/index'),
+        name: '应用管理',
+        icon: 'user'
       }
     ]
   }, {
