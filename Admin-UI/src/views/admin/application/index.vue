@@ -57,6 +57,14 @@
         </div>
       </el-card>
     </div>
+        <!--分页-->
+    <div class="pagination-container">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                     :current-page.sync="listQuery.page"
+                     :page-sizes="[10.,20,30,50]" :page-size="listQuery.limit"
+                     layout="total,sizes,prev,pager,next,jumper" :total="total">
+      </el-pagination>
+    </div>
     <el-dialog title="新增应用" :visible.sync="dialogFormVisible">
       <el-form :model="appForm">
         <el-row>
@@ -66,14 +74,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-             <el-form-item label="应用IP" :label-width="formLabelWidth">
+             <el-form-item label="应用编码" :label-width="formLabelWidth">
               <el-input v-model="appForm.ip" auto-complete="off"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12" >
-            <el-form-item label="应用名称" :label-width="formLabelWidth">
+            <el-form-item label="应用IP" :label-width="formLabelWidth">
               <el-input v-model="appForm.name" auto-complete="off"></el-input>
             </el-form-item>
           </el-col>
@@ -92,7 +100,7 @@
         </el-row>
         <el-row>
           <el-col :span="12" >
-            <el-form-item label="应用名称" :label-width="formLabelWidth">
+            <el-form-item label="应用端口" :label-width="formLabelWidth">
               <el-input v-model="appForm.name" auto-complete="off"></el-input>
             </el-form-item>
           </el-col>
@@ -136,7 +144,13 @@ export default {
       }, {
         value: '选项5',
         label: '状态五'
-      }]
+      }],
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 20,
+        name: undefined
+      }
     }
   },
   methods: {
@@ -161,6 +175,14 @@ export default {
         type: 'warning'
       }).then(() => {
       });
+    },
+    handleSizeChange(val) {
+      this.listQuery.limit = val
+      this.getList()
+    },
+    handleCurrentChange(val) {
+      this.listQuery.page = val
+      this.getList()
     }
   }
 }
