@@ -92,11 +92,6 @@ export const asyncRouterMap = [
         component: _import('admin/dict/index'),
         name: '字典管理',
         icon: 'user'
-      }, {
-        path: '/admin/application',
-        component: _import('admin/application/index'),
-        name: '应用管理',
-        icon: 'user'
       }
     ]
   }, {
@@ -124,6 +119,26 @@ export const asyncRouterMap = [
         path: '/monitor/role',
         component: _import('admin/role/index'),
         name: '角色管理',
+        icon: 'user'
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'noredirect',
+    name: '应用管理',
+    icon: 'table',
+    children: [
+      {
+        path: '/monitor/role',
+        component: _import('admin/role/index'),
+        name: '服务管理',
+        icon: 'user'
+      }, {
+        path: '/admin/application',
+        component: _import('admin/application/index'),
+        name: '应用管理',
         icon: 'user'
       }
     ]

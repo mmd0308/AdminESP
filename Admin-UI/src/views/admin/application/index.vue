@@ -157,7 +157,12 @@
           {name: '党务管理系统', service: 3, container: 10, status: '正常', createTime: '2017-10-23'},
           {name: '物业App后台系统', service: 5, container: 13, status: '正常', createTime: '2017-10-23'},
           {name: '科研管理公共信息平台', service: 12, container: 30, status: '故障', createTime: '2017-10-27'}
-        ]
+        ],
+        listQuery: {
+          page: 1,
+          limit: 20,
+          name: undefined
+        },
       }
     },
     methods: {
