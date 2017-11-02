@@ -162,7 +162,7 @@
           page: 1,
           limit: 20,
           name: undefined
-        },
+        }
       }
     },
     methods: {
