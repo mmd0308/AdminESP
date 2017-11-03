@@ -131,8 +131,8 @@ export const asyncRouterMap = [
     icon: 'table',
     children: [
       {
-        path: '/monitor/role',
-        component: _import('admin/role/index'),
+        path: '/admin/server',
+        component: _import('admin/server/index'),
         name: '服务管理',
         icon: 'user'
       }, {
