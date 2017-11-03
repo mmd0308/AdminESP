@@ -11,10 +11,71 @@
     <!--列表-->
     <el-table :key="tableKey" :data="list" stripe v-loading.body="listLoading" fit highlight-current-row
               style="width: 100%">
+      <el-table-column type="expand">
+        <template scope="props">
+
+            <el-table
+              :data="tableData2"
+              style="width: 100%"
+              :row-class-name="tableRowClassName"
+              :show-header="false"
+              >
+              <el-table-column
+                prop="date"
+                label="日期"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="姓名"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="address"
+                label="地址">
+              </el-table-column>
+              <el-table-column  align="center" label="操作" width="150">
+                <template scope="scope">
+                  <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+                  </el-button>
+                  <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="序号" type="index" width="65">
-     <!--   <template scope="scope">
-          <span>{{scope}}</span>
-        </template>-->
+      </el-table-column>
+      <el-table-column align="center" label="服务名称" sortable prop="name">
+        <template scope="scope">
+          <span>{{scope.row.serverName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="仓库">
+        <template scope="scope">
+          <span>{{scope.row.storeHouse}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="镜像名称">
+        <template scope="scope">
+          <span>{{scope.row.imageName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="镜像版本" width="180">
+        <template scope="scope">
+          <span>{{scope.row.tag}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="操作" width="150">
+        <template scope="scope">
+          <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+          </el-button>
+          <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+  <!--    <el-table-column align="center" label="序号" type="index" width="65">
       </el-table-column>
       <el-table-column align="center" label="服务名称" sortable prop="name">
         <template scope="scope">
@@ -43,7 +104,7 @@
           <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
           </el-button>
         </template>
-      </el-table-column>
+      </el-table-column>   -->
     </el-table>
     <!--分页-->
     <div v-show="!listLoading" class="pagination-container">
@@ -120,6 +181,23 @@
         }
       };
       return {
+        tableData2: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }],
         form: this.initObj(),
         birthdayOptions: {
           disabledDate(time) {
@@ -355,5 +433,17 @@
 <style>
 .input-selects-width{
   width: 340px;
+}
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
 }
 </style>
