@@ -1,13 +1,4 @@
 spring:
-  application:
-    name: esp-config
-
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
   cloud:
     config:
       server:
@@ -28,8 +19,7 @@ endpoints:
     enabled: true
     sensitive: false
 
-encrypt:
-  key: billjiang
+
 
 server:
   port: 8750
@@ -49,9 +39,10 @@ spring:
     config:
       server:
         git:
-          uri: http://10.27.213.70/root/AdminESP-config.git
+          uri: http://gitlab/billjiang/spring-cloud-config.git
+          search-paths: config
           username: billjiang
-          password: '{cipher}2c50a112807ec405695dac19c15cc6da280d8d70e9998b82a9f11d202a6fb7b4'
+          password: '{cipher}62291385f3566570dccf406c193d71953774554798eee423736da83cef4023e3'
 server:
   port: ${{SERVER_PORT}:8750}
 eureka:

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnpc.admin.mapper.OrgMapper">
-  <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.Org">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="level_code" jdbcType="VARCHAR" property="levelCode" />
-    <result column="org_type" jdbcType="VARCHAR" property="orgType" />
-    <result column="deleted" jdbcType="CHAR" property="deleted" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="parentid" jdbcType="VARCHAR" property="parentid" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.Org">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="level_code" jdbcType="VARCHAR" property="levelCode"/>
+        <result column="org_type" jdbcType="VARCHAR" property="orgType"/>
+        <result column="deleted" jdbcType="CHAR" property="deleted"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="parentid" jdbcType="VARCHAR" property="parentid"/>
+    </resultMap>
 
 
-    <select id="getOrgTree" parameterType="org" resultType="org">
-        SELECT  * from base_org
+    <select id="getOrgTree" parameterType="com.cnpc.admin.entity.Org" resultType="map">
+        SELECT * from base_org
         where deleted = 'N'
         <if test="parentid != '' and parentid != null ">
             AND parentid = #{parentid}
@@ -29,8 +29,8 @@
     <select id="getLevelCodeByParentId" parameterType="string" resultType="string">
         select max(level_code) from base_org where parentid = #{0}
     </select>
-    <select id="checkCode" parameterType="org" resultType="map">
-        SELECT * FROM base_org where  code = #{code}
+    <select id="checkCode" parameterType="com.cnpc.admin.entity.Org" resultType="map">
+        SELECT * FROM base_org where code = #{code}
         <if test="id != null and id != ''">
             and id != #{id}
         </if>

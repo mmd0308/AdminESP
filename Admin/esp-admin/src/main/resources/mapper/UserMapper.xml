@@ -51,7 +51,7 @@
     <insert id="insertOrgUser" parameterType="map">
         insert base_user_org (id,org_id,user_id ) VALUES (#{id},#{orgId},#{userId})
     </insert>
-    <select id="selectUserById" parameterType="string" resultType="user">
+    <select id="selectUserById" parameterType="string" resultType="com.cnpc.admin.entity.User">
         SELECT u.*,group_concat(o.org_id) as corgId,group_concat(bo.name) as corg
         FROM  base_user u
         LEFT JOIN base_user_org o ON o.user_id = u.id

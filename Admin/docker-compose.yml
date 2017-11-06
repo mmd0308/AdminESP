@@ -1,0 +1,59 @@
+version: "2"
+services:
+
+  #启动注册中心eureka-server集群 集中管理/服务注册/服务发现
+  esp-registry1:
+    container_name: esp-registry1
+    image: 127.0.0.1:5000/adminesp/esp-registry
+    ports:
+      - "8761:8761"
+    environment:
+      - ADDITIONAL_EUREKA_SERVER_LIST=http://esp-registry2:8762/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8761
+
+  esp-registry2:
+    container_name: esp-registry2
+    image: 127.0.0.1:5000/adminesp/esp-registry
+    ports:
+      - "8762:8762"
+    environment:
+      - ADDITIONAL_EUREKA_SERVER_LIST=http://esp-registry1:8761/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8762
+    links:
+      - esp-registry1
+
+  #启动配置中心config-server集群 配置更新/配置集中管理/多环境配置
+  esp-config:
+    container_name: esp-config
+    image: 127.0.0.1:5000/adminesp/esp-config
+    ports:
+      - "8750:8750"
+    environment:
+      - EUREKA_SERVER_LIST=http://esp-registry1:8761/eureka/,http://esp-registry2:8762/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8750
+    links:
+      - esp-registry1
+      - esp-registry2
+
+
+  esp-admin:
+    container_name: esp-admin
+    image: 127.0.0.1:5000/adminesp/esp-admin
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_SERVER_LIST=http://esp-registry1:8761/eureka/,http://esp-registry2:8762/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8085
+    links:
+      - esp-registry1
+      - esp-registry2
+
+
+
+
+
+

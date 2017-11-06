@@ -7,104 +7,180 @@ public class Dict {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String name;
+
     private String code;
-    @Column(name = "level_code")
-    private String levelCode;
-    private String lspell;
-    private String initials;
-    private String uspell;
+
+    private String name;
+
     @Column(name = "parent_id")
     private String parentId;
+
+    @Column(name = "level_code")
+    private String levelCode;
+
     private String enabled;
+
     private String description;
+
     private String value;
 
+    private String lspell;
+
+    private String uspell;
+
+    private String initials;
+
+    /**
+     * @return id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * @return code
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     * @param code
+     */
     public void setCode(String code) {
         this.code = code;
     }
 
-    public String getLevelCode() {
-        return levelCode;
+    /**
+     * @return name
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setLevelCode(String levelCode) {
-        this.levelCode = levelCode;
+    /**
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLspell() {
-        return lspell;
-    }
-
-    public void setLspell(String lspell) {
-        this.lspell = lspell;
-    }
-
-    public String getInitials() {
-        return initials;
-    }
-
-    public void setInitials(String initials) {
-        this.initials = initials;
-    }
-
-    public String getUspell() {
-        return uspell;
-    }
-
-    public void setUspell(String uspell) {
-        this.uspell = uspell;
-    }
-
+    /**
+     * @return parent_id
+     */
     public String getParentId() {
         return parentId;
     }
 
+    /**
+     * @param parentId
+     */
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 
+    /**
+     * @return level_code
+     */
+    public String getLevelCode() {
+        return levelCode;
+    }
+
+    /**
+     * @param levelCode
+     */
+    public void setLevelCode(String levelCode) {
+        this.levelCode = levelCode;
+    }
+
+    /**
+     * @return enabled
+     */
     public String getEnabled() {
         return enabled;
     }
 
+    /**
+     * @param enabled
+     */
     public void setEnabled(String enabled) {
         this.enabled = enabled;
     }
 
+    /**
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * @return value
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * @param value
+     */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return lspell
+     */
+    public String getLspell() {
+        return lspell;
+    }
+
+    /**
+     * @param lspell
+     */
+    public void setLspell(String lspell) {
+        this.lspell = lspell;
+    }
+
+    /**
+     * @return uspell
+     */
+    public String getUspell() {
+        return uspell;
+    }
+
+    /**
+     * @param uspell
+     */
+    public void setUspell(String uspell) {
+        this.uspell = uspell;
+    }
+
+    /**
+     * @return initials
+     */
+    public String getInitials() {
+        return initials;
+    }
+
+    /**
+     * @param initials
+     */
+    public void setInitials(String initials) {
+        this.initials = initials;
     }
 }

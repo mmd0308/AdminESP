@@ -44,7 +44,10 @@
             <generatedKey column="id" identity="true" sqlStatement="MySql"/>
         </table>
         -->
-        <table tableName="base_role_user" domainObjectName="RoleUser">
+        <!--<table tableName="base_role_user" domainObjectName="RoleUser">
+            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>-->
+        <table tableName="base_dict" domainObjectName="Dict">
             <generatedKey column="id" identity="true" sqlStatement="MySql"/>
         </table>
         <!--

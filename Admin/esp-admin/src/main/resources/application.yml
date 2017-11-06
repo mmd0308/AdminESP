@@ -40,7 +40,7 @@ mybatis:
     mappers: tk.mybatis.mapper.common.Mapper
     identity: SELECT REPLACE(UUID(),'-','')
     order: BEFORE
-    type-aliases-package: com.cnpc.admin.entity
+    typeAliasesPackage: com.cnpc.admin.entity
 
 server:
     port: 8085
@@ -66,3 +66,38 @@ swagger:
         name: user center for AdminESP
         description: AdminESP 用户中心
         developer: billjiang
+
+
+---
+spring:
+  profiles: docker
+  datasource:
+    name: test
+    url: jdbc:mysql://mysql-admin:3306/esp-admin?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: billjiang
+    #url: jdbc:mysql://10.27.213.67:3306/esp-admin?useUnicode=true&characterEncoding=UTF8
+    #username: root
+    #password: mysql
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+server:
+    port: ${{SERVER_PORT}:8085}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_LIST}

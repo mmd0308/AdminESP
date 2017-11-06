@@ -38,7 +38,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <docker.image.prefix>10.27.213.66:5000/adminesp</docker.image.prefix>
+        <!-- 10.27.213.66-->
+        <docker.image.prefix>127.0.0.1:5000/adminesp</docker.image.prefix>
         <docker.plugin.version>1.0.0</docker.plugin.version>
     </properties>
 
@@ -79,10 +80,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
-
-
-
-
 </project>

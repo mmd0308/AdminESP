@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnpc.admin.mapper.DictMapper">
+  <resultMap id="BaseResultMap" type="com.cnpc.admin.entity.Dict">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="level_code" jdbcType="VARCHAR" property="levelCode" />
+    <result column="enabled" jdbcType="CHAR" property="enabled" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="lspell" jdbcType="VARCHAR" property="lspell" />
+    <result column="uspell" jdbcType="VARCHAR" property="uspell" />
+    <result column="initials" jdbcType="VARCHAR" property="initials" />
+  </resultMap>
 
 
 
@@ -12,7 +28,7 @@
     <select id="getLevelCodeByParentId" parameterType="string" resultType="string">
         select max(level_code) from base_dict where parent_id = #{0}
     </select>
-    <select id="checkCode" parameterType="dict" resultType="map">
+    <select id="checkCode" parameterType="com.cnpc.admin.entity.Dict" resultType="map">
         SELECT * FROM base_dict where  code = #{code}
         <if test="id != null and id != ''">
             and id != #{id}

@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration extends WebMvcConfigurerAdapter implements EnvironmentAware {
 	private String basePackage;
-	private String creatName;
+	private String createName;
 	private String serviceName;
 	private RelaxedPropertyResolver propertyResolver;
 	private String description;
@@ -44,14 +44,14 @@ public class SwaggerConfiguration extends WebMvcConfigurerAdapter implements Env
 		return new ApiInfoBuilder()
 				.title(this.serviceName+" Restful APIs")
 				.description(this.description)
-				.contact(this.creatName).version("1.0").build();
+				.contact(this.createName).version("1.0").build();
 	}
 
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.propertyResolver = new RelaxedPropertyResolver(environment, null);
 		this.basePackage = propertyResolver.getProperty("swagger.basepackage");
-		this.creatName = propertyResolver.getProperty("swagger.service.developer");
+		this.createName = propertyResolver.getProperty("swagger.service.developer");
 		this.serviceName = propertyResolver.getProperty("swagger.service.name");
 		this.description = propertyResolver.getProperty("swagger.service.description");
 	}

@@ -1,0 +1,25 @@
+version: "2"
+services:
+  #启动网关gateway,可配置成集群,使用nginx进行负载 智能路由/安全控制/负载均衡
+  esp-gateway:
+    image: 127.0.0.1:5000/adminesp/esp-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      - EUREKA_SERVER_LIST=http://esp-registry1:8761/eureka/,http://esp-registry2:8762/eureka/
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8765
+    external_links:
+      - esp-registry1
+      - esp-registry2
+      - esp-config
+      - esp-admin
+
+
+# 其他服务 ..........................
+networks:
+  default:
+    external:
+      name: admin_default
+
+

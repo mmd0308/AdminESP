@@ -1,5 +1,7 @@
 package com.cnpc.admin.entity;
 
+
+
 import javax.persistence.*;
 
 @Table(name = "base_org")
