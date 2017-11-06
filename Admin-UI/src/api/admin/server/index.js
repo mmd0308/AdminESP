@@ -8,6 +8,14 @@ export function page(query) {
   })
 }
 
+export function getImages(query) {
+  return fetch({
+    url: '/api/admin/server/getImages',
+    method: 'get',
+    params: query
+  })
+}
+
 export function addObj(obj) {
   return fetch({
     url: '/api/admin/server/add',

@@ -13,7 +13,6 @@
               style="width: 100%">
       <el-table-column type="expand">
         <template scope="props">
-
             <el-table
               :data="tableData2"
               style="width: 100%"
@@ -47,6 +46,11 @@
       </el-table-column>
       <el-table-column align="center" label="序号" type="index" width="65">
       </el-table-column>
+      <el-table-column align="center" label="镜像">
+        <template scope="scope">
+          <span>{{scope.row.RepoTags}}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="服务名称" sortable prop="name">
         <template scope="scope">
           <span>{{scope.row.serverName}}</span>
@@ -57,16 +61,7 @@
           <span>{{scope.row.storeHouse}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="镜像名称">
-        <template scope="scope">
-          <span>{{scope.row.imageName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="镜像版本" width="180">
-        <template scope="scope">
-          <span>{{scope.row.tag}}</span>
-        </template>
-      </el-table-column>
+
       <el-table-column  align="center" label="操作" width="150">
         <template scope="scope">
           <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
@@ -75,36 +70,6 @@
           </el-button>
         </template>
       </el-table-column>
-  <!--    <el-table-column align="center" label="序号" type="index" width="65">
-      </el-table-column>
-      <el-table-column align="center" label="服务名称" sortable prop="name">
-        <template scope="scope">
-          <span>{{scope.row.serverName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="仓库">
-        <template scope="scope">
-          <span>{{scope.row.storeHouse}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="镜像名称">
-        <template scope="scope">
-          <span>{{scope.row.imageName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="镜像版本" width="180">
-        <template scope="scope">
-          <span>{{scope.row.tag}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" width="150">
-        <template scope="scope">
-          <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-          </el-button>
-          <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-          </el-button>
-        </template>
-      </el-table-column>   -->
     </el-table>
     <!--分页-->
     <div v-show="!listLoading" class="pagination-container">
@@ -136,8 +101,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="镜像版本" placeholder="请输入密码" prop="tag">
-              <el-input  v-model="form.tag" class="input-selects-width"></el-input>
+            <el-form-item label="镜像版本" placeholder="请输入密码" prop="RepoTags">
+              <el-input  v-model="form.RepoTags" class="input-selects-width"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -167,7 +132,7 @@
 
 <script>
   import {
-    page, addObj, getObj, delObj, putObj} from 'api/admin/server/index'
+     addObj, getObj, delObj, putObj, getImages} from 'api/admin/server/index'
   import {mapGetters} from 'vuex'
   import {isvalidDate} from '@/utils/validate'
   export default {
@@ -272,7 +237,10 @@
           create: '创建'
         },
         tableKey: 0,
-        treeNodes: ''
+        treeNodes: '',
+        listImages: {
+          all: 0
+        }
       }
     },
     created() {
@@ -297,7 +265,8 @@
           imageName: '',
           tag: '',
           enabled: '',
-          description: ''
+          description: '',
+          RepoTags: ''
         }
       },
       handleClose(done) {
@@ -306,13 +275,15 @@
       },
       getList() {
         this.listLoading = true
-        page(this.listQuery).then(response => {
-       //   debugger
-       //   this.list = response.data.rows
-        //  this.total = response.data.total
-          this.list = response
+        getImages(this.listImages).then(response => {
+          debugger
+          this.list = response.data.body
           this.listLoading = false
         })
+  /*      page(this.listQuery).then(response => {
+          this.list = response
+          this.listLoading = false
+        })  */
       },
       /* birthdayFormat(row, column) {
         var date = row[column.property];
