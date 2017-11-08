@@ -12,53 +12,80 @@
     <el-table :key="tableKey" :data="list" stripe v-loading.body="listLoading" fit highlight-current-row
               style="width: 100%">
       <el-table-column type="expand">
-        <template scope="props">
-            <el-table
-              :data="tableData2"
-              style="width: 100%"
-              :row-class-name="tableRowClassName"
-              :show-header="false"
-              >
-              <el-table-column
-                prop="date"
-                label="日期"
-                width="180">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="姓名"
-                width="180">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="地址">
-              </el-table-column>
-              <el-table-column  align="center" label="操作" width="150">
-                <template scope="scope">
-                  <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-                  </el-button>
-                  <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+        <template scope="scope">
+          <el-row class="server-row">
+            <el-col :span="5">
+              <span>容器名称</span>
+            </el-col>
+            <el-col :span="3">
+              <span>服务器IP</span>
+            </el-col>
+            <el-col :span="3">
+              <span  >创建时间</span>
+            </el-col>
+            <el-col :span="2">
+              <span>运行状态</span>
+            </el-col>
+            <el-col :span="3">
+              <span  >运行时间</span>
+            </el-col>
+            <el-col :span="8">
+              <span>
+                IP及端口映射
+              </span>
+            </el-col>
+          </el-row>
+          <el-row v-for="o in scope.row.containers" :key="o" class="server-row">
+            <el-col :span="5">
+              <span v-for="n in o.cNames" :key="n" >[ {{ n}} ]  </span>
+            </el-col>
+            <el-col :span="3">
+              <span>{{ o.sIp }}</span>
+            </el-col>
+            <el-col :span="3">
+              <span  >{{o.cCreated | formatDate}}</span>
+            </el-col>
+            <el-col :span="2">
+              <span><el-tag type="success">{{o.cState}}</el-tag></span>
+            </el-col>
+            <el-col :span="3">
+              <span  >{{o.cStatus}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span v-for="i in o.cIp" :key="i" >
+                <span v-if="i.IP">
+                  {{ i.IP}} :
+                </span>
+                <span v-if="i.PublicPort">
+                  {{ i.PublicPort}}  -> 
+                </span>
+                <span v-if="i.PrivatePort">
+                  {{ i.PrivatePort}}  /
+                </span>
+                <span v-if="i.Type">
+                  {{ i.Type}}
+                </span>
+                <br/>
+              </span>
+            </el-col>
+          </el-row>
         </template>
       </el-table-column>
       <el-table-column align="center" label="序号" type="index" width="65">
       </el-table-column>
+      <el-table-column align="center" label="镜像Id">
+        <template scope="scope">
+          <span>{{scope.row.imageId}}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="镜像">
         <template scope="scope">
-          <span>{{scope.row.RepoTags}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="服务名称" sortable prop="name">
+      <el-table-column align="center" label="Tag">
         <template scope="scope">
-          <span>{{scope.row.serverName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="仓库">
-        <template scope="scope">
-          <span>{{scope.row.storeHouse}}</span>
+          <span>{{scope.row.tag}}</span>
         </template>
       </el-table-column>
 
@@ -135,7 +162,14 @@
      addObj, getObj, delObj, putObj, getImages} from 'api/admin/server/index'
   import {mapGetters} from 'vuex'
   import {isvalidDate} from '@/utils/validate'
+  import { formatDate} from '@/utils/date'
   export default {
+    filters: {
+      formatDate(time) {
+        var date = new Date(time * 1000);
+        return formatDate(date, 'yyyy-MM-dd hh:mm');
+      }
+    },
     name: 'user',
     data() {
       const validateBirthday = (rule, value, callback) => {
@@ -260,13 +294,17 @@
     methods: {
       initObj() {
         return {
-          serverName: '',
-          storeHouse: '',
-          imageName: '',
           tag: '',
-          enabled: '',
-          description: '',
-          RepoTags: ''
+          name: '',
+          imageId: '',
+          containers: {
+            cId: '',
+            cNames: '',
+            cCreated: '',
+            cIp: '',
+            cState: '',
+            cStatus: ''
+          }
         }
       },
       handleClose(done) {
@@ -277,7 +315,7 @@
         this.listLoading = true
         getImages(this.listImages).then(response => {
           debugger
-          this.list = response.data.body
+          this.list = response.data
           this.listLoading = false
         })
   /*      page(this.listQuery).then(response => {
@@ -416,5 +454,11 @@
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.server-row{
+  border: 1px solid #dfe6ec;
+  margin-top: -1px;
+  padding: 8px 10px;
+
 }
 </style>

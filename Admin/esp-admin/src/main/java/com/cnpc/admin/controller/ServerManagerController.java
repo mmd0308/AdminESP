@@ -5,6 +5,7 @@ import com.cnpc.admin.service.ServerManagerService;
 import com.cnpc.common.controller.BaseController;
 
 import com.cnpc.common.message.ObjectRestResponse;
+import com.cnpc.common.util.JsonUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,19 @@ import java.util.Map;
 @RequestMapping(value = "/server")
 public class ServerManagerController extends BaseController<ServerManagerService, ServerManager> {
     @GetMapping("/getImages")
-    public ObjectRestResponse<Map> getImagesRepo(String all){
+    public ObjectRestResponse<Map> getImagesRepo(){
         HashMap<String,Object> map = new HashMap<>();
-        map.put("all",all);
-        ResponseEntity<Object> imagesRepo = baseService.getImagesRepo(map);
-        return new ObjectRestResponse<>().rel(true).data(imagesRepo);
+        return new ObjectRestResponse<>().rel(true).data( baseService.getImagesRepo(map));
+    }
+
+    @GetMapping("getConByImageId")
+    public ObjectRestResponse getConByImageId(String imgId){
+        HashMap<String ,Object> map = new HashMap<>();
+        String [] arr ={imgId};
+        map.put("ancestor",arr);
+        map.put("filters",JsonUtil.ObjectToJson(map));
+        return new ObjectRestResponse<>().rel(true).data(baseService.getConByImageId(imgId));
+
+
     }
 }
