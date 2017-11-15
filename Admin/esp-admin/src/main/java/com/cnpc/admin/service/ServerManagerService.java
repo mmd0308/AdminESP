@@ -37,12 +37,13 @@ public class ServerManagerService extends BaseService<ServerManagerMapper,Server
         List<String> repositories = getAllImagesNameToRpo();
         List<JSONObject>  resbody = new ArrayList<>();
         for (String str : repositories){
-            JSONObject resMap = new JSONObject();
+
             //获取镜像的版本
             JSONObject body = getALlImagesTagsToRpoByName(str);
-            resMap.put("name", (String) body.get("name"));
             List<String> tags = (List<String>) body.get("tags");
             for (String tag : tags){
+                JSONObject resMap = new JSONObject();
+                resMap.put("name", (String) body.get("name"));
                 //获取镜像id
                 String imageId = getImageIdToRpoByNameAndTag(str,tag);
                 resMap.put("tag",tag);
