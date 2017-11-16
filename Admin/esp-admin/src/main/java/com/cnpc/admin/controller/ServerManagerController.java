@@ -29,7 +29,44 @@ public class ServerManagerController extends BaseController<ServerManagerService
         map.put("ancestor",arr);
         map.put("filters",JsonUtil.ObjectToJson(map));
         return new ObjectRestResponse<>().rel(true).data(baseService.getConByImageId(imgId));
-
-
     }
+
+    /**
+     * 容器停止
+     * @param id
+     * @param sip
+     * @return
+     */
+    @GetMapping("conStop/{id}")
+    public ObjectRestResponse conStop(@PathVariable String id,String sip){
+        baseService.conStop(id,sip);
+        return new ObjectRestResponse().rel(true);
+    }
+
+    /**
+     * 启动容器
+     * @param id
+     * @param sIp
+     * @return
+     */
+    @GetMapping("conStart/{id}")
+    public ObjectRestResponse conStart(@PathVariable String id,String sIp){
+        baseService.conStart(id,sIp);
+        return new ObjectRestResponse().rel(true);
+    }
+
+
+    /**
+     * 删除容器
+     * @param id
+     * @param sIp
+     * @return
+     */
+    @DeleteMapping("conRmove/{id}")
+    public ObjectRestResponse conRmove(@PathVariable String id,String sIp){
+        baseService.conRmove(id,sIp);
+        return new ObjectRestResponse().rel(true);
+    }
+
+
 }

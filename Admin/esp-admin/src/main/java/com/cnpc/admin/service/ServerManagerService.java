@@ -84,7 +84,7 @@ public class ServerManagerService extends BaseService<ServerManagerMapper,Server
         String [] arr ={imgId};
         map.put("ancestor",arr);
         map.put("filters", JsonUtil.ObjectToJson(map));
-        return restTemplate.getForEntity("http://"+ip+"/v1.24/containers/json?filters={filters}",Object.class,map);
+        return restTemplate.getForEntity("http://"+ip+"/v1.24/containers/json?filters={filters}&all=1",Object.class,map);
     }
 
     /**
@@ -141,7 +141,7 @@ public class ServerManagerService extends BaseService<ServerManagerMapper,Server
         List<String> reslist = new ArrayList<>();
         reslist.add(ServerConstants.CONTAINER_URL_66);
         reslist.add(ServerConstants.CONTAINER_URL_67);
-        reslist.add(ServerConstants.CONTAINER_URL_68);
+       // reslist.add(ServerConstants.CONTAINER_URL_68);
         reslist.add(ServerConstants.CONTAINER_URL_69);
         reslist.add(ServerConstants.CONTAINER_URL_70);
         return reslist;
@@ -150,5 +150,17 @@ public class ServerManagerService extends BaseService<ServerManagerMapper,Server
 
     public Object getConByImageId(String imgId) {
         return null;
+    }
+
+    public void conStop(String id,String sIp) {
+        restTemplate.postForLocation("http://" + sIp + "/v1.24/containers/" + id + "/stop",null);
+    }
+
+    public void conStart(String id, String sIp) {
+        restTemplate.postForLocation("http://" + sIp + "/v1.24/containers/" + id + "/start",null);
+    }
+
+    public void conRmove(String id,String sIp) {
+        restTemplate.delete("http://"+ sIp + "/v1.24/containers/" + id);
     }
 }

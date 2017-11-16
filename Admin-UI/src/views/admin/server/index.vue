@@ -29,9 +29,14 @@
             <el-col :span="3">
               <span  >运行时间</span>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="5">
               <span>
                 IP及端口映射
+              </span>
+            </el-col>
+            <el-col :span="3">
+              <span>
+                操作
               </span>
             </el-col>
           </el-row>
@@ -46,13 +51,16 @@
               <span  >{{o.cCreated | formatDate}}</span>
             </el-col>
             <el-col :span="2">
-              <span><el-tag type="success">{{o.cState}}</el-tag></span>
+              <span>
+                <el-tag v-if="o.cState == 'running'" type="success">{{o.cState}}</el-tag>
+                <el-tag v-else type="danger">{{o.cState}}</el-tag>
+              </span>
             </el-col>
             <el-col :span="3">
               <span  >{{o.cStatus}}</span>
             </el-col>
-            <el-col :span="8">
-              <span v-for="i in o.cIp" :key="i" >
+            <el-col :span="5" style=" width: 280px;height: 28px;">
+              <span v-for="i in o.cIp" :key="i"  style="width:200px;">
                 <span v-if="i.IP">
                   {{ i.IP}} :
                 </span>
@@ -66,6 +74,13 @@
                   {{ i.Type}}
                 </span>
                 <br/>
+              </span>
+            </el-col>
+            <el-col :span="3">
+              <span>
+                <el-button v-if="o.cState == 'running'"  size="small" type="warning" @click="conStop( o.cId, o.sIp )">停止</el-button>
+                <el-button v-else size="small" type="success" @click="conStart( o.cId, o.sIp )">启动</el-button>
+                <el-button size="small" type="danger" @click="conRmove( o.cId, o.sIp )">删除</el-button>
               </span>
             </el-col>
           </el-row>
@@ -88,12 +103,11 @@
           <span>{{scope.row.tag}}</span>
         </template>
       </el-table-column>
-
       <el-table-column  align="center" label="操作" width="150">
         <template scope="scope">
-          <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+          <el-button v-if="userManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">待做
           </el-button>
-          <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+          <el-button v-if="userManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">待做
           </el-button>
         </template>
       </el-table-column>
@@ -159,7 +173,7 @@
 
 <script>
   import {
-     addObj, getObj, delObj, putObj, getImages} from 'api/admin/server/index'
+     addObj, getObj, delObj, putObj, getImages, conStop, conStart, conRmove} from 'api/admin/server/index'
   import {mapGetters} from 'vuex'
   import {isvalidDate} from '@/utils/validate'
   import { formatDate} from '@/utils/date'
@@ -274,6 +288,9 @@
         treeNodes: '',
         listImages: {
           all: 0
+        },
+        con: {
+          sIp: ''
         }
       }
     },
@@ -435,6 +452,40 @@
       },
       orgCancelTree() {
         this.dialogOrgTreeVisible = false
+      },
+      conStart(id, sIp) {
+        conStart(id, sIp).then(() => {
+          this.getList();
+          this.$notify({
+            title: '成功',
+            message: '启动成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      },
+      conStop(id, sIp) {
+        this.con.sIp = sIp;
+        conStop(id, sIp).then(() => {
+          this.getList();
+          this.$notify({
+            title: '成功',
+            message: '停止成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      },
+      conRmove(id, sIp) {
+        conRmove(id, sIp).then(() => {
+          this.getList();
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
       }
     }
   }

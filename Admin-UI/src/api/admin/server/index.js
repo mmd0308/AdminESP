@@ -45,3 +45,25 @@ export function putObj(id, obj) {
     data: obj
   })
 }
+
+export function conStop(id, sIp) {
+  return fetch({
+    url: '/api/admin/server/conStop/' + id + '?sip=' + sIp,
+    method: 'get'
+  })
+}
+
+export function conStart(id, sIp) {
+  return fetch({
+    url: '/api/admin/server/conStart/' + id + '?sIp=' + sIp,
+    method: 'get'
+  })
+}
+
+export function conRmove(id, sIp) {
+  return fetch({
+    url: '/api/admin/server/conRmove/' + id + '?sIp=' + sIp,
+    method: 'delete'
+  })
+}
+
