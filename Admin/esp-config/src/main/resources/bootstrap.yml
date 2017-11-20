@@ -1,11 +1,11 @@
 spring:
   application:
     name: esp-config
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+  #rabbitmq:
+    #host: localhost
+    #port: 5672
+    #username: guest
+    #password: guest
 
 #https://github.com/spring-cloud/spring-cloud-config/issues/767
 encrypt:

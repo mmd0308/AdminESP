@@ -3,10 +3,8 @@ package com.cnpc.admin.controller;
 import com.cnpc.admin.entity.ServerManager;
 import com.cnpc.admin.service.ServerManagerService;
 import com.cnpc.common.controller.BaseController;
-
 import com.cnpc.common.message.ObjectRestResponse;
 import com.cnpc.common.util.JsonUtil;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

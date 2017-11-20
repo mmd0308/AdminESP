@@ -3,11 +3,16 @@ spring:
     config:
       server:
         git:
+          #uri: https://github.com/bill1012/spring-cloud-config.git
+          #uri: http://gitlab.bill.com/billjiang/spring-cloud-config.git
+          #search-paths: config
+          #username: bill1012
+          #username: billjiang
+          #password: '{cipher}e743a9e6c959a7c9be36929e19588706502d065305a2e92cb6230f6321b6bf29'
           uri: http://localhost/billjiang/spring-cloud-config.git
           search-paths: config
           username: billjiang
           password: '{cipher}18a53c2c7157f17aa3d5a72dc77b4c31a023570c61186605efa3928ea4b343fd'
-
 security:
   basic:
     enabled: true

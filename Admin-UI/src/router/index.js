@@ -106,20 +106,25 @@ export const asyncRouterMap = [
         name: '服务注册中心',
         icon: 'user'
       }, {
-        path: '/monitor/org',
-        component: _import('admin/org/index'),
-        name: '组织机构管理',
-        icon: 'people'
+        path: '/monitor/monitor',
+        name: '服务监控中心',
+        icon: 'chart'
       }, {
-        path: '/monitor/menu',
-        component: _import('admin/menu/index'),
-        name: '菜单管理',
-        icon: 'people'
+        path: '/monitor/sleuth',
+        name: '服务链路追踪',
+        icon: 'chart'
       }, {
-        path: '/monitor/role',
-        component: _import('admin/role/index'),
-        name: '角色管理',
-        icon: 'user'
+        path: '/monitor/config',
+        name: '服务配置刷新',
+        icon: 'chart'
+      }, {
+        path: '/monitor/swagger',
+        name: '服务API列表',
+        icon: 'chart'
+      }, {
+        path: '/monitor/druid',
+        name: 'Druid监控',
+        icon: 'chart'
       }
     ]
   },

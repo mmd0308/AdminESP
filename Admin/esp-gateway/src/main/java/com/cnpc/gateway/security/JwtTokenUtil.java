@@ -34,7 +34,7 @@ public class JwtTokenUtil implements Serializable {
     private String secret;
 
     @Value("${gateway.jwt.expiration}")
-    private Long expiration=300l;
+    private Long expiration;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
