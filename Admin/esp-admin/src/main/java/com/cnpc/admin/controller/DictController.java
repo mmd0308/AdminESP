@@ -22,12 +22,20 @@ public class DictController extends BaseController<DictService, Dict> {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
+    @Override
     public ObjectRestResponse<Dict> add(@RequestBody Dict dict){
         baseService.insertSelective(setSpellAndInital(dict));
         return new ObjectRestResponse<Org>().rel(true);
     }
+
+    /**
+     *
+     * @param dict
+     * @return
+     */
     @RequestMapping(value = "/put/{id}",method = RequestMethod.PUT)
     @ResponseBody
+    @Override
     public ObjectRestResponse<Dict> update(@RequestBody Dict dict){
         baseService.updateSelectiveById(this.setSpellAndInital(dict));
         return new ObjectRestResponse<Org>().rel(true);
